@@ -5,6 +5,6 @@ from stroll import views
 
 urlpatterns = [
     path('', views.home, name='home'),
-    path('stroll', include('stroll.urls')),
+    path('stroll/', include('stroll.urls')),
     path('admin/', admin.site.urls),
 ]
