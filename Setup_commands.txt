@@ -1,0 +1,9 @@
+The commands to run to set up the virtual env for this project:
+
+Run these commands in sequence
+----------------------------------------------
+conda create -n stroll python=3.11
+conda activate stroll
+pip install django==2.2.28
+pip install pillow
+----------------------------------------------
