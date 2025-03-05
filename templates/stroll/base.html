@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+
+<html>
+    <head lang="en">
+        <meta charset="UTF-8" />
+        <title>
+            Stroll - 
+            {% block title_block %}
+                All Things Walking
+            {% endblock %}
+        </title>
+    </head>
+    <body>
+        <div>
+            <a href="{% url 'stroll:home' %}">Stroll Logo</a>
+            <a href="{% url 'stroll:search_walks' %}">Search Box</a>
+            <a href="{% url 'stroll:create_walk' %}">Create Walk</a>
+            <a href="{% url 'stroll:login' %}">Login</a>
+        </div>
+
+        <div>
+            {% block body_block %}
+            {% endblock %}
+        </div>
+
+        <div>
+            <a href="{% url 'stroll:home' %}">Stroll Logo</a>
+            <a href="{% url 'stroll:search_walks' %}">Search Box</a>
+            <a href="{% url 'stroll:create_walk' %}">Create Walk</a>
+            <ul>
+                <li><a href="{% url 'stroll:home' %}">Home</a></li>
+                <li><a href="{% url 'stroll:about' %}">About Us</a></li>
+                <li><a href="{% url 'stroll:questions' %}">Questions</a></li>
+            </ul>
+            
+        </div>
+    </body>
+</html>

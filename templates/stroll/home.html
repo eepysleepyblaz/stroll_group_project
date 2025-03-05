@@ -1,0 +1,15 @@
+{% extends 'stroll/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+    Homepage
+{% endblock %}
+
+{% block body_block %}
+    <h1>Home - Popular Walks</h1>
+
+    {% for walk in popular_walks %}
+        <p>{{ walk }}:</p>
+        
+    {% endfor %}
+{% endblock %}
