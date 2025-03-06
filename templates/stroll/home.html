@@ -9,7 +9,29 @@
     <h1>Home - Popular Walks</h1>
 
     {% for walk in popular_walks %}
-        <p>{{ walk }}:</p>
+        <div>
+            <img src="{{ MEDIA_URL }}{{ walk.thumbnail }}.jpg" alt="{{ walk.name }}'s thumbnail">
+        </div>
+        <div>
+            <dl>
+                <dt>Title: {{ walk.name }}</dt>
+                <dt>Area: {{ walk.area }}</dt>
+                <dt>Tags: {% for tag in walk.tags %}
+                        
+                        {% if not forloop.last %}
+                            {{ tag }}, 
+                        {% else %}
+                            {{ tag }}
+                        {% endif %}
+                    {% endfor %}</dt>
+                <dt>Difficulty: {{ walk.difficulty }}</dt>
+            </dl>
+        </div>
+        <div>
+            <p>Description: {{ walk.description }}</p>
+        </div>
+        
+        
         
     {% endfor %}
 {% endblock %}
