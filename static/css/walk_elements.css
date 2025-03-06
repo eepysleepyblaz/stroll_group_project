@@ -1,0 +1,26 @@
+#walk_attribute_box {
+    position: relative;
+    margin: 10px;
+    border: 1px soild black;
+    padding: 10px;
+    background-color: white;
+    min-width: 200px;
+    width: fit-content;
+
+}
+
+#walk_description_box {
+    position: relative;
+    margin: 10px;
+    border: 1px soild black;
+    padding: 10px;
+    background-color: white;
+    min-width: 500px;
+    max-width: 1000px;
+    width: fit-content;
+    left: 200px;
+}
+
+.walk_element {
+
+}

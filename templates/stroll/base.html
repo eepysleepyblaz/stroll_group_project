@@ -3,6 +3,8 @@
 
 <html>
     <head lang="en">
+        <link rel="stylesheet" type="text/css" href="/static/css/stroll_style.css"/>
+        <link rel="stylesheet" type="text/css" href="/static/css/walk_elements.css"/>
         <meta charset="UTF-8" />
         <title>
             Stroll - 
@@ -12,8 +14,8 @@
         </title>
     </head>
     <body>
-        <div>
-            <a href="{% url 'stroll:home' %}">Stroll Logo</a>
+        <div class="header_and_footer">
+            <a href="{% url 'stroll:home' %}"><img src="/static/images/stroll_logo.png" width="192" height="111.75"></a>
             <a href="{% url 'stroll:search_walks' %}">Search Box</a>
             <a href="{% url 'stroll:create_walk' %}">Create Walk</a>
             <a href="{% url 'stroll:login' %}">Login</a>
@@ -24,8 +26,8 @@
             {% endblock %}
         </div>
 
-        <div>
-            <a href="{% url 'stroll:home' %}">Stroll Logo</a>
+        <div class="header_and_footer">
+            <a href="{% url 'stroll:home' %}"><img src="/static/images/stroll_logo.png" width="192" height="111.75"></a>
             <a href="{% url 'stroll:search_walks' %}">Search Box</a>
             <a href="{% url 'stroll:create_walk' %}">Create Walk</a>
             <ul>
