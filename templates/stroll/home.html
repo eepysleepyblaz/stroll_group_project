@@ -5,33 +5,36 @@
     Homepage
 {% endblock %}
 
-{% block body_block %}
-    <h1>Home - Popular Walks</h1>
+{% block stylesheet_block %}
+    <link rel="stylesheet" type="text/css" href="/static/css/walk_elements.css"/>
+{% endblock %}
 
+{% block body_block %}
+    <div class="container g-1 mt-4">
+        <h1 class="text-center">Home - Popular Walks</h1>
+    </div>
+    <div class="container">
     {% for walk in popular_walks %}
-        <div>
-            <img src="{{ MEDIA_URL }}{{ walk.thumbnail }}.jpg" alt="{{ walk.name }}'s thumbnail">
+        <div class="row border border-dark bg-info-subtle p-3 mt-5 mb-5">
+                <div class="col-xl-2 col-lg-3 col-md-3 col-sm-4 col">
+                    <a href="{% url 'stroll:show_walk' walk.slug %}" ><img src="{{ MEDIA_URL }}{{ walk.thumbnail }}.png" height="150" alt="{{ walk.name }}'s thumbnail"></a>
+                </div>
+                <div class="col offset-1 border-info m-1 border border-dark bg-info-subtle">
+                    <div class="row-2">Title: {{ walk.name }}</div>
+                    <div class="row-2">Area: {{ walk.area }}</div>
+                    <div class="row-2">Tags: {% for tag in walk.tags %}
+                            {% if not forloop.last %}
+                                {{ tag }}, 
+                            {% else %}
+                                {{ tag }}
+                            {% endif %}
+                        {% endfor %}</div>
+                    <div class="row-2">Difficulty: {{ walk.difficulty }}</div>
+                </div>
+                <div class="col border-info m-1 border border-dark bg-info-subtle">
+                    <p>Description: {{ walk.description }}</p>
+                </div>
         </div>
-        <div id="walk_attribute_box">
-            <dl>
-                <dt>Title: {{ walk.name }}</dt>
-                <dt>Area: {{ walk.area }}</dt>
-                <dt>Tags: {% for tag in walk.tags %}
-                        
-                        {% if not forloop.last %}
-                            {{ tag }}, 
-                        {% else %}
-                            {{ tag }}
-                        {% endif %}
-                    {% endfor %}</dt>
-                <dt>Difficulty: {{ walk.difficulty }}</dt>
-            </dl>
-        </div>
-        <div id="walk_description_box">
-            <p>Description: {{ walk.description }}</p>
-        </div>
-        
-        
-        
+    
     {% endfor %}
 {% endblock %}

@@ -3,8 +3,11 @@
 
 <html>
     <head lang="en">
-        <link rel="stylesheet" type="text/css" href="/static/css/stroll_style.css"/>
-        <link rel="stylesheet" type="text/css" href="/static/css/walk_elements.css"/>
+        {% block stylesheet_block %}
+        {% endblock %}
+        <link rel="stylesheet" type="text/css" href="/static/css/base_style.css"/>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
         <meta charset="UTF-8" />
         <title>
             Stroll - 
@@ -12,30 +15,52 @@
                 All Things Walking
             {% endblock %}
         </title>
+        <link rel="icon" type="image/x-icon" href="{% static 'images/stroll_icon.png' %}">
     </head>
     <body>
-        <div class="header_and_footer">
-            <a href="{% url 'stroll:home' %}"><img src="/static/images/stroll_logo.png" width="192" height="111.75"></a>
-            <a href="{% url 'stroll:search_walks' %}">Search Box</a>
-            <a href="{% url 'stroll:create_walk' %}">Create Walk</a>
-            <a href="{% url 'stroll:login' %}">Login</a>
-        </div>
+        <div class="bg-primary-subtle">
+        <!-- This code is a modified version of the bootstrap template for the nav bar -->
+        <nav class="navbar navbar-nav bg-success">
+            <div class="container-fluid">
+                <a href="{% url 'stroll:home' %}"><img src="{% static 'images/stroll_logo.png' %}" width="96" height="56"></a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <form class="d-flex ms-auto" role="search">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-light" type="submit">Search</button>
+                  </form>
+                <ul class="navbar-nav ms-auto mb-lg-0">
+                  <li class="nav-item">
+                    <a class="nav-link link-light" href="{% url 'stroll:create_walk' %}">Create Walk</a>
+                  </li>
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle text-light" href="{% url 'stroll:create_walk' %}" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Login/Signup
+                    </a>
+                    <ul class="dropdown-menu">
+                      <li><a class="dropdown-item" href="{% url 'stroll:login' %}">Login</a></li>
+                      <li><a class="dropdown-item" href="{% url 'stroll:signup' %}">Signup</a></li>
+                    </ul>
+                  </li>
+                
+              </div>
+            </div>
+          </nav>
 
-        <div>
+        <div class="container">
             {% block body_block %}
             {% endblock %}
         </div>
-
-        <div class="header_and_footer">
-            <a href="{% url 'stroll:home' %}"><img src="/static/images/stroll_logo.png" width="192" height="111.75"></a>
-            <a href="{% url 'stroll:search_walks' %}">Search Box</a>
-            <a href="{% url 'stroll:create_walk' %}">Create Walk</a>
-            <ul>
-                <li><a href="{% url 'stroll:home' %}">Home</a></li>
-                <li><a href="{% url 'stroll:about' %}">About Us</a></li>
-                <li><a href="{% url 'stroll:questions' %}">Questions</a></li>
-            </ul>
-            
-        </div>
+    </div>
+        <footer class="footer row py-1 px-4 py-4 bg-body-tertiary">
+            <div class="col"><a href="{% url 'stroll:home' %}"><img src="{% static 'images/stroll_logo.png' %}" width="192" height="111.75"></a></div>
+            <div class="col">
+                <div class="row"><a class="link-underline link-underline-opacity-0 text-dark" href="{% url 'stroll:home' %}">Home</a></div>
+                <div class="row"><a class="link-underline link-underline-opacity-0 text-dark" href="{% url 'stroll:about' %}">About Us</a></div>
+                <div class="row"><a class="link-underline link-underline-opacity-0 text-dark" href="{% url 'stroll:questions' %}">Questions</a></div>
+            </div>
+        </footer>
     </body>
 </html>
