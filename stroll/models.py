@@ -26,3 +26,8 @@ class Walk(models.Model):
     gallery_image_4 = models.ImageField(upload_to='gallery/')
     map_coordinates = models.CharField(max_length=5000)
 
+class Question(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE) # Foreign key
+    date_published = models.DateField.auto_now_add
+    title = models.CharField(max_length=100)
+    text = models.CharField(max_length=300)
