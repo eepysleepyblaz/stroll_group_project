@@ -36,3 +36,8 @@ class WalkComment(models.Model):
     walk = models.ForeignKey(Walk, on_delete=models.CASCADE) # Foreign key
     date_published = models.DateField.auto_now_add
     text = models.CharField(max_length=300)
+
+class QuestionComment(models.Model):
+    question = models.ForeignKey(Question, on_delete=models.CASCADE) # Foreign key
+    date_published = models.DateField.auto_now_add
+    text = models.CharField(max_length=300)
