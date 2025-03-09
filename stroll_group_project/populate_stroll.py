@@ -43,9 +43,26 @@ def populate():
         {'title':'What are some good walks around Govan?',
         'text':'Heard about this neighbourhood, is there anything to do around there?'},
 
-        {'title':'Can anyone recomment some shoes for long walks?',
-        'description':"current shoes aren't fit for the task"},
+        {'title':'Can anyone recommend some shoes for long walks?',
+        'text':"current shoes aren't fit for the task"},
 
         {'title':'Where can I go for more nature walks?',
-        'description':'Ideally a place whit many fields and trees please'},
+        'text':'Ideally a place whit many fields and trees please'},
     ]
+
+    walk_comments = [
+        {'text':'nice walk'},
+
+        {'text':'There is another way you can take, has some cool shops.'},
+
+        {'text':"try going to glasgow green, it's not too far"},
+    ]
+
+    question_comments = [
+        {'text':'Try going along the river'},
+
+        {'text':'any quality hiking shoes/boots will be enough'},
+
+        {'text':'here: *link to walk in nature*'},
+    ]
+
