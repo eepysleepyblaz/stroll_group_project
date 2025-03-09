@@ -1,0 +1,50 @@
+
+
+    {% if display_type == "full" %}
+    <div class="container-xxl">
+    <a href="{% url 'stroll:show_walk' walk.slug %}" class="link-underline link-underline-opacity-0 text-dark">
+        <div class="card w-m-50 w-100 bg-info-subtle">
+            <div class="row g-0">
+                <div class="col-lg-3 text-center">
+                    <!-- This doesn't use the media url as this can't see that variable -->
+                    <img src="/media/walk_thumbnails/{{ walk.thumbnail }}.png" class="img-fluid rounded" height="150" alt="{{ walk.name }}'s thumbnail">   
+                </div>               
+                <div class="col-lg-9">
+                    <div class="card-body">
+                        <div class="col">
+                        <h4 class="card-title">{{ walk.name }}</h4>
+                        <dl class="card-text">
+                            <dt><small class="text-body-secondary">Area: {{ walk.area }}</small></dt>
+                            <dt><small class="text-body-secondary">Tags: {% for tag in walk.tags %}
+                                            {% if not forloop.last %}
+                                                {{ tag }}, 
+                                            {% else %}
+                                                {{ tag }}
+                                            {% endif %}
+                                    {% endfor %}</small></dt>
+                        <dt><small class="text-body-secondary">Difficulty: {{ walk.difficulty }}</small></dt>
+                        </div>
+                        </dl>
+                
+                    <div class="col-lg">
+                        <p class="card-text mt-1 mb-2"><small class="text-body-secondary">Description: {{ walk.description }}</small></p>
+                    </div>
+                </div>
+                </div>
+        </div>
+        </div>
+    </a>
+    </div>
+    {% elif display_type == "small" %}
+    <a href="{% url 'stroll:show_walk' walk.slug %}" class="link-underline link-underline-opacity-0 text-dark">
+        <div class="card mb-3 bg-info-subtle">
+            <!-- This doesn't use the media url as this can't see that variable -->
+            <img src="/media/walk_thumbnails/{{ walk.thumbnail }}.png" class="img-s rounded-top " height="fit-content" alt="{{ walk.name }}'s thumbnail">
+            <div>
+                <div class="card-body">
+                    <h8 class="card-title">{{ walk.name }}</h4>
+                </div>
+            </div>
+        </div>
+    </a>
+    {% endif %}

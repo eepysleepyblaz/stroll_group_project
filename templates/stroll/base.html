@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 {% load staticfiles %}
+{% load stroll_template_tags %}
 
 <html>
     <head lang="en">
@@ -20,15 +21,15 @@
     <body>
         <div class="bg-primary-subtle">
         <!-- This code is a modified version of the bootstrap template for the nav bar -->
-        <nav class="navbar navbar-nav bg-success">
-            <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg bg-success">
+            <div class="container-xxl">
                 <a href="{% url 'stroll:home' %}"><img src="{% static 'images/stroll_logo.png' %}" width="96" height="56"></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
               </button>
               <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <form class="d-flex ms-auto" role="search">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <input class="form-control me-2" type="search" placeholder="Search walks" aria-label="Search">
                     <button class="btn btn-outline-light" type="submit">Search</button>
                   </form>
                 <ul class="navbar-nav ms-auto mb-lg-0">
@@ -49,18 +50,38 @@
             </div>
           </nav>
 
-        <div class="container">
+        <div class="container p-5">
             {% block body_block %}
             {% endblock %}
         </div>
     </div>
-        <footer class="footer row py-1 px-4 py-4 bg-body-tertiary">
-            <div class="col"><a href="{% url 'stroll:home' %}"><img src="{% static 'images/stroll_logo.png' %}" width="192" height="111.75"></a></div>
-            <div class="col">
-                <div class="row"><a class="link-underline link-underline-opacity-0 text-dark" href="{% url 'stroll:home' %}">Home</a></div>
-                <div class="row"><a class="link-underline link-underline-opacity-0 text-dark" href="{% url 'stroll:about' %}">About Us</a></div>
-                <div class="row"><a class="link-underline link-underline-opacity-0 text-dark" href="{% url 'stroll:questions' %}">Questions</a></div>
+    <!-- Footer code inspired from the bootstrap website -->
+        <footer class="footer bg-body-tertiary">
+          <navbar class="navbar navbar-expand-lg">
+          <div class="container-xxl">
+            <div class="row py-3">
+              <div class="col-lg-3 col text-center">
+                <a href="{% url 'stroll:home' %}">
+                  <img src="{% static 'images/stroll_logo.png' %}" width="192" height="111.75">
+                </a>
+              </div>
+              
+              <!-- Displays your most recently viewed walks -->
+              <!-- change this to use cookies -->
+              {% for walk in popular_walks %}
+                <div class="col-lg-2 col-0 d-none d-lg-block">
+                  {% walk_element walk display_type="small" %}
+                </div>
+              {% endfor %}
+
+              <div class="col-lg-3 col text-center mx-auto">
+                  <div class="row"><a class="link-underline link-underline-opacity-0 text-dark" href="{% url 'stroll:home' %}">Home</a></div>
+                  <div class="row"><a class="link-underline link-underline-opacity-0 text-dark" href="{% url 'stroll:about' %}">About Us</a></div>
+                  <div class="row"><a class="link-underline link-underline-opacity-0 text-dark" href="{% url 'stroll:questions' %}">Questions</a></div>
+              </div>
             </div>
+          </div>
+          </navbar>
         </footer>
     </body>
 </html>
