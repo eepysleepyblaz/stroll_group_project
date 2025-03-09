@@ -23,13 +23,13 @@ class Walk(models.Model):
     views = models.IntegerField(default=0)
     difficulty = models.IntegerField(default=0)
     length = models.IntegerField(default=0)
-    thumbnail = models.ImageField(upload_to='walks/')
+    thumbnail = models.ImageField(upload_to='walks/', null=True, blank=True)
     tags = models.CharField(max_length=255)
-    gallery_image_1 = models.ImageField(upload_to='gallery/')
-    gallery_image_2 = models.ImageField(upload_to='gallery/')
-    gallery_image_3 = models.ImageField(upload_to='gallery/')
-    gallery_image_4 = models.ImageField(upload_to='gallery/')
-    map_coordinates = models.CharField(max_length=5000)
+    gallery_image_1 = models.ImageField(upload_to='gallery/', null=True, blank=True)
+    gallery_image_2 = models.ImageField(upload_to='gallery/', null=True, blank=True)
+    gallery_image_3 = models.ImageField(upload_to='gallery/', null=True, blank=True)
+    gallery_image_4 = models.ImageField(upload_to='gallery/', null=True, blank=True)
+    map_coordinates = models.CharField(max_length=5000, null=True)
 
     def __str__(self):
         return self.title
