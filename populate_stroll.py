@@ -8,38 +8,10 @@ django.setup()
 from stroll.models import *
 
 def populate():
-    users = [
-        {'username':'ellie1',
-        'date_of_birth':'2000-10-12',
-        'description':'casual walker',
-        'password':'1234',
-        'is_moderator':False,
-        'walks':walks[2],
-        'questions':questions[1],
-        'comments':[walk_comments[0],question_comments[2]]},
-
-        {'username':'kevin2',
-        'date_of_birth':'1982-03-09',
-        'description':'intermediate walker',
-        'password':'12345',
-        'is_moderator':False,        
-        'walks':walks[1],
-        'questions':questions[2],
-        'comments':[walk_comments[2],question_comments[0]]},
-
-        {'username':'scott3',
-        'date_of_birth':'1970-05-03',
-        'description':'pro walker',
-        'password':'123456',
-        'is_moderator':True,
-        'walks':walks[0],
-        'questions':questions[0],
-        'comments':[walk_comments[1],question_comments[1]]},
-    ]
     
     walks = [
         {'title':'Govan walk',
-        'description':'Walking around govan, took photos of the river',},
+        'description':'Walking around govan, took photos of the river'},
 
         {'title':'Milngaive walk',
         'description':'The neighbourhood seems nice'},
@@ -75,16 +47,66 @@ def populate():
         {'text':'here: *link to walk in nature*'},
     ]
 
+    users = [
+        {'username':'ellie1',
+        'description':'casual walker',
+        'password':'1234',
+        'is_moderator':False,
+        'walks':[walks[2]],
+        'questions':[questions[1]],
+        'comments':[walk_comments[0], question_comments[2]],
+        'commented_on':[walks[0], questions[2]]},
+
+        {'username':'kevin2',
+        'description':'intermediate walker',
+        'password':'12345',
+        'is_moderator':False,        
+        'walks':[walks[1]],
+        'questions':[questions[2]],
+        'comments':[walk_comments[2], question_comments[0]],
+        'commented_on':[walks[2], questions[0]]},
+
+        {'username':'scott3',
+        'description':'pro walker',
+        'password':'123456',
+        'is_moderator':True,
+        'walks':[walks[0]],
+        'questions':[questions[0]],
+        'comments':[walk_comments[1], question_comments[1]],
+        'commented_on':[walks[1], questions[1]]},
+    ]
+
     for user in users:
-        u = add_user(user['username'], user['date_of_birth'],
+        u = add_user(user['username'],
                      user['description'], user['password'],
                      user['is_moderator'])
         
         for walk in user['walks']:
-            pass
+            w = add_walk(u, walk['title'], walk['description'])
+        
+        for question in user['questions']:
+            q = add_question(u, question['title'], question['text'])
 
-def add_user(username, date_of_birth, description, password, is_moderator):
-    u = User.objects.get_or_create(username=username, date_of_birth=date_of_birth)[0]
+        for w in Walk.objects.all():
+            if w.title == user['commented_on'][0]['title']:
+                add_walk_comment(u, w, user['comments'][0]['text'])
+
+        for q in Question.objects.all():
+            if q.title == user['commented_on'][1]['title']:
+                add_question_comment(u, q, user['comments'][1]['text'])
+
+    for u in User.objects.all():
+        for w in Walk.objects.filter(user=u):
+            for wc in WalkComment.objects.filter(walk=w):
+                print(f'- {u}: {w}: {wc} comment made by {wc.user}')
+
+        for q in Question.objects.filter(user=u):
+            for qc in QuestionComment.objects.filter(question=q):
+                print(f'- {u}: {q}: {qc} comment made by {qc.user}')
+
+
+def add_user(username, description, password, is_moderator):
+    u = User.objects.get_or_create(username=username)[0]
     u.description = description
     u.password = password
     u.is_moderator = is_moderator
@@ -92,22 +114,22 @@ def add_user(username, date_of_birth, description, password, is_moderator):
     return u
 
 def add_walk(user, title, description):
-    w = Walk.objects.get_or_create(title=title, description=description)[0]
+    w = Walk.objects.get_or_create(user=user, title=title, description=description)[0]
     w.save()
     return w
 
 def add_question(user, title, text):
-    q = Question.objects.get_or_create(title=title, text=text)[0]
+    q = Question.objects.get_or_create(user=user, title=title, text=text)[0]
     q.save()
     return q
 
 def add_walk_comment(user, walk, text):
-    wc = WalkComment.objects.get_or_create(text=text)[0]
+    wc = WalkComment.objects.get_or_create(user=user, walk=walk, text=text)[0]
     wc.save()
     return wc
 
 def add_question_comment(user, question, text):
-    qc = QuestionComment.objects.get_or_create(text=text)[0]
+    qc = QuestionComment.objects.get_or_create(user=user, question=question, text=text)[0]
     qc.save()
     return qc
     
