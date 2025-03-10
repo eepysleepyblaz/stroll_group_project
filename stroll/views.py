@@ -16,7 +16,10 @@ def home(request):
     return render(request, 'stroll/home.html', context=context_dict)
 
 def about(request):
-    return render(request, 'stroll/about.html')
+    context_dict = {}
+    #Always give three popular walks just make them None type if not not enough
+    context_dict["popular_walks"] = [None, None, None]
+    return render(request, 'stroll/about.html', context=context_dict)
 
 def signup(request):
     return render(request, 'stroll/signup.html')
