@@ -47,6 +47,18 @@ def populate():
         {'text':'here: *link to walk in nature*'},
     ]
 
+    # ellie1:
+    #   walk: city centre; question: hiking boots
+    #   walk comment: nice walk -> Govan; question comment: link -> nature
+    #
+    # kevin2:
+    #   walk: Milngavie; question: nature walk
+    #   walk comment: glasgow green -> city centre; question comment: river -> Govan
+    #
+    # scott3:
+    #   walk: Govan; question: Govan
+    #   walk comment: shops -> Milngavie; question comment: hiking boots -> hiking boots
+
     users = [
         {'username':'ellie1',
         'description':'casual walker',
@@ -98,11 +110,11 @@ def populate():
     for u in User.objects.all():
         for w in Walk.objects.filter(user=u):
             for wc in WalkComment.objects.filter(walk=w):
-                print(f'- {u}: {w}: {wc} comment made by {wc.user}')
+                print(f'- {u}: Walk, {w}: {wc} comment made by {wc.user}')
 
         for q in Question.objects.filter(user=u):
             for qc in QuestionComment.objects.filter(question=q):
-                print(f'- {u}: {q}: {qc} comment made by {qc.user}')
+                print(f'- {u}: Question, {q}: {qc} comment made by {qc.user}')
 
 
 def add_user(username, description, password, is_moderator):
