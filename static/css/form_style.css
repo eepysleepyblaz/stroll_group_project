@@ -1,0 +1,29 @@
+.content_box {
+    max-width: 500px;
+    outline-width: 1px;
+    outline: 1px;
+    outline-style: solid;
+    outline-color: black;
+    background-color: #e0fff5;
+    text-align: center;
+    padding-top: 5px;
+}
+
+.form_box {
+    min-height: 400px;
+}
+
+.submit_button {
+    margin-bottom: 10px;
+    background-color: rgb(0, 177, 18);
+}
+
+.submit_button:hover {
+    margin-bottom: 10px;
+    background-color: rgba(0, 177, 18, 0.482);
+}
+
+.underbox_text {
+    text-align: center;
+    padding-top: 5px;
+}

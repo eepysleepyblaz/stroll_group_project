@@ -1,9 +1,43 @@
 {% extends 'stroll/base.html' %}
 {% load staticfiles %}
 
+{% block stylesheet_block %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/form_style.css' %}"/>
+{% endblock %}
+
 {% block title_block %}
     Signup
 {% endblock %}
 
 {% block body_block %}
+<div class="container-xxl content_box">
+    <div>
+        <div class="row">
+            <div class="col title">
+                <h1>Sign Up</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="row">
+                    <div class="col form_box">
+                        Signup Form here
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col d-grid">
+                        <button type="button" class="btn submit_button">Create Account</button>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col underbox_text">
+        <p>By pressing create account you agree to out terms of service</p>
+        have js for a drop down box here with the tos in it 
+    </div>
+</div>
 {% endblock %}
