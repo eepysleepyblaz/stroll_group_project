@@ -1,0 +1,26 @@
+.header {
+    background-color: #577B79;
+}
+
+.footer {
+    background-color: white;
+}
+
+.background {
+    background-color: #A2DCC6;
+}
+
+.title {
+    text-align: center;
+}
+
+head, body {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif
+}
+
+#box {
+    min-height: 100px;
+    outline: 1px;
+    outline-style: solid;
+    outline-color: black;
+}
