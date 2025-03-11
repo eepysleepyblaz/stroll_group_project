@@ -7,12 +7,11 @@
 {% endblock %}
 
 {% block stylesheet_block %}
-    <link rel="stylesheet" type="text/css" href="/static/css/walk_elements.css"/>
 {% endblock %}
 
 {% block body_block %}
     <div class="container g-1">
-        <h1 class="text-center">Home - Popular Walks</h1>
+        <h1 class="title">Home - Popular Walks</h1>
     </div>
     <div class="container mt-5">
     {% for walk in popular_walks %}
