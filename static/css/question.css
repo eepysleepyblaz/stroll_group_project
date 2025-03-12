@@ -1,0 +1,35 @@
+:root {
+    --question_button_colour: black;
+}
+.question_button {
+    border-radius: 1px;
+    border-color: var(--question_button_colour);
+    color: var(--question_button_colour);
+    
+}
+
+.question_button:hover {
+    border-radius: 1px;
+    color: var(--question_button_colour);
+}
+
+.question_button:active {
+    border-radius: 1px;
+    color: var(--question_button_colour);
+}
+
+.sort_button {
+    background: none;
+    border: 0;
+}
+
+.sort_button:hover {
+    background: none;
+    border: 0;
+    text-decoration: underline;
+}
+
+@media (max-width: 992px) { .down {
+    margin-top: 10px;
+}
+}

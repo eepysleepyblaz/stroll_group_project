@@ -50,7 +50,10 @@ def show_walk(request):
     return render(request, 'stroll/walk.html')
 
 def questions(request):
-    return render(request, 'stroll/questions.html')
+    context_dict = {}
+    context_dict['questions'] = [{"user": "John", "date_published":12-21-2520, "title": "how do i walk", "likes": 35, "text": "how do i walk with my legs"},
+                                 {"user": "John", "date_published":12-21-2520, "title": "yooo haso has has f asjfasks   jasfjk  ajsfkja   ajsdfassa aaaas ", "likes": 35, "text": "how do i walk with my legs"}]
+    return render(request, 'stroll/questions.html', context=context_dict)
 
 def show_question(request):
     return render(request, 'stroll/show_question.html')

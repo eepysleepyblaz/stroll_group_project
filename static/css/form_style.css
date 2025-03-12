@@ -1,4 +1,4 @@
-.content_box {
+.content_box_thin {
     max-width: 500px;
     outline-width: 1px;
     outline: 1px;
@@ -8,6 +8,17 @@
     text-align: center;
     padding-top: 5px;
 }
+
+.content_box {
+    outline-width: 1px;
+    outline: 1px;
+    outline-style: solid;
+    outline-color: black;
+    background-color: #e0fff5;
+    text-align: center;
+    padding-top: 5px;
+}
+
 
 .form_box {
     min-height: 400px;

@@ -1,5 +1,11 @@
+:root {
+    --BACKGROUND: #A2DCC7;
+    --HEADER: #567B79;
+    --FOOTERLINK: rgb(42, 42, 42);
+}
+
 .header {
-    background-color: #577B79;
+    background-color: var(--HEADER);
 }
 
 .header_text {
@@ -34,11 +40,16 @@
 }
 
 .background {
-    background-color: #A2DCC6;
+    background-color: var(--BACKGROUND);
 }
 
 .title {
     text-align: center;
+    padding-bottom: 10px;
+}
+
+.main_body{
+   padding-top: 25px; 
 }
 
 head, body {
@@ -46,12 +57,12 @@ head, body {
 }
 
 a {
-    color: rgb(42, 42, 42);
+    color: var(--FOOTERLINK);
     text-decoration: none;
 }
 
 a:hover {
-    color: rgb(42, 42, 42);
+    color: var(--FOOTERLINK);
     text-decoration: underline;
 }
 

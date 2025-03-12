@@ -6,3 +6,12 @@
 #walk_link {
     text-decoration: none;
 }
+
+.walk_tile {
+    padding-bottom: 10px;
+}
+
+.walk_card_elements {
+    align-items: center;
+    justify-content: center;
+}

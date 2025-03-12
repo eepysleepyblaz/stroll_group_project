@@ -10,7 +10,7 @@
     <a href="{% url 'stroll:show_walk' walk.slug %}" id="walk_link">
         <div class="card w-m-50 w-100 walk_card">
             <div class="row g-0">
-                <div class="col-lg-3 d-flex align-items-center justify-content-center">
+                <div class="col-lg-3 d-flex walk_card_elements">
                     <!-- This doesn't use the media url as this can't see that variable -->
                     <img src="/media/walk_thumbnails/{{ walk.thumbnail }}.png" class="img-fluid rounded" height="150" alt="{{ walk.name }}'s thumbnail">   
                 </div>               

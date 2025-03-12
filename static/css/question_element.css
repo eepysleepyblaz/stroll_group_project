@@ -1,0 +1,16 @@
+#question_link {
+    text-decoration: none;
+}
+
+#question_text {
+    text-align: left;
+}
+
+#question_box {
+    outline-width: 1px;
+    outline: 1px;
+    outline-style: solid;
+    outline-color: black;
+    background-color: snow;
+    padding-top: 10px;
+}

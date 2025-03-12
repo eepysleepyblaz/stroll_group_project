@@ -10,12 +10,12 @@
 {% endblock %}
 
 {% block body_block %}
-    <div class="container g-1">
+    <div class="container">
         <h1 class="title">Home - Popular Walks</h1>
     </div>
-    <div class="container mt-5">
+    <div class="container main_body">
     {% for walk in popular_walks %}
-        <div class="row py-2">
+        <div class="row walk_tile">
             <div class="col">
                 {% walk_element walk display_type="full" %}
             </div>
