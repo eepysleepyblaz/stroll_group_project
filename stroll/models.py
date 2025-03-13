@@ -27,7 +27,7 @@ class Walk(models.Model):
     views = models.IntegerField(default=0)
     difficulty = models.IntegerField(default=0)
     length = models.IntegerField(default=0)
-    thumbnail = models.ImageField(upload_to='walks/', null=True, blank=True)
+    thumbnail = models.ImageField(upload_to='walk_thumbnails/', null=True, blank=True)
     tags = models.CharField(max_length=255)
     gallery_image_1 = models.ImageField(upload_to='gallery/', null=True, blank=True)
     gallery_image_2 = models.ImageField(upload_to='gallery/', null=True, blank=True)
