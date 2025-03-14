@@ -41,16 +41,16 @@ def my_walks(request):
     return render(request, 'stroll/my_walks.html')
 
 def my_questions(request):
-    return render(request, 'stroll/edit_profile.html')
+    return render(request, 'stroll/my_questions.html')
 
 def search_walks(request):
     return render(request, 'stroll/search_walks.html')
 
-def show_walk(request):
-    return render(request, 'stroll/walk.html')
+def show_walk(request, walk_name_slug):
+    return render(request, 'stroll/show_walk.html')
 
 def questions(request):
     return render(request, 'stroll/questions.html')
 
-def show_question(request):
+def show_question(request, question_slug):
     return render(request, 'stroll/show_question.html')

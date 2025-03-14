@@ -1,7 +1,9 @@
 from django.db import models
+from django.template.defaultfilters import slugify
 
 class User(models.Model):
     username = models.CharField(max_length=30)
+    profile_picture = models.ImageField(upload_to='profile_pictures/', null=True, blank=True)
     date_of_birth = models.DateField(null=True, blank=True)
     description = models.CharField(max_length=500)
     password = models.CharField(max_length=12)
@@ -34,6 +36,11 @@ class Walk(models.Model):
     gallery_image_3 = models.ImageField(upload_to='gallery/', null=True, blank=True)
     gallery_image_4 = models.ImageField(upload_to='gallery/', null=True, blank=True)
     map_coordinates = models.CharField(max_length=5000, null=True)
+    slug = models.SlugField()
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        super(Walk, self).save(*args, **kwargs)
 
     class Meta:
         verbose_name_plural = 'Walks'
@@ -46,8 +53,15 @@ class Walk(models.Model):
 class Question(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE) # Foreign key
     date_published = models.DateField(auto_now_add=True)
+    likes = models.IntegerField(default=0)
+    views = models.IntegerField(default=0)
     title = models.CharField(max_length=100)
     text = models.CharField(max_length=300)
+    slug = models.SlugField()
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        super(Question, self).save(*args, **kwargs)
 
     class Meta:
         verbose_name_plural = 'Questions'

@@ -6,7 +6,7 @@ at: https://github.com/tangowithcode/tango_with_django_2_code.git
 
 import os
 import importlib
-from django.urls import reverse
+from django.urls import reverse, resolve
 from django.test import TestCase
 from django.conf import settings
 
@@ -56,9 +56,9 @@ class ProjectHasCorrectTemplates(TestCase):
         self.templates_stroll_dir = os.path.join(self.templates_dir, 'stroll')
 
     @staticmethod
-    def template_test(self, name):
-        file_exists = os.path.isfile(os.path.join(self.templates_stroll_dir, f'{name}.html'))
-        return self.assertTrue(file_exists, f'{STANDARD_FAILURE} There is no {name}.html template')
+    def template_test(self, template_name):
+        file_exists = os.path.isfile(os.path.join(self.templates_stroll_dir, f'{template_name}.html'))
+        return self.assertTrue(file_exists, f'{STANDARD_FAILURE} There is no {template_name}.html template')
 
     def test_stroll_project_has_templates_directory(self):
         directory_exists = os.path.isdir(self.templates_dir)
@@ -96,7 +96,7 @@ class ProjectHasCorrectTemplates(TestCase):
         ProjectHasCorrectTemplates.template_test(self, "my_profile")
 
     def test_templates_has_selected_walk(self):
-        ProjectHasCorrectTemplates.template_test(self, "selected_walk")
+        ProjectHasCorrectTemplates.template_test(self, "show_walk")
 
     def test_templates_has_show_question(self):
         ProjectHasCorrectTemplates.template_test(self, "show_question")
@@ -112,3 +112,73 @@ class ProjectHasCorrectTemplates(TestCase):
 
 
 
+class ProjectViewsAndUrlsTests(TestCase):
+    # Tests for correct views and urls created
+
+    def setUp(self):
+        self.views_module = importlib.import_module('stroll.views')
+        self.views_module_listing = dir(self.views_module)
+
+    @staticmethod
+    def view_and_mapping_exist_using_correct_template(self, view_name, slug=''):
+
+        view_exists = view_name in self.views_module_listing
+        is_callable = callable(getattr(self.views_module, view_name))
+        self.assertTrue(view_exists, f'{STANDARD_FAILURE} There is no view "{view_name}"')
+        self.assertTrue(is_callable, f'{STANDARD_FAILURE} The view "{view_name}" should be a function')
+
+        if view_name == 'show_walk':
+            url = reverse(f'stroll:{view_name}', kwargs={'walk_name_slug': 'example-walk'})
+
+        elif view_name == 'show_question':
+            url = reverse(f'stroll:{view_name}', kwargs={'question_slug': 'example-question'})
+
+        else:
+            url = reverse(f'stroll:{view_name}')
+
+        match = resolve(url)
+        self.assertEquals(match.func, getattr(self.views_module, view_name), f'{STANDARD_FAILURE} The view "{view_name}" is not mapped correctly')
+
+        template_path = f'stroll/{view_name}.html'
+        response = self.client.get(url)
+        self.assertTemplateUsed(response, template_path, f'{STANDARD_FAILURE} The view "{view_name}" does not use a template or a correct template')
+
+    
+    def test_home_view_exisits(self):
+        ProjectViewsAndUrlsTests.view_and_mapping_exist_using_correct_template(self, 'home')
+
+    def test_about_view_exisits(self):
+        ProjectViewsAndUrlsTests.view_and_mapping_exist_using_correct_template(self, 'about')
+
+    def test_signup_view_exisits(self):
+        ProjectViewsAndUrlsTests.view_and_mapping_exist_using_correct_template(self, 'signup')
+
+    def test_create_walk_view_exisits(self):
+        ProjectViewsAndUrlsTests.view_and_mapping_exist_using_correct_template(self, 'create_walk')
+
+    def test_login_view_exisits(self):
+        ProjectViewsAndUrlsTests.view_and_mapping_exist_using_correct_template(self, 'login')
+
+    def test_my_profile_view_exisits(self):
+        ProjectViewsAndUrlsTests.view_and_mapping_exist_using_correct_template(self, 'my_profile')
+
+    def test_edit_profile_view_exisits(self):
+        ProjectViewsAndUrlsTests.view_and_mapping_exist_using_correct_template(self, 'edit_profile')
+
+    def test_my_walks_view_exisits(self):
+        ProjectViewsAndUrlsTests.view_and_mapping_exist_using_correct_template(self, 'my_walks')
+
+    def test_my_questions_view_exisits(self):
+        ProjectViewsAndUrlsTests.view_and_mapping_exist_using_correct_template(self, 'my_questions')
+
+    def test_search_walks_view_exisits(self):
+        ProjectViewsAndUrlsTests.view_and_mapping_exist_using_correct_template(self, 'search_walks')
+
+    def test_show_walk_view_exisits(self):
+        ProjectViewsAndUrlsTests.view_and_mapping_exist_using_correct_template(self, 'show_walk')
+
+    def test_questions_view_exisits(self):
+        ProjectViewsAndUrlsTests.view_and_mapping_exist_using_correct_template(self, 'questions')
+
+    def test_show_question_view_exisits(self):
+        ProjectViewsAndUrlsTests.view_and_mapping_exist_using_correct_template(self, 'show_question')
