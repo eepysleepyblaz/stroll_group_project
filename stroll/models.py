@@ -2,6 +2,7 @@ from django.db import models
 
 class User(models.Model):
     username = models.CharField(max_length=30)
+    profile_picture = models.ImageField(upload_to='profile_pictures/', null=True, blank=True)
     date_of_birth = models.DateField(null=True, blank=True)
     description = models.CharField(max_length=500)
     password = models.CharField(max_length=12)
@@ -46,6 +47,8 @@ class Walk(models.Model):
 class Question(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE) # Foreign key
     date_published = models.DateField(auto_now_add=True)
+    likes = models.IntegerField(default=0)
+    views = models.IntegerField(default=0)
     title = models.CharField(max_length=100)
     text = models.CharField(max_length=300)
 
