@@ -110,10 +110,16 @@ class ProjectHasCorrectTemplates(TestCase):
     def test_templates_has_my_walks(self):
         ProjectHasCorrectTemplates.template_test(self, "my_walks")
 
+    def test_base_starts_with_doctype(self):
+        url = reverse('stroll:signup')
+        response = self.client.get(url)
+        self.assertTrue(response.content.decode().startswith('<!DOCTYPE html>'), f"{STANDARD_FAILURE} The base.html template does not start with '<!DOCTYPE html>'")
+
 
 
 class ProjectViewsAndUrlsTests(TestCase):
-    # Tests for correct views and urls created
+    # Tests for correct views and urls created, they have correct mappings and
+    # the views use their corresponding template
 
     def setUp(self):
         self.views_module = importlib.import_module('stroll.views')
