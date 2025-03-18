@@ -45,7 +45,11 @@ def my_walks(request):
     return render(request, 'stroll/my_walks.html')
 
 def my_questions(request):
-    return render(request, 'stroll/edit_profile.html')
+    context_dict = {}
+    context_dict['questions'] = [{"user": "John", "date_published":12-21-2520, "title": "how do i walk", "likes": 35, "text": "how do i walk with my legs", "views": 100, "slug": "a"},
+                                 {"user": "John", "date_published":12-21-2520, "title": "yooo haso has has f asjfasks   jasfjk  ajsfkja   ajsdfassa aaaas ", "likes": 35, "text": "how do i walk with my legs", "views":500, "slug": "a"}]
+
+    return render(request, 'stroll/my_questions.html', context=context_dict)
 
 def search_walks(request):
     context_dict = {}
