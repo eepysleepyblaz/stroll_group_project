@@ -42,7 +42,15 @@ def edit_profile(request):
     return render(request, 'stroll/edit_profile.html')
 
 def my_walks(request):
-    return render(request, 'stroll/my_walks.html')
+    context_dict = {}
+    context_dict["search_results"] = [{"thumbnail": "walk_hill", "name": "my first walk", "area": "partickwwwwwwwwwwwwwwww", "tags": "hi,hello,good".split(","), 
+                                      "difficulty": 1, "description": "Thuis is my really cool walkssssssssssssssss ssssssssssssssssssssssss ssssssssssssssssssssssssssssssssssss sssssssssssssssssssssssssssss sssssssssssssssssssssssssssss sssssssssssssssssssssssssssssssssssssssssssssssssssssssssss", "slug": "a"},
+                                      {"thumbnail": "walk_hill", "name": "my last walk", "area": "govan", "tags": "goodbye,fairwell,bad".split(","), 
+                                      "difficulty": 4, "description": "Thuis is my really bad walk", "slug": "a"},
+                                      {"thumbnail": "walk_hill", "name": "my new walk", "area": "leith", "tags": "i,regret,this".split(","), 
+                                      "difficulty": 10, "description": "Thuis is not fun", "slug": "a"},
+                                      ]
+    return render(request, 'stroll/my_walks.html', context=context_dict)
 
 def my_questions(request):
     context_dict = {}
