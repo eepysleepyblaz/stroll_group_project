@@ -50,7 +50,7 @@ def my_questions(request):
 def search_walks(request):
     return render(request, 'stroll/search_walks.html')
 
-def show_walk(request):
+def show_walk(request, walk_slug):
     return render(request, 'stroll/walk.html')
 
 def questions(request):
