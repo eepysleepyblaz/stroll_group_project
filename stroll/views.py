@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
+from django.contrib.auth import authenticate, login, logout
 
 def home(request):
     # Variables needed for home template:
@@ -31,6 +32,9 @@ def create_walk(request):
 def login(request):
     return render(request, 'stroll/login.html')
 
+def logout(request):
+    return render(request, 'stroll/logout.html')
+
 def my_profile(request):
     return render(request, 'stroll/my_profile.html')
 
@@ -46,11 +50,14 @@ def my_questions(request):
 def search_walks(request):
     return render(request, 'stroll/search_walks.html')
 
-def show_walk(request):
+def show_walk(request, walk_slug):
     return render(request, 'stroll/walk.html')
 
 def questions(request):
-    return render(request, 'stroll/questions.html')
+    context_dict = {}
+    context_dict['questions'] = [{"user": "John", "date_published":12-21-2520, "title": "how do i walk", "likes": 35, "text": "how do i walk with my legs", "views": 100, "slug": "a"},
+                                 {"user": "John", "date_published":12-21-2520, "title": "yooo haso has has f asjfasks   jasfjk  ajsfkja   ajsdfassa aaaas ", "likes": 35, "text": "how do i walk with my legs", "views":500, "slug": "a"}]
+    return render(request, 'stroll/questions.html', context=context_dict)
 
 def show_question(request):
     return render(request, 'stroll/show_question.html')

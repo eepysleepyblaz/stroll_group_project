@@ -7,10 +7,10 @@
     <body>
     {% if display_type == "full" %}
     <div class="container-xxl">
-    <a href="{% url 'stroll:show_walk' walk.slug %}" class="link-underline link-underline-opacity-0 text-dark">
-        <div class="card w-m-50 w-100 walk_tile" id="walk_card">
+    <a href="{% url 'stroll:show_walk' walk.slug %}" id="walk_link">
+        <div class="card w-m-50 w-100 walk_card">
             <div class="row g-0">
-                <div class="col-lg-3 d-flex align-items-center justify-content-center">
+                <div class="col-lg-3 d-flex walk_card_elements">
                     <!-- This doesn't use the media url as this can't see that variable -->
                     <img src="/media/walk_thumbnails/{{ walk.thumbnail }}.png" class="img-fluid rounded" height="150" alt="{{ walk.name }}'s thumbnail">   
                 </div>               
@@ -32,7 +32,7 @@
                         </dl>
                 
                     <div class="col-lg">
-                        <p class="card-text mt-1 mb-2"><small>Description: {{ walk.description }}</small></p>
+                        <p class="card-text"><small>Description: {{ walk.description }}</small></p>
                     </div>
                 </div>
                 </div>
@@ -43,7 +43,7 @@
     {% elif display_type == "small" %}
     <div class="container">
         <a href="{% url 'stroll:show_walk' walk.slug %}" class="link-underline link-underline-opacity-0 text-dark">
-            <div class="card mb-3 text-center" id="walk_card">
+            <div class="card text-center walk_card">
                 <div class="row">
                     <!-- This doesn't use the media url as this can't see that variable -->
                     <img src="/media/walk_thumbnails/{{ walk.thumbnail }}.png" class="img-fluid rounded" width="150" alt="{{ walk.name }}'s thumbnail">

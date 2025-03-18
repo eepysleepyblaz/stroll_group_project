@@ -1,3 +1,17 @@
-#walk_card {
+.walk_card {
     background-color: #e0fff5;
+    color: rgb(42, 42, 42);
+}
+
+#walk_link {
+    text-decoration: none;
+}
+
+.walk_tile {
+    padding-bottom: 10px;
+}
+
+.walk_card_elements {
+    align-items: center;
+    justify-content: center;
 }

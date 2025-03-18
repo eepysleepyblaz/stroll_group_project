@@ -30,14 +30,25 @@
               <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <form class="d-flex ms-auto" role="search">
                     <input class="form-control me-2" type="search" placeholder="Search walks" aria-label="Search">
-                    <button class="btn btn-outline-light" type="submit">Search</button>
+                    <button class="btn header_button" type="submit">Search</button>
                   </form>
                 <ul class="navbar-nav ms-auto mb-lg-0">
                   <li class="nav-item">
-                    <a class="nav-link link-light" href="{% url 'stroll:create_walk' %}">Create Walk</a>
+                    <a class="nav-link header_text" href="{% url 'stroll:create_walk' %}">Create Walk</a>
                   </li>
+                  {% if user.is_authenticated %}
                   <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle text-light" href="{% url 'stroll:create_walk' %}" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle header_text" href="{% url 'stroll:create_walk' %}" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        My Account/Signout
+                    </a>
+                    <ul class="dropdown-menu">
+                      <li><a class="dropdown-item" href="{% url 'stroll:my_profile' %}">My Account</a></li>
+                      <li><a class="dropdown-item" href="{% url 'stroll:sigout' %}">Signout</a></li>
+                    </ul>
+                  </li>
+                  {% else %}
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle header_text" href="{% url 'stroll:create_walk' %}" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Login/Signup
                     </a>
                     <ul class="dropdown-menu">
@@ -45,6 +56,7 @@
                       <li><a class="dropdown-item" href="{% url 'stroll:signup' %}">Signup</a></li>
                     </ul>
                   </li>
+                  {% endif %}
                 
               </div>
             </div>
@@ -77,9 +89,9 @@
               {% endfor %}
 
               <div class="col-lg col-12 text-center">
-                  <div class="row fluid"><a class="link-underline link-underline-opacity-0 text-dark" href="{% url 'stroll:home' %}">Home</a></div>
-                  <div class="row"><a class="link-underline link-underline-opacity-0 text-dark" href="{% url 'stroll:about' %}">About Us</a></div>
-                  <div class="row"><a class="link-underline link-underline-opacity-0 text-dark" href="{% url 'stroll:questions' %}">Questions</a></div>
+                  <div class="row fluid footer_text"><a href="{% url 'stroll:home' %}">Home</a></div>
+                  <div class="row"><a href="{% url 'stroll:about' %}">About Us</a></div>
+                  <div class="row"><a href="{% url 'stroll:questions' %}">Question Forum</a></div>
               </div>
             </div>
           </div>

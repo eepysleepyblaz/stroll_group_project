@@ -48,7 +48,6 @@ class Question(models.Model):
     date_published = models.DateField(auto_now_add=True)
     title = models.CharField(max_length=100)
     text = models.CharField(max_length=300)
-
     class Meta:
         verbose_name_plural = 'Questions'
 

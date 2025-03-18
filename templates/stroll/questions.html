@@ -1,9 +1,67 @@
 {% extends 'stroll/base.html' %}
 {% load staticfiles %}
+{% load stroll_template_tags %}
+
+{% block stylesheet_block %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/form_style.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/question.css' %}"/>
+{% endblock %}
 
 {% block title_block %}
     Questions
 {% endblock %}
 
 {% block body_block %}
+<div class="container-xxl">
+    <div class="row title">
+        <h1>Question Forum</h1>
+    </div>
+    <div class="row main_body ">
+        <div class="row content_box">
+            <div class="row">
+                <div class="col">
+                    <h4>User Questions</h4> 
+                </div>
+            </div>
+            <div class="col-lg-2">
+                <div class="row">
+                    <div class="col-lg-12 col-3">
+                        <h4>Sort By:</h4>
+                    </div>
+                    <div class="col-lg-12 col-3">
+                        <button class="btn sort_button" type="submit">Likes</button> 
+                    </div>
+                    <div class="col-lg-12 col-3">
+                        <button class="btn sort_button" type="submit">Views</button> 
+                    </div>
+                    <div class="col-lg-12 col-3">
+                        <button class="btn sort_button" type="submit">Newest</button> 
+                    </div>    
+                </div>
+            </div>
+            
+            <div class="col-lg-10 col-12">
+                <div class="row">
+                    
+                </div>
+                <div class="row">
+                    <div class="col-lg-10 col-12">
+                        <input class="form-control" type="post" placeholder="Post Question" aria-label="Post">
+                    </div>
+                    <div class="col-lg-2">
+                        <button class="btn question_button down" type="submit">Post</button> 
+                    </div>
+                </div>
+                <div class="row">
+                    {% for question in questions %}
+                        <div class="col-11">
+                            <p>{% question_element question %}</p>
+                        </div>
+                    {% endfor %}
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
