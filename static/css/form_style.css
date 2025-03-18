@@ -26,12 +26,12 @@
 
 .submit_button {
     margin-bottom: 10px;
-    background-color: rgb(0, 177, 18);
+    background-color: rgb(0, 162, 177);
 }
 
 .submit_button:hover {
     margin-bottom: 10px;
-    background-color: rgba(0, 177, 18, 0.482);
+    background-color: rgba(15, 46, 79, 0.482);
 }
 
 .underbox_text {

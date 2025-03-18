@@ -36,6 +36,17 @@
                   <li class="nav-item">
                     <a class="nav-link header_text" href="{% url 'stroll:create_walk' %}">Create Walk</a>
                   </li>
+                  {% if user.is_authenticated %}
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle header_text" href="{% url 'stroll:create_walk' %}" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        My Account/Signout
+                    </a>
+                    <ul class="dropdown-menu">
+                      <li><a class="dropdown-item" href="{% url 'stroll:my_profile' %}">My Account</a></li>
+                      <li><a class="dropdown-item" href="{% url 'stroll:sigout' %}">Signout</a></li>
+                    </ul>
+                  </li>
+                  {% else %}
                   <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle header_text" href="{% url 'stroll:create_walk' %}" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Login/Signup
@@ -45,6 +56,7 @@
                       <li><a class="dropdown-item" href="{% url 'stroll:signup' %}">Signup</a></li>
                     </ul>
                   </li>
+                  {% endif %}
                 
               </div>
             </div>

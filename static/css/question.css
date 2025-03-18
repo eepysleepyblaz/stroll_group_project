@@ -29,6 +29,10 @@
     text-decoration: underline;
 }
 
+.question_section {
+    background-color: #A2DCC7;
+}
+
 @media (max-width: 992px) { .down {
     margin-top: 10px;
 }
