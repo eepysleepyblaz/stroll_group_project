@@ -1,6 +1,12 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
+from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+from stroll.forms import UserForm
+
+
+from stroll.forms import CreateWalkForm
 
 def home(request):
     # Variables needed for home template:
@@ -24,16 +30,73 @@ def about(request):
     return render(request, 'stroll/about.html', context=context_dict)
 
 def signup(request):
-    return render(request, 'stroll/signup.html')
+    registered = False
 
+    if request.method == 'POST':
+        user_form = UserForm(request.POST)
+
+        if user_form.is_valid():
+            user = user_form.save()
+
+            user.set_password(user.password)
+            user.save()
+
+            if 'picture' in request.FILES:
+                user.picture = request.FILES['picture']
+
+            user.save()
+
+            registered = True
+        else:
+            print(user_form.errors)
+    else:
+        user_form = UserForm()
+    
+    return render(request, 'stroll/signup.html', context = {'user_form': user_form,
+                                                             'registered': registered})
+
+@login_required
 def create_walk(request):
-    return render(request, 'stroll/create_walk.html')
+    form = CreateWalkForm()
 
-def login(request):
-    return render(request, 'stroll/login.html')
+    if request.method == 'POST':
+        form = CreateWalkForm(request.POST)
 
-def logout(request):
-    return render(request, 'stroll/logout.html')
+        if form.is_valid():
+            form.save(commit=True)
+
+            return redirect('/stroll/')
+        else:
+            print(form.errors)
+    
+    return render(request, 'stroll/create_walk.html', {'form':form})
+
+def user_login(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        #not used currently
+        stay_logged_in = request.POST.get('stay_logged_in')
+
+        user = authenticate(username=username, password=password)
+
+        if user:
+            if user.is_active:
+                login(request, user)
+                return redirect(reverse('stroll:home'))
+            else:
+                return HttpResponse("Your Stroll account is disabled.")
+        else:
+            print(f"Invalid login details: {username}, {password}")
+            return HttpResponse("Invalid login details supplied.")
+    else:
+        return render(request, 'stroll/login.html')
+
+@login_required
+def user_logout(request):
+    logout(request)
+
+    return redirect(reverse('stroll:home'))
 
 def my_profile(request):
     return render(request, 'stroll/my_profile.html')
