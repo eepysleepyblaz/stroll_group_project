@@ -1,9 +1,78 @@
 {% extends 'stroll/base.html' %}
 {% load staticfiles %}
 
+{% block stylesheet_block %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/walk.css' %}"/>
+{% endblock %}
+
 {% block title_block %}
-    Walk - {{ walk name }}
+    {{ name }}
 {% endblock %}
 
 {% block body_block %}
+<div class="container title">
+    <h1>{{ name }}</h1>
+    <h2>By {{ user }}</h2>
+    if is moderator switch to have a delete button in the top corner
+</div>
+<div class="container-xxl main_body walk_text">
+    <div class="row walk_screen">
+        <div class="col content_seperator">
+            <div class="row">
+                <div class="col-lg-6 col-12">
+                    map here
+                </div>
+                <div class="col-lg-6 col-12">
+                    <!-- This carosell is from the bootstrap website -->
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6 col-12">
+                    <div class="row">
+                        <h4>Area: {{ area }}</h4>
+                    </div>
+                    <div class="row">
+                        <h4>Length: {{ length }}</h4>
+                    </div>
+                    <div class="row">
+                        <h4>
+                            Tags: {% for tag in tags %}
+                                    {% if not forloop.last %}
+                                        {{ tag }}, 
+                                    {% else %}
+                                        {{ tag }}
+                                    {% endif %}
+                        {% endfor %}
+                        </h4>
+                    </div>
+                    <div class="row">
+                        <h4>Difficulty: {{ difficulty }}</h4>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-12">
+                    <p>Description: {{ description }}</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6 col-12">
+                    <div class="row">
+                        <div class="col-lg-10 col-12">
+                            <input class="form-control" type="post" placeholder="Post Comment" aria-label="Post">
+                        </div>
+                        <div class="col-lg-2">
+                            <button class="btn question_button down" type="submit">Post</button> 
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-12">
+                    <div class="row">
+                        <h4>Rate this walk</h4>
+                        rating widget here
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</div>
 {% endblock %}

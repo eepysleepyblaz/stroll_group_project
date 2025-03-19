@@ -79,8 +79,10 @@ def search_walks(request):
                                       ]
     return render(request, 'stroll/search_walks.html', context=context_dict)
 
-def show_walk(request, walk_slug):
-    return render(request, 'stroll/walk.html')
+def show_walk(request, walk_name_slug):
+    context_dict = {"user": "emi", "thumbnail": "walk_hill", "photo1": "photo", "name": "my first walk", "length": "100km", "area": "partickwwwwwwwwwwwwwwww", "tags": "hi,hello,good".split(","), 
+                                      "difficulty": 1, "description": "Thuis is my really cool walkssssssssssssssss ssssssssssssssssssssssss ssssssssssssssssssssssssssssssssssss sssssssssssssssssssssssssssss sssssssssssssssssssssssssssss sssssssssssssssssssssssssssssssssssssssssssssssssssssssssss", "slug": "a"}
+    return render(request, 'stroll/walk.html', context=context_dict)
 
 def questions(request):
     context_dict = {}

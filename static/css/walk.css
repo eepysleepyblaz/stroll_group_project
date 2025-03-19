@@ -1,0 +1,20 @@
+.walk_text {
+    word-wrap: break-word;
+}
+
+.carousel_image {
+    width: 550px;
+}
+
+.walk_screen {
+    outline-width: 1px;
+    outline: 1px;
+    outline-style: solid;
+    outline-color: black;
+    background-color: #cae6dd;
+}
+
+.content_seperator > * {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
