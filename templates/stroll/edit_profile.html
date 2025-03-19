@@ -1,9 +1,37 @@
 {% extends 'stroll/base.html' %}
 {% load staticfiles %}
 
+{% block stylesheet_block %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/form_style.css' %}"/>
+{% endblock %}
+
 {% block title_block %}
     Edit Profile
 {% endblock %}
 
 {% block body_block %}
+<div class="container">
+    <h1 class="title">Edit Profile</h1>
+</div>
+<div class="container-xxl content_box_thin main_body">
+    <div>
+        <div class="row">
+            
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="row">
+                    <div class="col form_box">
+                        update profile form here
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col d-grid">
+                <button type="button" class="btn submit_button">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
