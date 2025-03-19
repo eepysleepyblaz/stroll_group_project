@@ -36,7 +36,16 @@ def logout(request):
     return render(request, 'stroll/logout.html')
 
 def my_profile(request):
-    return render(request, 'stroll/my_profile.html')
+    context_dict = {}
+    context_dict['profile_picture'] = "photo"
+    context_dict['total_likes'] = 50
+    context_dict['total_views'] = 100
+    context_dict['recent_walks'] = [{"thumbnail": "walk_hill", "name": "my first walk", "area": "partickwwwwwwwwwwwwwwww", "tags": "hi,hello,good".split(","), 
+                                      "difficulty": 1, "description": "Thuis is my really cool walkssssssssssssssss ssssssssssssssssssssssss ssssssssssssssssssssssssssssssssssss sssssssssssssssssssssssssssss sssssssssssssssssssssssssssss sssssssssssssssssssssssssssssssssssssssssssssssssssssssssss", "slug": "a"},
+                                      {"thumbnail": "walk_hill", "name": "my last walk", "area": "govan", "tags": "goodbye,fairwell,bad".split(","), 
+                                      "difficulty": 4, "description": "Thuis is my really bad walk", "slug": "a"},
+                                      ]
+    return render(request, 'stroll/my_profile.html', context=context_dict)
 
 def edit_profile(request):
     return render(request, 'stroll/edit_profile.html')
