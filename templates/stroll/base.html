@@ -43,12 +43,12 @@
                     </a>
                     <ul class="dropdown-menu">
                       <li><a class="dropdown-item" href="{% url 'stroll:my_profile' %}">My Account</a></li>
-                      <li><a class="dropdown-item" href="{% url 'stroll:sigout' %}">Signout</a></li>
+                      <li><a class="dropdown-item" href="{% url 'stroll:logout' %}">Signout</a></li>
                     </ul>
                   </li>
                   {% else %}
                   <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle header_text" href="{% url 'stroll:create_walk' %}" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle header_text" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Login/Signup
                     </a>
                     <ul class="dropdown-menu">

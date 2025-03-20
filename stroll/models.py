@@ -8,6 +8,8 @@ class User(models.Model):
     is_moderator = models.BooleanField(default=False)
     total_likes = models.IntegerField(default=0)
     total_views = models.IntegerField(default=0)
+    email_address = models.EmailField(default=0)
+    picture = models.ImageField(null=True, blank=True)
 
     class Meta:
         verbose_name_plural = 'Users'

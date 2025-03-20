@@ -8,33 +8,53 @@
 {% block body_block %}
 <div class="container-xxl">
     <div>
-        <div class="row">
-            <div class="col title">
-                <h1>Add Walk</h1>
-            </div>
-        </div>
-        <div class="row main_body">
-            <div class="col-lg-6 col-12" id="box">
-                <div class="row">
-                    <div class="col" id="box">
-                        Form elements here
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col" id="box">
-                        <p>Upload Thumbnail (Optional)</p>
-                        Photo upload here
-                    </div>
-                    <div class="col" id="box">
-                        <p>Upload Images (Max 4)</p>
-                        Image Upload here
-                    </div>
+        <form id="create_walk_form" method="post" action="{% url 'stroll:create_walk' %}">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col title">
+                    <h1>Add Walk</h1>
                 </div>
             </div>
-            <div class="col-lg-6 col-12" id="box">
-                Google map selector here
+            <div class="row main_body">
+                <div class="col-lg-6 col-12" id="box">
+                    <div class="row">
+                        <div class="col" id="box">
+                            Title: <input class="form-control" type="text" name="title" value="" size="30" />
+                            <br />
+                            Area: <input class="form-control" type="text" name="area" value="" size="30" />
+                            <br />
+                            description: <input class="form-control" type="text" name = "description" value="" size="1000" />
+                            <br />
+                            Length: <input class="form-control" type="number" name="length" value="" />
+                            <br />
+                            difficulty: <input class="form-control" type="number" name="difficulty" value="" size="30" />
+                            <br />
+                            Tags: <input class="form-control" type="text" name = "tags" value="" size="200" />
+                            <br />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col" id="box">
+                            <p>Upload Thumbnail (Optional)</p>
+                            Thumbnail: <input class="form-control" type="file" name="picture" value="" />
+                            <br />
+                        </div>
+                        <div class="col" id="box">
+                            <p>Upload Images (Max 4)</p>
+                            Photo: <input class="form-control" type="file" name="date_of_birth" value="" />
+                            <br />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-12" id="box">
+                    <div id="map"></div>
+                </div>
+                <div class="col">
+                    <br />
+                    <input class="form-control" type="submit" name="submit" value="Create Walk" />
+                </div>
             </div>
-        </div>
+        </form>
     </div>
 </div>
 {% endblock %}
