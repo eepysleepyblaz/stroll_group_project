@@ -9,7 +9,7 @@ class User(models.Model):
     total_likes = models.IntegerField(default=0)
     total_views = models.IntegerField(default=0)
     email_address = models.EmailField(default=0)
-    picture = models.ImageField(null=True, blank=True)
+    picture = models.ImageField(upload_to='profile_pictures/', null=True, blank=True)
 
     class Meta:
         verbose_name_plural = 'Users'
@@ -23,19 +23,19 @@ class Walk(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE) # Foreign key
     title = models.CharField(max_length=30)
     area = models.CharField(max_length=30)
-    description = models.CharField(max_length=1000)
+    description = models.CharField(max_length=1000, null=True, blank=True)
     date_published = models.DateField(auto_now_add=True)
     likes = models.IntegerField(default=0)
     views = models.IntegerField(default=0)
     difficulty = models.IntegerField(default=0)
     length = models.IntegerField(default=0)
-    thumbnail = models.ImageField(upload_to='walks/', null=True, blank=True)
-    tags = models.CharField(max_length=255)
-    gallery_image_1 = models.ImageField(upload_to='gallery/', null=True, blank=True)
-    gallery_image_2 = models.ImageField(upload_to='gallery/', null=True, blank=True)
-    gallery_image_3 = models.ImageField(upload_to='gallery/', null=True, blank=True)
-    gallery_image_4 = models.ImageField(upload_to='gallery/', null=True, blank=True)
-    map_coordinates = models.CharField(max_length=5000, null=True)
+    thumbnail = models.ImageField(upload_to='walk_photos/', null=True, blank=True)
+    tags = models.CharField(max_length=255, null=True, blank=True)
+    gallery_image_1 = models.ImageField(upload_to='walk_photos/', null=True, blank=True)
+    gallery_image_2 = models.ImageField(upload_to='walk_photos/', null=True, blank=True)
+    gallery_image_3 = models.ImageField(upload_to='walk_photos/', null=True, blank=True)
+    gallery_image_4 = models.ImageField(upload_to='walk_photos/', null=True, blank=True)
+    map_coordinates = models.CharField(max_length=5000)
 
     class Meta:
         verbose_name_plural = 'Walks'

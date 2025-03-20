@@ -9,13 +9,10 @@
       <link rel="stylesheet" type="text/css" href="{% static 'css/base_style.css' %}">
       {% block stylesheet_block %}
       {% endblock %}
+      {% block script_block %}
+      {% endblock %}
 
       <link rel="stylesheet" type="text/css" href="{% static 'css/map.css' %}">
-        <script
-            src="https://maps.googleapis.com/maps/api/js?key=blank&callback=initMap&v=weekly&libraries=geometry"
-            defer
-        ></script>
-        <script src="{% static 'js/create_walk.js' %}"></script>
 
       <meta charset="UTF-8" />
       <title>
