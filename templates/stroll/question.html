@@ -1,0 +1,72 @@
+{% extends 'stroll/base.html' %}
+{% load staticfiles %}
+{% load stroll_template_tags %}
+
+{% block stylesheet_block %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/question_page.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/comment_element.css' %}"/>
+{% endblock %}
+
+{% block title_block %}
+    {{ name }}
+{% endblock %}
+
+{% block body_block %}
+<div class="container title">
+    <h1>Question</h1>
+    if is moderator switch to have a delete button in the top corner
+</div>
+<div class="container-xxl main_body walk_text">
+    <div class="row question_screen">
+        <div class="col content_seperator">
+            <div class="row">
+                <div class="col">
+                    <div class="row">
+                        <div class="col-1 profile_photo_box">
+                            <img src="{{ MEDIA_URL }}profile_pictures/photo.png" class="profile_photo">
+                        </div>
+                        <div class="col">
+                            <div class="row" >
+                                <div class="row">
+                                    <div class="col">
+                                        <p><strong>{{ user }}</strong> • {{ date_published }}</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <p>{{ text }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-xxl main_body">
+    <div class="row question_screen comment_section">
+        <div class="col content_seperator">
+            <div class="row title" >
+                <h4>Comments</h4>
+            </div>
+            <div class="row">
+                <div class="col-lg-11 col-12">
+                    <input class="form-control" type="post" placeholder="Post Comment" aria-label="Post">
+                </div>
+                <div class="col-lg-1">
+                    <button class="btn question_button down" type="submit">Post</button> 
+                </div>
+            </div>
+            <div class="row">
+                {% for comment in comments %}
+                    <p>{% comment_element comment %}</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

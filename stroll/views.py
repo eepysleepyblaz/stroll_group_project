@@ -151,9 +151,10 @@ def show_walk(request, walk_name_slug):
 
 def questions(request):
     context_dict = {}
-    context_dict['questions'] = [{"user": "John", "date_published":12-21-2520, "title": "how do i walk", "likes": 35, "text": "how do i walk with my legs", "views": 100, "slug": "a"},
-                                 {"user": "John", "date_published":12-21-2520, "title": "yooo haso has has f asjfasks   jasfjk  ajsfkja   ajsdfassa aaaas ", "likes": 35, "text": "how do i walk with my legs", "views":500, "slug": "a"}]
+    context_dict['questions'] = [{"user": "John", "date_published":"12-21-2520", "title": "how do i walk", "likes": 35, "text": "how do i walk with my legs", "views": 100, "slug": "a"},
+                                 {"user": "John", "date_published":"12-21-2520", "title": "yooo haso has has f asjfasks   jasfjk  ajsfkja   ajsdfassa aaaas ", "likes": 35, "text": "how do i walk with my legs", "views":500, "slug": "a"}]
     return render(request, 'stroll/questions.html', context=context_dict)
 
-def show_question(request):
-    return render(request, 'stroll/show_question.html')
+def show_question(request, question_slug):
+    context_dict = {'text': 'blah blah blah lbahb bhal', "user": "emi", "date_published":"12-325-23"}
+    return render(request, 'stroll/question.html', context=context_dict)

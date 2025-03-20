@@ -17,5 +17,5 @@ urlpatterns = [
     path('search-walks/', views.search_walks, name='search_walks'),
     path('walk/<slug:walk_name_slug>/', views.show_walk, name='show_walk'),
     path('questions/', views.questions, name='questions'),
-    path('questions/<slug:question-slug>', views.show_question, name='show_question'),
+    path('questions/<slug:question_slug>', views.show_question, name='show_question'),
 ]
