@@ -12,6 +12,7 @@ class CreateWalkForm(forms.ModelForm):
     tags = forms.CharField(max_length=255, help_text="Tags:")
     thumbnail = forms.ImageField(widget=forms.ClearableFileInput(), help_text="Thumbnail")
     photo = forms.ImageField(widget=forms.ClearableFileInput(), help_text="Photo:")
+    map_coordinates = forms.CharField(max_length=5000)
 
     class Meta:
         model = Walk

@@ -27,11 +27,16 @@ function addLatLng(event) {
 
 function printLatLng( event ) {
     console.log("Coordinates:");
+    coordString = ""
     for (let i = 0; i < poly.getPath().length; i++) {
         console.log(i+": "+poly.getPath().getAt(i).lat(), poly.getPath().getAt(i).lng());
-        }
+        coordString += poly.getPath().getAt(i).lat() + "," + poly.getPath().getAt(i).lng()+"\n"
+    }
     console.log("Path Length: "+google.maps.geometry.spherical.computeLength(poly.getPath()))
     console.log("\n");
+
+    coords = document.getElementById("coordinates")
+    coords.setAttribute('value', coordString)
 }
 
 window.initMap = initMap;
