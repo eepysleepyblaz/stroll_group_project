@@ -1,0 +1,26 @@
+.about_photo {
+    width: 590px;
+}
+
+.about_photo_right {
+    text-align: right;
+}
+
+.about_photo_left {
+    text-align: left;
+}
+
+@media (max-width: 992px) { .about_photo_zoomed_in {
+    width: 300px;
+}
+}
+
+@media (max-width: 992px) { .about_photo_align_zoomed_in {
+    text-align: center;
+}
+}
+
+@media (max-width: 992px) { .zoomed_in_text_spacer {
+    padding-top: 10px;
+}
+}

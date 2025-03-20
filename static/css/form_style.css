@@ -4,7 +4,7 @@
     outline: 1px;
     outline-style: solid;
     outline-color: black;
-    background-color: #e0fff5;
+    background-color: #cae6dd;
     text-align: center;
     padding-top: 5px;
 }
@@ -14,7 +14,7 @@
     outline: 1px;
     outline-style: solid;
     outline-color: black;
-    background-color: #e0fff5;
+    background-color: #cae6dd;
     text-align: center;
     padding-top: 5px;
 }
@@ -36,5 +36,9 @@
 
 .underbox_text {
     text-align: center;
+    padding-top: 5px;
+}
+
+.sort_box {
     padding-top: 5px;
 }

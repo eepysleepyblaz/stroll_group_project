@@ -1,6 +1,10 @@
 {% extends 'stroll/base.html' %}
 {% load staticfiles %}
 
+{% block stylesheet_block %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/about.css' %}"/>
+{% endblock %}
+
 {% block title_block %}
     About Us
 {% endblock %}
@@ -13,22 +17,44 @@
     </div>
     
     <div class="container-xxl">
-        <div class="row mt-5">
+        <div class="row main_body">
         <div class="col">
             <div class="row">
-                <h3>What is Stroll</h3>
+                <h3>What is Stroll?</h3>
             </div>
             <div class="row">
                 <div class="col-lg col-12">
                     <p>Stroll is your one stop shop for all things walking. Share the walks you have done around Glasgow, search for new walks,
-                        or ask questions about the hobby, you can do it all here. 
+                        or ask questions about the hobby, you can do it all here. Imagine the last time you got back from an amazing walk and you thought to yourself, "I wish other people knew 
+                        how cool that walk was."</p> <p>Well now they can! Simply sign up and start creating walks. Using our interactive map
+                        you can select your exact route to make sure no-one misses out on any of the amazing parts of your walk. Upload a 
+                        photo for the thumbnail and fill in some information about the walk and your ready to go. Let the world know how cool your walks are!
                     </p>
                 </div>
             </div>
         </div>
-            <div class="col-lg col-12 mx-auto text-center">
-                <img src="{% static 'images/about_walk_photo.png' %}" width="500">
+            <div class="col-lg col-12 about_photo_align_zoomed_in about_photo_right">
+                <img src="{% static 'images/about_walk_photo.png' %}" class="about_photo about_photo_zoomed_in">
             </div>           
+        </div>
+        <div class="row main_body">
+            <div class="col-lg col-12 about_photo_align_zoomed_in about_photo_left">
+                <img src="{% static 'images/about_walk_photo2.png' %}" class="about_photo about_photo_zoomed_in">
+            </div>  
+            <div class="col">
+                <div class="row zoomed_in_text_spacer">
+                    <h3>But I'm new to walking!</h3>
+                </div>
+                <div class="row">
+                    <div class="col-lg col-12">
+                        <p>Don't worry if your only just getting into walking, Stroll is for everyone! And what's more than that, you can 
+                            level up your walking skills with Stroll too!</p> <p>Ask questions on our walking forum to help find out how you can improve your walking 
+                            skills with advice from other memebers of the community. Search for walks that match our skill level using our walk search feature! 
+                            And share your walks as your grow as a walker. You can do it all here!
+                        </p>
+                    </div>
+                </div>
+            </div>         
         </div>
     </div>
 {% endblock %}

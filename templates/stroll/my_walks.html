@@ -1,9 +1,48 @@
 {% extends 'stroll/base.html' %}
 {% load staticfiles %}
+{% load stroll_template_tags %}
+
+{% block stylesheet_block %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/form_style.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/question.css' %}"/>
+{% endblock %}
 
 {% block title_block %}
-    my_walks
+    My Walks
 {% endblock %}
 
 {% block body_block %}
+<div class="container-xxl">
+    <div class="row title">
+        <h1>My Walks</h1>
+    </div>
+    <div class="row main_body">
+        <div class="row content_box">
+            <div class="row">
+                <div class="col">
+                    <h4>Uploaded Walks</h4> 
+                </div>
+            </div>
+            <div class="col-xxl-3">
+                <div class="row">
+                    <div class="col">
+                        <h4>Advanced Search</h4>
+                        search form goes here
+                        maybe make it hideable when the screen is zoomed in
+                        user the form responce to update the seach_results field
+                        use ajax
+                    </div>    
+                </div>
+            </div>
+            
+            <div class="col-xxl-9 col-12">
+                {% for walk in search_results %}
+                    <div class="row walk_tile">
+                        <p>{% walk_element walk display_type="full" %}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

@@ -9,3 +9,7 @@ def walk_element(walk, display_type):
 @register.inclusion_tag('stroll/question_element.html')
 def question_element(question):
     return {"question": question}
+
+@register.inclusion_tag('stroll/comment_element.html')
+def comment_element(comment):
+    return {"comment": comment}
