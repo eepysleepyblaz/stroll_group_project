@@ -72,3 +72,12 @@ a:hover {
     outline-style: solid;
     outline-color: black;
 }
+
+.content_seperator > * {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.like_button {
+    
+}

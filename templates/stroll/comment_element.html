@@ -14,7 +14,14 @@
                     <div class="row" >
                         <div class="row">
                             <div class="col">
-                                <p><strong>{{ comment.user }}</strong> • {{ comment.date_published }}</p>
+
+                                <!-- Shows if someone who commenting is a moderator or not -->
+                                {% if comment.user.is_moderator %}
+                                    <p><strong>{{ comment.user }}</strong> (Moderator) • {{ comment.date_published }}</p>
+                                {% else %}
+                                    <p><strong>{{ comment.user }}</strong> • {{ comment.date_published }}</p>
+                                {% endif %}
+                                
                             </div>
                         </div>
                         <div class="row">
@@ -22,7 +29,7 @@
                                 <p>{{ comment.text }}</p>
                             </div>
                         </div>
-                        {% if user.is_moderator %}
+                        {% if comment.user.is_moderator %}
                             <div class="row">
                                 <div class="col d-grid">
                                     <input type="submit" class="btn delete_button" value="Delete Comment" />

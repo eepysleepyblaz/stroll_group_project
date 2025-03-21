@@ -38,7 +38,7 @@
                     <button class="btn header_button" type="submit">Search</button>
                   </form>
                 <ul class="navbar-nav ms-auto mb-lg-0">
-                  {% if user.is_authenticated %}
+                  {% if request.user.is_authenticated %}
                   <li class="nav-item">
                     <a class="nav-link header_text" href="{% url 'stroll:create_walk' %}">Create Walk</a>
                   </li>
@@ -47,7 +47,7 @@
                     <a class="nav-link header_text" href="{% url 'stroll:login' %}">Create Walk</a>
                   </li>
                   {% endif %}
-                  {% if user.is_authenticated %}
+                  {% if request.user.is_authenticated %}
                   <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle header_text" href="{% url 'stroll:create_walk' %}" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         My Account/Signout
@@ -94,6 +94,7 @@
               {% for walk in popular_walks %}
                 <div class="col-lg-2 col-0 d-none d-lg-block">
                   {% if walk != null %}
+                    <!-- Brings in the HTML required for a walk element in icon form -->
                     {% walk_element walk display_type="small" %}
                   {% endif %}
                 </div>

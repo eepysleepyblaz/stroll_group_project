@@ -7,6 +7,9 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/question.css' %}"/>
 {% endblock %}
 
+{% block script_block %}
+{% endblock %}
+
 {% block title_block %}
     Questions
 {% endblock %}
@@ -42,9 +45,6 @@
             
             <div class="col-lg-10 col-12">
                 <div class="row">
-                    
-                </div>
-                <div class="row">
                     <div class="col-lg-10 col-12">
                         <input class="form-control" type="post" placeholder="Post Question" aria-label="Post">
                     </div>
@@ -55,6 +55,7 @@
                 <div class="row">
                     {% for question in questions %}
                         <div class="col-11">
+                            <!-- Brings in the HTML required for a question element -->
                             <p>{% question_element question %}</p>
                         </div>
                     {% endfor %}

@@ -76,45 +76,25 @@
                     <div class="row">
                         <p>Difficulty: {{ difficulty }}</p>
                     </div>
+                    <div class="row">
+                        <div class="col">
+                            <p>Likes: {{ likes }}</p>
+                        </div>
+                        <div class="col">
+                            {% if request.user.is_authenticated %}
+                            <button class="btn like_button" type="submit">Like this walk</button> 
+                            {% endif %}
+                        </div>
+                    </div>
                 </div>
                 <div class="col-lg-6 col-12">
                     <p>Description: {{ description }}</p>
-                </div>
-                <div class="col-lg-1 col-6">
-                    <p>Rating:</p>
-                </div>
-                <div class="col-lg-1 col-2">
-                    <p>Give Rating:</p>
-                </div>
-                <div class="col-lg-2 col-4">
-                    rating widget
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<div class="container-xxl main_body walk_text">
-    <div class="row walk_screen comment_section">
-        <div class="col content_seperator">
-            <div class="row title" >
-                <h4>Comments</h4>
-            </div>
-            <div class="row">
-                <div class="col-lg-11 col-12">
-                    <input class="form-control" type="post" placeholder="Post Comment" aria-label="Post">
-                </div>
-                <div class="col-lg-1">
-                    <button class="btn question_button down" type="submit">Post</button> 
-                </div>
-            </div>
-            <div class="row">
-                {% for comment in comments %}
-                    <p>{% comment_element comment %}</p>
-                {% endfor %}
-            </div>
-        </div>
-    </div>
-</div>
+{% comments_section comments request.user %}
 
 {% endblock %}
