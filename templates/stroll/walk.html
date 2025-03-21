@@ -8,13 +8,13 @@
 {% endblock %}
 
 {% block title_block %}
-    {{ name }}
+    {{ walk.title }}
 {% endblock %}
 
 {% block body_block %}
 <div class="container title">
-    <h1>{{ name }}</h1>
-    <h2>By {{ user }}</h2>
+    <h1>{{ walk.title }}</h1>
+    <h2>By {{ walk.user.username }}</h2>
     {% if user.is_moderator %}
         <div class="row">
             <div class="col d-grid">
@@ -57,10 +57,10 @@
             <div class="row">
                 <div class="col-lg-6 col-12">
                     <div class="row">
-                        <p>Area: {{ area }}</p>
+                        <p>Area: {{ walk.area }}</p>
                     </div>
                     <div class="row">
-                        <p>Length: {{ length }}</p>
+                        <p>Length: {{ walk.length }}</p>
                     </div>
                     <div class="row">
                         <p>
@@ -74,11 +74,11 @@
                         </p>
                     </div>
                     <div class="row">
-                        <p>Difficulty: {{ difficulty }}</p>
+                        <p>Difficulty: {{ walk.difficulty }}</p>
                     </div>
                     <div class="row">
                         <div class="col">
-                            <p>Likes: {{ likes }}</p>
+                            <p>Likes: {{ walk.likes }}</p>
                         </div>
                         <div class="col">
                             {% if request.user.is_authenticated %}
@@ -88,7 +88,7 @@
                     </div>
                 </div>
                 <div class="col-lg-6 col-12">
-                    <p>Description: {{ description }}</p>
+                    <p>Description: {{ walk.description }}</p>
                 </div>
             </div>
         </div>

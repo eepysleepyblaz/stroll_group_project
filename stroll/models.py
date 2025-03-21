@@ -41,7 +41,7 @@ class Walk(models.Model):
         verbose_name_plural = 'Walks'
 
     def __str__(self):
-        return self.title
+        return self.title, self.area
     
 
 

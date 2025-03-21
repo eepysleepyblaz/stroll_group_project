@@ -4,7 +4,7 @@ from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from stroll.forms import UserForm, UserProfileForm
-from stroll.models import UserProfile
+from stroll.models import *
 
 from stroll.forms import CreateWalkForm
 
@@ -31,6 +31,7 @@ def about(request):
 
 def signup(request):
     registered = False
+    invalid = False
 
     if request.method == 'POST':
         user_form = UserForm(request.POST)
@@ -52,6 +53,7 @@ def signup(request):
 
             registered = True
         else:
+            invalid = True
             print(user_form.errors, profile_form.errors)
     else:
         user_form = UserForm()
@@ -59,7 +61,8 @@ def signup(request):
     
     return render(request, 'stroll/signup.html', context = {'user_form': user_form,
                                                             'profile_form':profile_form,
-                                                             'registered': registered})
+                                                             'registered': registered,
+                                                             'invalid':invalid})
 
 @login_required
 def create_walk(request):
@@ -68,6 +71,7 @@ def create_walk(request):
     if request.method == 'POST':
         form = CreateWalkForm(request.POST)
         print(request.POST.get('map_coordinates'))
+        print(request.POST.get('length'))
         
 
         if form.is_valid():
@@ -152,12 +156,15 @@ def search_walks(request):
                                       ]
     return render(request, 'stroll/search_walks.html', context=context_dict)
 
-def show_walk(request, walk_name_slug):
+def show_walk(request, walk_id):
+    walk = Walk.objects.get(id=walk_id)
+
+    context_dict = {'walk':walk}
+    context_dict['tags'] = walk.tags.split(",")
     
-    context_dict = {"user": "emi", "thumbnail": "walk_hill", "photo1": "photo", "name": "my first walk", "length": "100km", "area": "partickwwwwwwwwwwwwwwww", "tags": "hi,hello,good".split(","), 
-                                      "difficulty": 1, "description": "Thuis is my really cool walkssssssssssssssss ssssssssssssssssssssssss ssssssssssssssssssssssssssssssssssss sssssssssssssssssssssssssssss sssssssssssssssssssssssssssss sssssssssssssssssssssssssssssssssssssssssssssssssssssssssss", "slug": "a"}
+    #context_dict = {"user": "emi", "thumbnail": "walk_hill", "photo1": "photo", "name": "my first walk", "length": "100km", "area": "partickwwwwwwwwwwwwwwww", "tags": "hi,hello,good".split(","), 
+                                      #"difficulty": 1, "description": "Thuis is my really cool walkssssssssssssssss ssssssssssssssssssssssss ssssssssssssssssssssssssssssssssssss sssssssssssssssssssssssssssss sssssssssssssssssssssssssssss sssssssssssssssssssssssssssssssssssssssssssssssssssssssssss", "slug": "a"}
     context_dict['comments'] = [{"text": "Good job", "date_published": "13/20/24", "user": "jules", "profile_picture": "photo"}, {"text": "Good job2", "date_published": "13/20/242", "user": "jules2", "profile_picture": "photo"}]
-    context_dict['photos'] = ["photo", "walk_hill"]
     return render(request, 'stroll/walk.html', context=context_dict)
 
 def questions(request):

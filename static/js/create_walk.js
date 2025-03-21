@@ -38,9 +38,9 @@ function printLatLng( event ) {
     coords = document.getElementById("coordinates")
     coords.setAttribute('value', coordString)
 
-    lengthString = google.maps.geometry.spherical.computeLength(poly.getPath())
+    lengthString = parseInt(google.maps.geometry.spherical.computeLength(poly.getPath()))
     length = document.getElementById("length")
-    coords.setAttribute('value', lengthString)
+    length.setAttribute('value', lengthString)
 }
 
 window.initMap = initMap;
