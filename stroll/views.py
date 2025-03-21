@@ -3,8 +3,8 @@ from django.http import HttpResponse
 from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from stroll.forms import UserForm
-
+from stroll.forms import UserForm, UserProfileForm
+from stroll.models import UserProfile
 
 from stroll.forms import CreateWalkForm
 
@@ -34,25 +34,31 @@ def signup(request):
 
     if request.method == 'POST':
         user_form = UserForm(request.POST)
+        profile_form = UserProfileForm(request.POST)
 
-        if user_form.is_valid():
+        if user_form.is_valid() and profile_form.is_valid():
             user = user_form.save()
 
             user.set_password(user.password)
             user.save()
 
-            if 'picture' in request.FILES:
-                user.picture = request.FILES['picture']
+            profile = profile_form.save(commit=False)
+            profile.user = user
 
-            user.save()
+            if 'picture' in request.FILES:
+                profile.picture = request.FILES['picture']
+
+            profile.save()
 
             registered = True
         else:
-            print(user_form.errors)
+            print(user_form.errors, profile_form.errors)
     else:
         user_form = UserForm()
+        profile_form = UserProfileForm()
     
     return render(request, 'stroll/signup.html', context = {'user_form': user_form,
+                                                            'profile_form':profile_form,
                                                              'registered': registered})
 
 @login_required
@@ -62,9 +68,12 @@ def create_walk(request):
     if request.method == 'POST':
         form = CreateWalkForm(request.POST)
         print(request.POST.get('map_coordinates'))
+        
 
         if form.is_valid():
-            form.save(commit=True)
+            new_walk = form.save(commit=False)
+            new_walk.user = request.user
+            new_walk.save()
 
             return redirect('/stroll/')
         else:

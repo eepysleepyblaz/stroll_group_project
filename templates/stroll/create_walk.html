@@ -3,7 +3,7 @@
 
 {% block script_block %}
 <script
-    src="https://maps.googleapis.com/maps/api/js?key=blank&callback=initMap&v=weekly&libraries=geometry"
+    src="https://maps.googleapis.com/maps/api/js?key=AIRgS1Ew6hqH7ZWitoa8zRpAik&callback=initMap&v=weekly&libraries=geometry"
     defer
 ></script>
 <script src="{% static 'js/create_walk.js' %}"></script>
@@ -33,14 +33,13 @@
                             <br />
                             description: <input class="form-control" type="text" name = "description" value="" size="1000" />
                             <br />
-                            Length: <input class="form-control" type="number" name="length" value="" />
-                            <br />
                             difficulty: <input class="form-control" type="number" name="difficulty" value="" />
                             <br />
                             Tags: <input class="form-control" type="text" name = "tags" value="" size="200" />
                             <br />
 
                             <input id="coordinates" type="hidden" name = "map_coordinates" value="" size="5000" />
+                            <input id="length" type="hidden" name = "length" value="" />
                         </div>
                     </div>
                     <div class="row">

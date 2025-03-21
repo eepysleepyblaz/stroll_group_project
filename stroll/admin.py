@@ -1,17 +1,6 @@
 from django.contrib import admin
-from stroll.models import Walk, User, Question, WalkComment, QuestionComment
+from stroll.models import Walk, UserProfile, Question, WalkComment, QuestionComment
 
-
-class UserAdmin(admin.ModelAdmin):
-    list_display = ('username',
-                    'date_of_birth',
-                    'description',
-                    'password',
-                    'is_moderator',
-                    'total_likes',
-                    'total_views',
-                    'email_address',
-                    'picture',)
 
 class WalkAdmin(admin.ModelAdmin):
     list_display = ('user',
@@ -41,7 +30,7 @@ class QuestionAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Walk, WalkAdmin)
-admin.site.register(User, UserAdmin)
+admin.site.register(UserProfile)
 admin.site.register(Question, QuestionAdmin)
 admin.site.register(WalkComment)
 admin.site.register(QuestionComment)
