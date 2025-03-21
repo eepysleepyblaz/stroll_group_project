@@ -1,6 +1,14 @@
 {% extends 'stroll/base.html' %}
 {% load staticfiles %}
 
+{% block script_block %}
+<script
+    src="https://maps.googleapis.com/maps/api/js?key=AIRgS1Ew6hqH7ZWitoa8zRpAik&callback=initMap&v=weekly&libraries=geometry"
+    defer
+></script>
+<script src="{% static 'js/create_walk.js' %}"></script>
+{% endblock %}
+
 {% block title_block %}
     Create Walk
 {% endblock %}
@@ -25,23 +33,24 @@
                             <br />
                             description: <input class="form-control" type="text" name = "description" value="" size="1000" />
                             <br />
-                            Length: <input class="form-control" type="number" name="length" value="" />
-                            <br />
-                            difficulty: <input class="form-control" type="number" name="difficulty" value="" size="30" />
+                            difficulty: <input class="form-control" type="number" name="difficulty" value="" />
                             <br />
                             Tags: <input class="form-control" type="text" name = "tags" value="" size="200" />
                             <br />
+
+                            <input id="coordinates" type="hidden" name = "map_coordinates" value="" size="5000" />
+                            <input id="length" type="hidden" name = "length" value="" />
                         </div>
                     </div>
                     <div class="row">
                         <div class="col" id="box">
                             <p>Upload Thumbnail (Optional)</p>
-                            Thumbnail: <input class="form-control" type="file" name="picture" value="" />
+                            Thumbnail: <input class="form-control" type="file" accept="image/*" name="photo" />
                             <br />
                         </div>
                         <div class="col" id="box">
                             <p>Upload Images (Max 4)</p>
-                            Photo: <input class="form-control" type="file" name="date_of_birth" value="" />
+                            Photo: <input class="form-control" type="file" accept="image/*" name="thumbnail" />
                             <br />
                         </div>
                     </div>

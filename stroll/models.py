@@ -1,21 +1,21 @@
 from django.db import models
+from django.template.defaultfilters import slugify
+from django.contrib.auth.models import User
 
-class User(models.Model):
-    username = models.CharField(max_length=30)
-    date_of_birth = models.DateField(null=True, blank=True)
-    description = models.CharField(max_length=500)
-    password = models.CharField(max_length=12)
-    is_moderator = models.BooleanField(default=False)
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+
+    is_moderator = models.BooleanField(default=False, blank=True)
+    description = models.CharField(max_length=500, null=True, blank=True)
     total_likes = models.IntegerField(default=0)
     total_views = models.IntegerField(default=0)
-    email_address = models.EmailField(default=0)
-    picture = models.ImageField(null=True, blank=True)
+    picture = models.ImageField(upload_to='profile_pictures/', null=True, blank=True)
 
     class Meta:
         verbose_name_plural = 'Users'
 
     def __str__(self):
-        return self.username
+        return self.user.username
 
 
 
@@ -23,18 +23,18 @@ class Walk(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE) # Foreign key
     title = models.CharField(max_length=30)
     area = models.CharField(max_length=30)
-    description = models.CharField(max_length=1000)
+    description = models.CharField(max_length=1000, null=True, blank=True)
     date_published = models.DateField(auto_now_add=True)
     likes = models.IntegerField(default=0)
     views = models.IntegerField(default=0)
     difficulty = models.IntegerField(default=0)
     length = models.IntegerField(default=0)
-    thumbnail = models.ImageField(upload_to='walks/', null=True, blank=True)
-    tags = models.CharField(max_length=255)
-    gallery_image_1 = models.ImageField(upload_to='gallery/', null=True, blank=True)
-    gallery_image_2 = models.ImageField(upload_to='gallery/', null=True, blank=True)
-    gallery_image_3 = models.ImageField(upload_to='gallery/', null=True, blank=True)
-    gallery_image_4 = models.ImageField(upload_to='gallery/', null=True, blank=True)
+    thumbnail = models.ImageField(upload_to='walk_photos/', null=True, blank=True)
+    tags = models.CharField(max_length=255, null=True, blank=True)
+    gallery_image_1 = models.ImageField(upload_to='walk_photos/', null=True, blank=True)
+    gallery_image_2 = models.ImageField(upload_to='walk_photos/', null=True, blank=True)
+    gallery_image_3 = models.ImageField(upload_to='walk_photos/', null=True, blank=True)
+    gallery_image_4 = models.ImageField(upload_to='walk_photos/', null=True, blank=True)
     map_coordinates = models.CharField(max_length=5000, null=True)
 
     class Meta:
