@@ -28,7 +28,7 @@
                     {% endif %}
                     <div class="row">
                         {% if comments|length == 0 %}
-                            <p class="section_text">No one has left a comment yet. Be the first to comment</p>
+                            <p class="section_text">No one has left a comment yet. Be the first to comment!</p>
                         {% else %}
                             {% for comment in comments %}
                                 <p>{% comment_element comment%}</p>
