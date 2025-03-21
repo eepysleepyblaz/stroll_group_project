@@ -15,7 +15,13 @@
 <div class="container title">
     <h1>{{ name }}</h1>
     <h2>By {{ user }}</h2>
-    if is moderator switch to have a delete button in the top corner
+    {% if user.is_moderator %}
+        <div class="row">
+            <div class="col d-grid">
+                <input type="submit" class="btn delete_button" value="Delete Walk" />
+            </div>
+        </div>
+    {% endif %}
 </div>
 <div class="container-xxl main_body walk_text">
     <div class="row walk_screen">
@@ -28,15 +34,14 @@
                     <!-- This carosell is from the bootstrap website -->
                     <div id="walk_carousel" class="carousel slide">
                         <div class="carousel-inner">
-                          <div class="carousel-item active">
-                            <img src="{{ MEDIA_URL }}walk_photos/photo.png" class="d-block w-100" alt="...">
-                          </div>
-                          <div class="carousel-item">
-                            <img src="{{ MEDIA_URL }}walk_photos/walk_hill.png" class="d-block w-100" alt="...">
-                          </div>
-                          <div class="carousel-item">
-                            <img src="..." class="d-block w-100" alt="...">
-                          </div>
+                            <div class="carousel-item active">
+                                <img src="{{ MEDIA_URL }}walk_photos/{{ thumbnail }}.png" class="d-block carousel_image image" alt="A photo for the walk">
+                            </div>
+                            {% for photo in photos %}
+                                <div class="carousel-item">
+                                    <img src="{{ MEDIA_URL }}walk_photos/{{ photo }}.png" class="d-block carousel_image image" alt="A photo for the walk">
+                                </div>
+                            {% endfor %}
                         </div>
                         <button class="carousel-control-prev" type="button" data-bs-target="#walk_carousel" data-bs-slide="prev">
                           <span class="carousel-control-prev-icon" aria-hidden="true"></span>

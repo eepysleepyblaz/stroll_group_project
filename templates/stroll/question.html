@@ -8,13 +8,19 @@
 {% endblock %}
 
 {% block title_block %}
-    {{ name }}
+    {{ text }}
 {% endblock %}
 
 {% block body_block %}
 <div class="container title">
     <h1>Question</h1>
-    if is moderator switch to have a delete button in the top corner
+    {% if user.is_moderator %}
+        <div class="row">
+            <div class="col d-grid">
+                <input type="submit" class="btn delete_button" value="Delete Question" />
+            </div>
+        </div>
+    {% endif %}
 </div>
 <div class="container-xxl main_body walk_text">
     <div class="row question_screen">
@@ -22,7 +28,7 @@
             <div class="row">
                 <div class="col">
                     <div class="row">
-                        <div class="col-1 profile_photo_box">
+                        <div class="col-xxl-1 col-md-2 col-12 profile_photo_box">
                             <img src="{{ MEDIA_URL }}profile_pictures/photo.png" class="profile_photo">
                         </div>
                         <div class="col">

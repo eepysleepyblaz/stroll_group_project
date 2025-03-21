@@ -7,8 +7,8 @@
     <body>
         <div class="container-xxl">
             <div class="row" id="comment_box">
-                <div class="col-1 profile_photo_box">
-                    <img src="/media/profile_pictures/{{ comment.profile_picture }}.png" class="profile_photo">
+                <div class="col-xxl-1 col-md-2 col-12 profile_photo_box">
+                    <img src="/media/profile_pictures/{{ comment.profile_picture }}.png" class="profile_photo" alt="{{ comment.user }}'s profile picture.">
                 </div>
                 <div class="col">
                     <div class="row" >
@@ -18,10 +18,17 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col" id="question_text">
+                            <div class="col" id="comment_text">
                                 <p>{{ comment.text }}</p>
                             </div>
                         </div>
+                        {% if user.is_moderator %}
+                            <div class="row">
+                                <div class="col d-grid">
+                                    <input type="submit" class="btn delete_button" value="Delete Comment" />
+                                </div>
+                            </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>
