@@ -1,0 +1,17 @@
+.question_screen {
+    outline-width: 1px;
+    outline: 1px;
+    outline-style: solid;
+    outline-color: black;
+    background-color: #cae6dd;
+}
+
+.content_seperator > * {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.comment_section {
+    padding-left: 10px;
+    padding-right: 10px;
+}

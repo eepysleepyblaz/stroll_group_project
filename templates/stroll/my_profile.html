@@ -1,9 +1,77 @@
 {% extends 'stroll/base.html' %}
 {% load staticfiles %}
+{% load stroll_template_tags %}
+
+
+{% block stylesheet_block %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/my_profile.css' %}"/>
+{% endblock %}
 
 {% block title_block %}
     My Profile
 {% endblock %}
 
 {% block body_block %}
+<div class="container">
+    <h1 class="title">My Profile</h1>
+</div>
+<div class="container-xxl main_body">
+    <div class="row content_seperator">
+        <div class="col-lg-3 col-12 profile_card">
+            <div class="row profile_column_text">
+                <div class="col-lg-12 col-12 profile_photo_position">
+                    <img src="{{ MEDIA_URL }}profile_pictures/{{ profile_picture }}.png" class="profile_photo">
+                </div>
+                <div class="col-lg-12 col-6">
+                    <h4>Likes: {{ total_likes }}</h4>
+                </div>
+                <div class="col-lg-12 col-6">
+                    <h4>Views: {{ total_views }}</h4>
+                </div>
+                <div class="col-lg-12 col-6">
+                    <a href="{% url 'stroll:my_walks' %}"><h4>My Walks</h4></a>
+                </div>
+                <div class="col-lg-12 col-6">
+                    <a href="{% url 'stroll:my_questions' %}"><h4>My Questions</h4></a>
+                </div>
+                <div class="col-lg-12 col">
+                    <a href=""><h4>Logout</h4></a>
+                </div>
+            </div>
+            
+        </div>
+        <div class="col-lg-6 col-12">
+            <div class="row details_position details_text">
+                <div class="col-12">
+                    <h4>Username: </h4>
+                </div>
+                <div class="col-12">
+                    <h4>Email: </h4>
+                </div>
+                <div class="col-12">
+                    <h4>Date of Birth: </h4>
+                </div>
+                <div class="col-12">
+                    <h4><a href="{% url 'stroll:edit_profile' %}">Edit Profile</a></h4>
+                </div>
+                <div class="col-12">
+                    <h4><a href="">Change Password</a></h4>
+                    do js on this link to make drop down appear
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-12 ">
+            <div class="row">
+                <h4 class="title">My Recent Walks:</h4>
+            </div>
+            <div class="row">
+                {% for walk in recent_walks %}
+                    <div>
+                        <p class="row walk_position">{% walk_element walk display_type="small" %}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

@@ -1,5 +1,5 @@
 '''
-Code based on original stroll tests from the tango with django github repository
+Code based on original tests from the tango with django github repository
 at: https://github.com/tangowithcode/tango_with_django_2_code.git
 '''
 

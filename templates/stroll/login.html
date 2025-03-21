@@ -1,9 +1,49 @@
 {% extends 'stroll/base.html' %}
 {% load staticfiles %}
 
+{% block stylesheet_block %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/form_style.css' %}"/>
+{% endblock %}
+
 {% block title_block %}
     Login
 {% endblock %}
 
 {% block body_block %}
+<div class="container title">
+    <h1>Login</h1>
+</div>
+<div class="container-xxl content_box_thin main_body">
+    <div>
+        <form id="login_form" method="post" action="{% url 'stroll:login' %}">        
+            {% csrf_token %}
+            <div class="row">
+                <div class="col">
+                    <div class="row">
+                        <div class="col form_box">
+                                Username: <input class="form-control" type="text" name="username" value="" size="50" />
+                                <br />
+                                Password: <input class="form-control" type="password" name="password" value="" size="50" />
+                                <br />
+
+                                <!--currently doesn't do anything-->
+                                Stay Logged In: <input type="checkbox" name="stay_logged_in" />
+                                <br />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col d-grid">
+                    <input type="submit" class="btn submit_button" value="Login" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="row">
+    <div class="col underbox_text">
+        <a href="{% url 'stroll:signup' %}"><p>Don't have an account? Signup here</p>
+    </div>
+</div>
 {% endblock %}

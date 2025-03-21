@@ -1,9 +1,63 @@
 {% extends 'stroll/base.html' %}
 {% load staticfiles %}
 
+{% block stylesheet_block %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/form_style.css' %}"/>
+{% endblock %}
+
 {% block title_block %}
     Signup
 {% endblock %}
 
 {% block body_block %}
+
+<div class="container">
+    <div class="row title">
+        <h1>Sign Up</h1>
+    </div>
+</div>
+
+{% if registered %}
+<strong>Thanks for signing up.</strong>
+<a href="{% url 'stroll:index' %}">Return to the homepage.</a><br />
+{% else %}
+
+<div class="container-xxl content_box_thin">
+    <form id="signup_form" method="post" action="{% url 'stroll:signup' %}">        
+        {% csrf_token %}
+        <div class="row">
+            
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="row">
+                    <div class="col form_box">
+                        Username: <input class="form-control" type="text" name="username" value="" size="50" />
+                        <br />
+                        Password: <input class="form-control" type="password" name="password" value="" size="50" />
+                        <br />
+                        Email Address: <input class="form-control" type="email" name = "email" value="" size="50" />
+                        <br />
+                        Picture: <input class="form-control" type="file" name="picture" value="" />
+                        <br />
+                        Date of Birth: <input class="form-control" type="date" name="date_of_birth" value="" size="50" />
+                        <br />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col d-grid">
+                <input type="submit" class="btn submit_button" value="Sign Up" />
+            </div>
+        </div>
+    </form>
+</div>
+<div class="row">
+    <div class="col underbox_text">
+        <p>By pressing Sign Up you agree to our terms of service</p>
+        <p>tos dropdown here</p>
+    </div>
+</div>
+{% endif %}
 {% endblock %}

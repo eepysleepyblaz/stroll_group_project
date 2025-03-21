@@ -1,5 +1,5 @@
-from django.db import models
-from django.template.defaultfilters import slugify
+from django.db import models # type: ignore
+from django.template.defaultfilters import slugify # type: ignore
 
 class User(models.Model):
     username = models.CharField(max_length=30)
@@ -10,6 +10,8 @@ class User(models.Model):
     is_moderator = models.BooleanField(default=False)
     total_likes = models.IntegerField(default=0)
     total_views = models.IntegerField(default=0)
+    email_address = models.EmailField(default=0)
+    picture = models.ImageField(upload_to='profile_pictures/', null=True, blank=True)
 
     class Meta:
         verbose_name_plural = 'Users'
@@ -23,7 +25,7 @@ class Walk(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE) # Foreign key
     title = models.CharField(max_length=30)
     area = models.CharField(max_length=30)
-    description = models.CharField(max_length=1000)
+    description = models.CharField(max_length=1000, null=True, blank=True)
     date_published = models.DateField(auto_now_add=True)
     likes = models.IntegerField(default=0)
     views = models.IntegerField(default=0)
@@ -57,12 +59,6 @@ class Question(models.Model):
     views = models.IntegerField(default=0)
     title = models.CharField(max_length=100)
     text = models.CharField(max_length=300)
-    slug = models.SlugField()
-
-    def save(self, *args, **kwargs):
-        self.slug = slugify(self.title)
-        super(Question, self).save(*args, **kwargs)
-
     class Meta:
         verbose_name_plural = 'Questions'
 
