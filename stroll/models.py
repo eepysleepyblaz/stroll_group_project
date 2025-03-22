@@ -10,6 +10,7 @@ class UserProfile(models.Model):
     total_likes = models.IntegerField(default=0)
     total_views = models.IntegerField(default=0)
     profile_picture = models.ImageField(upload_to='profile_pictures/', null=True, blank=True)
+    date_of_birth = models.DateField(null=True, blank=True)
 
     class Meta:
         verbose_name_plural = 'Users'
