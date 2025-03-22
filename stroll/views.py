@@ -198,6 +198,7 @@ def show_walk(request, id):
 
     context_dict = {'walk':walk}
     context_dict['photos'] = [walk.gallery_image_1, walk.gallery_image_2, walk.gallery_image_3, walk.gallery_image_4]
+    context_dict['map_coordinates'] = walk.map_coordinates
     
     #context_dict = {"user": "emi", "thumbnail": "walk_hill", "photo1": "photo", "name": "my first walk", "length": "100km", "area": "partickwwwwwwwwwwwwwwww", "tags": "hi,hello,good".split(","), 
                                       #"difficulty": 1, "description": "Thuis is my really cool walkssssssssssssssss ssssssssssssssssssssssss ssssssssssssssssssssssssssssssssssss sssssssssssssssssssssssssssss sssssssssssssssssssssssssssss sssssssssssssssssssssssssssssssssssssssssssssssssssssssssss", "slug": "a"}
