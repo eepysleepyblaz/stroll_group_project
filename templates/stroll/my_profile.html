@@ -66,14 +66,22 @@
         </div>
         <div class="col-lg-3 col-12 ">
             <div class="row">
-                <h4 class="title">My Recent Walks:</h4>
+                <h4 class="title">
+                    {% if recent_walks %}
+                        My Recent Walks:
+                    {% else %}
+                        No Recent Walks
+                    {% endif %}
+                </h4>
             </div>
             <div class="row">
-                {% for walk in recent_walks %}
-                    <div>
-                        <p class="row walk_position">{% walk_element walk display_type="small" %}</p>
-                    </div>
-                {% endfor %}
+                {% if recent_walks %}
+                    {% for walk in recent_walks %}
+                        <div>
+                            <p class="row walk_position">{% walk_element walk display_type="small" %}</p>
+                        </div>
+                    {% endfor %}
+                {% endif %}
             </div>
         </div>
     </div>
