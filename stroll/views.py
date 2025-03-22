@@ -112,16 +112,22 @@ def user_logout(request):
 
     return redirect(reverse('stroll:home'))
 
+@login_required
 def my_profile(request):
+    user = request.user
+    try:
+        current_user_profile = UserProfile.objects.get(user=user)
+    except UserProfile.DoesNotExist:
+        current_user_profile = None
+
+    walks = Walk.objects.filter(user=current_user_profile).order_by('-date_published')
+
     context_dict = {}
-    context_dict['profile_picture'] = "photo"
-    context_dict['total_likes'] = 50
-    context_dict['total_views'] = 100
-    context_dict['recent_walks'] = [{"thumbnail": "walk_hill", "name": "my first walk", "area": "partickwwwwwwwwwwwwwwww", "tags": "hi,hello,good".split(","), 
-                                      "difficulty": 1, "description": "Thuis is my really cool walkssssssssssssssss ssssssssssssssssssssssss ssssssssssssssssssssssssssssssssssss sssssssssssssssssssssssssssss sssssssssssssssssssssssssssss sssssssssssssssssssssssssssssssssssssssssssssssssssssssssss", "slug": "a"},
-                                      {"thumbnail": "walk_hill", "name": "my last walk", "area": "govan", "tags": "goodbye,fairwell,bad".split(","), 
-                                      "difficulty": 4, "description": "Thuis is my really bad walk", "slug": "a"},
-                                      ]
+    context_dict['profile_picture'] = current_user_profile.profile_picture if current_user_profile  else "ERROR: NO USERNAME VALUE GIVEN"
+    context_dict['total_likes'] = current_user_profile.total_likes if current_user_profile  else "ERROR: NO LIKES VALUE GIVEN"
+    context_dict['total_views'] = current_user_profile.total_views if current_user_profile  else "ERROR: NO VIEWS VALUE GIVEN"
+    context_dict['recent_walks'] = walks
+        
     return render(request, 'stroll/my_profile.html', context=context_dict)
 
 def edit_profile(request):
