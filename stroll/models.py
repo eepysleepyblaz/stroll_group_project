@@ -1,6 +1,6 @@
 from django.db import models
-from django.template.defaultfilters import slugify
 from django.contrib.auth.models import User
+import os
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -14,6 +14,16 @@ class UserProfile(models.Model):
 
     class Meta:
         verbose_name_plural = 'Users'
+    
+    def delete(self,*args,**kwargs):
+        for image in [self.profile_picture]:
+            try:
+                if os.path.isfile(image.path):
+                    os.remove(image.path)
+            except ValueError:
+                pass
+
+        super(UserProfile, self).delete(*args,**kwargs)
 
     def __str__(self):
         return self.user.username
@@ -21,7 +31,7 @@ class UserProfile(models.Model):
 
 
 class Walk(models.Model):
-    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE) # Foreign key
+    user = models.ForeignKey(User, on_delete=models.CASCADE) # Foreign key
     title = models.CharField(max_length=30)
     area = models.CharField(max_length=30)
     description = models.CharField(max_length=1000, null=True, blank=True)
@@ -40,9 +50,19 @@ class Walk(models.Model):
 
     class Meta:
         verbose_name_plural = 'Walks'
+    
+    def delete(self,*args,**kwargs):
+        for image in [self.thumbnail, self.gallery_image_1, self.gallery_image_2, self.gallery_image_3, self.gallery_image_4]:
+            try:
+                if os.path.isfile(image.path):
+                    os.remove(image.path)
+            except ValueError:
+                pass
+
+        super(Walk, self).delete(*args,**kwargs)
 
     def __str__(self):
-        return self.title, self.area
+        return f"{self.title} {self.area}"
     
 
 

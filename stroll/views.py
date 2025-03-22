@@ -35,7 +35,7 @@ def signup(request):
 
     if request.method == 'POST':
         user_form = UserForm(request.POST)
-        profile_form = UserProfileForm(request.POST)
+        profile_form = UserProfileForm(request.POST, request.FILES)
 
         if user_form.is_valid() and profile_form.is_valid():
             user = user_form.save()
@@ -46,8 +46,8 @@ def signup(request):
             profile = profile_form.save(commit=False)
             profile.user = user
 
-            if 'picture' in request.FILES:
-                profile.profile_picture = request.FILES['picture']
+            if 'profile_picture' in request.FILES:
+                profile.profile_picture = request.FILES['profile_picture']
 
             profile.save()
 
@@ -67,16 +67,18 @@ def signup(request):
 @login_required
 def create_walk(request):
     form = CreateWalkForm()
-
     if request.method == 'POST':
-        form = CreateWalkForm(request.POST)
+        form = CreateWalkForm(request.POST, request.FILES)
         print(request.POST.get('map_coordinates'))
         print(request.POST.get('length'))
         
-
         if form.is_valid():
             new_walk = form.save(commit=False)
             new_walk.user = request.user
+
+            if 'thumbnail' in request.FILES:
+                new_walk.thumbnail = request.FILES['thumbnail']
+
             new_walk.save()
 
             return redirect('/stroll/')
@@ -175,11 +177,12 @@ def show_walk(request, walk_id):
 
     context_dict = {'walk':walk}
     context_dict['tags'] = walk.tags.split(",")
+    context_dict['photos'] = [walk.gallery_image_1, walk.gallery_image_2, walk.gallery_image_3, walk.gallery_image_4]
     
     #context_dict = {"user": "emi", "thumbnail": "walk_hill", "photo1": "photo", "name": "my first walk", "length": "100km", "area": "partickwwwwwwwwwwwwwwww", "tags": "hi,hello,good".split(","), 
                                       #"difficulty": 1, "description": "Thuis is my really cool walkssssssssssssssss ssssssssssssssssssssssss ssssssssssssssssssssssssssssssssssss sssssssssssssssssssssssssssss sssssssssssssssssssssssssssss sssssssssssssssssssssssssssssssssssssssssssssssssssssssssss", "slug": "a"}
     context_dict['comments'] = [{"text": "Good job", "date_published": "13/20/24", "user": "jules", "profile_picture": "photo"}, {"text": "Good job2", "date_published": "13/20/242", "user": "jules2", "profile_picture": "photo"}]
-    return render(request, 'stroll/walk.html', context=context_dict)
+    return render(request, 'stroll/show_walk.html', context=context_dict)
 
 def questions(request):
     context_dict = {}

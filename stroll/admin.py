@@ -3,7 +3,8 @@ from stroll.models import Walk, UserProfile, Question, WalkComment, QuestionComm
 
 
 class WalkAdmin(admin.ModelAdmin):
-    list_display = ('user',
+    list_display = ('id',
+                    'user',
                     'title',
                     'area',
                     'description',
@@ -19,6 +20,9 @@ class WalkAdmin(admin.ModelAdmin):
                     'gallery_image_3',
                     'gallery_image_4',
                     'map_coordinates',)
+    def delete_queryset(self, request, queryset):
+        for x in queryset:
+            x.delete()
 
 class QuestionAdmin(admin.ModelAdmin):
     list_display = ('user',
@@ -26,11 +30,14 @@ class QuestionAdmin(admin.ModelAdmin):
                     'title',
                     'text',)
     
-
+class UserProfileAdmin(admin.ModelAdmin):
+    def delete_queryset(self, request, queryset):
+        for x in queryset:
+            x.delete()
 
 
 admin.site.register(Walk, WalkAdmin)
-admin.site.register(UserProfile)
+admin.site.register(UserProfile, UserProfileAdmin)
 admin.site.register(Question, QuestionAdmin)
 admin.site.register(WalkComment)
 admin.site.register(QuestionComment)

@@ -35,16 +35,8 @@ Please check validity of input
             <div class="col">
                 <div class="row">
                     <div class="col form_box">
-                        Username: <input class="form-control" type="text" name="username" value="" size="50" />
-                        <br />
-                        Password: <input class="form-control" type="password" name="password" value="" size="50" />
-                        <br />
-                        Email Address: <input class="form-control" type="email" name = "email" value="" size="50" />
-                        <br />
-                        Picture: <input class="form-control" type="file" name="picture" value="" />
-                        <br />
-                        Date of Birth: <input class="form-control" type="date" name="date_of_birth" value="" size="50" />
-                        <br />
+                        {{ user_form.as_p }}
+                        {{ profile_form.as_p }}
                     </div>
                 </div>
             </div>
