@@ -1,7 +1,4 @@
 
-#comment_text {
-    
-}
 
 #comment_box {
     margin-left: 4px;
@@ -25,4 +22,9 @@
     margin-top: 5px;
     margin-bottom: 20px;
     margin-right: 15px;
+    margin-left: 15px;
+}
+
+.comment_text {
+    word-wrap: break-word;
 }

@@ -3,8 +3,8 @@ from django.http import HttpResponse
 from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from stroll.forms import UserForm
-
+from stroll.forms import UserForm, UserProfileForm
+from stroll.models import *
 
 from stroll.forms import CreateWalkForm
 
@@ -31,29 +31,38 @@ def about(request):
 
 def signup(request):
     registered = False
+    invalid = False
 
     if request.method == 'POST':
         user_form = UserForm(request.POST)
+        profile_form = UserProfileForm(request.POST)
 
-        if user_form.is_valid():
+        if user_form.is_valid() and profile_form.is_valid():
             user = user_form.save()
 
             user.set_password(user.password)
             user.save()
 
-            if 'picture' in request.FILES:
-                user.picture = request.FILES['picture']
+            profile = profile_form.save(commit=False)
+            profile.user = user
 
-            user.save()
+            if 'picture' in request.FILES:
+                profile.picture = request.FILES['picture']
+
+            profile.save()
 
             registered = True
         else:
-            print(user_form.errors)
+            invalid = True
+            print(user_form.errors, profile_form.errors)
     else:
         user_form = UserForm()
+        profile_form = UserProfileForm()
     
     return render(request, 'stroll/signup.html', context = {'user_form': user_form,
-                                                             'registered': registered})
+                                                            'profile_form':profile_form,
+                                                             'registered': registered,
+                                                             'invalid':invalid})
 
 @login_required
 def create_walk(request):
@@ -62,9 +71,13 @@ def create_walk(request):
     if request.method == 'POST':
         form = CreateWalkForm(request.POST)
         print(request.POST.get('map_coordinates'))
+        print(request.POST.get('length'))
+        
 
         if form.is_valid():
-            form.save(commit=True)
+            new_walk = form.save(commit=False)
+            new_walk.user = request.user
+            new_walk.save()
 
             return redirect('/stroll/')
         else:
@@ -139,13 +152,28 @@ def search_walks(request):
                                       ]
     return render(request, 'stroll/search_walks.html', context=context_dict)
 
+<<<<<<< HEAD
 def show_walk(request, walk_name_slug):
     return render(request, 'stroll/show_walk.html')
+=======
+def show_walk(request, walk_id):
+    walk = Walk.objects.get(id=walk_id)
+
+    context_dict = {'walk':walk}
+    context_dict['tags'] = walk.tags.split(",")
+    
+    #context_dict = {"user": "emi", "thumbnail": "walk_hill", "photo1": "photo", "name": "my first walk", "length": "100km", "area": "partickwwwwwwwwwwwwwwww", "tags": "hi,hello,good".split(","), 
+                                      #"difficulty": 1, "description": "Thuis is my really cool walkssssssssssssssss ssssssssssssssssssssssss ssssssssssssssssssssssssssssssssssss sssssssssssssssssssssssssssss sssssssssssssssssssssssssssss sssssssssssssssssssssssssssssssssssssssssssssssssssssssssss", "slug": "a"}
+    context_dict['comments'] = [{"text": "Good job", "date_published": "13/20/24", "user": "jules", "profile_picture": "photo"}, {"text": "Good job2", "date_published": "13/20/242", "user": "jules2", "profile_picture": "photo"}]
+    return render(request, 'stroll/walk.html', context=context_dict)
+>>>>>>> 2a8e76788926d2402964bf21500bf6a6ab80b39f
 
 def questions(request):
     context_dict = {}
-    context_dict['questions'] = [{"user": "John", "date_published":"12-21-2520", "title": "how do i walk", "likes": 35, "text": "how do i walk with my legs", "views": 100, "slug": "a"},
-                                 {"user": "John", "date_published":"12-21-2520", "title": "yooo haso has has f asjfasks   jasfjk  ajsfkja   ajsdfassa aaaas ", "likes": 35, "text": "how do i walk with my legs", "views":500, "slug": "a"}]
+    context_dict['questions'] = [{"user": "John", "date_published":"12-21-2520", "title": "how do i walk", "likes": 50, "text": "how do i walk with my legs", "views": 100, "slug": "a"},
+                                 {"user": "John", "date_published":"12-21-2520", "title": "yooo haso has has f asjfasks   jasfjk  ajsfkja   ajsdfassa aaaas ", "likes": 35, "text": "how do i walk with my legs", "views":500, "slug": "a"},
+                                 {"user": "John", "date_published":"12-21-2520", "title": "yooo haso has has f asjfasks   jasfjk  ajsfkja   ajsdfassa aaaas ", "likes": 100, "text": "how do i walk with my legs", "views":500, "slug": "a"}]
+
     return render(request, 'stroll/questions.html', context=context_dict)
 
 def show_question(request, question_slug):

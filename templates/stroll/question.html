@@ -8,13 +8,19 @@
 {% endblock %}
 
 {% block title_block %}
-    {{ name }}
+    {{ text }}
 {% endblock %}
 
 {% block body_block %}
 <div class="container title">
     <h1>Question</h1>
-    if is moderator switch to have a delete button in the top corner
+    {% if user.is_moderator %}
+        <div class="row">
+            <div class="col d-grid">
+                <input type="submit" class="btn delete_button" value="Delete Question" />
+            </div>
+        </div>
+    {% endif %}
 </div>
 <div class="container-xxl main_body walk_text">
     <div class="row question_screen">
@@ -22,14 +28,19 @@
             <div class="row">
                 <div class="col">
                     <div class="row">
-                        <div class="col-1 profile_photo_box">
+                        <div class="col-xxl-1 col-md-2 col-12 profile_photo_box">
                             <img src="{{ MEDIA_URL }}profile_pictures/photo.png" class="profile_photo">
                         </div>
                         <div class="col">
                             <div class="row" >
                                 <div class="row">
                                     <div class="col">
-                                        <p><strong>{{ user }}</strong> • {{ date_published }}</p>
+                                        <!-- Shows if the person asking the question is a moderator or not -->
+                                        {% if request.user.is_moderator %}
+                                            <p><strong>{{ comment.user }}</strong> (Moderator) • {{ comment.date_published }}</p>
+                                        {% else %}
+                                            <p><strong>{{ comment.user }}</strong> • {{ comment.date_published }}</p>
+                                        {% endif %}
                                     </div>
                                 </div>
                                 <div class="row">
@@ -46,27 +57,6 @@
     </div>
 </div>
 
-<div class="container-xxl main_body">
-    <div class="row question_screen comment_section">
-        <div class="col content_seperator">
-            <div class="row title" >
-                <h4>Comments</h4>
-            </div>
-            <div class="row">
-                <div class="col-lg-11 col-12">
-                    <input class="form-control" type="post" placeholder="Post Comment" aria-label="Post">
-                </div>
-                <div class="col-lg-1">
-                    <button class="btn question_button down" type="submit">Post</button> 
-                </div>
-            </div>
-            <div class="row">
-                {% for comment in comments %}
-                    <p>{% comment_element comment %}</p>
-                {% endfor %}
-            </div>
-        </div>
-    </div>
-</div>
+{% comments_section comments request.user %}
 
 {% endblock %}

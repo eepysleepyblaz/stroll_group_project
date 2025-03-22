@@ -7,6 +7,10 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/question.css' %}"/>
 {% endblock %}
 
+{% block script_block %}
+    <script src="{% static 'js/sort_data.js' %}"></script>
+{% endblock %}
+
 {% block title_block %}
     Questions
 {% endblock %}
@@ -25,25 +29,22 @@
             </div>
             <div class="col-lg-2">
                 <div class="row">
-                    <div class="col-lg-12 col-3">
+                    <div class="col-lg-12 col-sm-3 col-12">
                         <h5>Sort By:</h5>
                     </div>
-                    <div class="col-lg-12 col-3">
-                        <button class="btn sort_button" type="submit">Likes</button> 
+                    <div class="col-lg-12 col-sm-3 col-4">
+                        <button class="btn sort_button" type="button" onclick="sortBy(question, 'likes')">Likes</button> 
                     </div>
-                    <div class="col-lg-12 col-3">
-                        <button class="btn sort_button" type="submit">Views</button> 
+                    <div class="col-lg-12 col-sm-3 col-4">
+                        <button class="btn sort_button" type="button">Views</button> 
                     </div>
-                    <div class="col-lg-12 col-3">
-                        <button class="btn sort_button" type="submit">Newest</button> 
+                    <div class="col-lg-12 col-sm-3 col-4">
+                        <button class="btn sort_button" type="button">Newest</button> 
                     </div>    
                 </div>
             </div>
             
             <div class="col-lg-10 col-12">
-                <div class="row">
-                    
-                </div>
                 <div class="row">
                     <div class="col-lg-10 col-12">
                         <input class="form-control" type="post" placeholder="Post Question" aria-label="Post">
@@ -52,9 +53,10 @@
                         <button class="btn question_button down" type="submit">Post</button> 
                     </div>
                 </div>
-                <div class="row">
+                <div class="row" id="sortable">
                     {% for question in questions %}
                         <div class="col-11">
+                            <!-- Brings in the HTML required for a question element -->
                             <p>{% question_element question %}</p>
                         </div>
                     {% endfor %}

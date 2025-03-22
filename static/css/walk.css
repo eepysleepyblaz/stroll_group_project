@@ -3,7 +3,8 @@
 }
 
 .carousel_image {
-    width: 550px;
+    width: 600px;
+    height: 450px;
 }
 
 .walk_screen {
@@ -23,3 +24,14 @@
     padding-left: 10px;
     padding-right: 10px;
 }
+
+.delete_button {
+    margin-bottom: 10px;
+    background-color: rgb(216, 0, 0);
+}
+
+.delete_button:hover {
+    margin-bottom: 10px;
+    background-color: rgba(202, 0, 0, 0.482);
+}
+

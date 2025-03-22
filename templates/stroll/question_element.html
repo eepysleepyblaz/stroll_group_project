@@ -14,7 +14,7 @@
                                 <dl>
                                     <dt><small>Likes: {{ question.likes }}</small></dt>
                                     <dt><small>Views: {{ question.views }}</small></dt>
-                                    <dt><small>Comments: number</small></dt>
+                                    <dt><small>Comments: {{ question.comments_count }}</small></dt>
                                 </dl>
                             </div>
                         </div>
@@ -24,7 +24,7 @@
                         
                     </div>
                     <div class="col" id="question_text">
-                        <h4>{{ question.title }}</h4>
+                        <h4>{{ question.text }}</h4>
                     </div>
                 </div>
             </a>

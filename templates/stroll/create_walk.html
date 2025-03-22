@@ -3,7 +3,7 @@
 
 {% block script_block %}
 <script
-    src="https://maps.googleapis.com/maps/api/js?key=blank&callback=initMap&v=weekly&libraries=geometry"
+    src="https://maps.googleapis.com/maps/api/js?key=ARpAik&callback=initMap&v=weekly&libraries=geometry"
     defer
 ></script>
 <script src="{% static 'js/create_walk.js' %}"></script>
@@ -28,19 +28,23 @@
                     <div class="row">
                         <div class="col" id="box">
                             Title: <input class="form-control" type="text" name="title" value="" size="30" />
+                            {{ form.title.errors }}
                             <br />
                             Area: <input class="form-control" type="text" name="area" value="" size="30" />
+                            {{ form.area.errors }}
                             <br />
                             description: <input class="form-control" type="text" name = "description" value="" size="1000" />
+                            {{ form.description.errors }}
                             <br />
-                            Length: <input class="form-control" type="number" name="length" value="" />
-                            <br />
-                            difficulty: <input class="form-control" type="number" name="difficulty" value="" />
+                            Difficulty: <input class="form-control" type="number" name="difficulty" value="" />
+                            {{ form.difficulty.errors }}
                             <br />
                             Tags: <input class="form-control" type="text" name = "tags" value="" size="200" />
+                            {{ form.tags.errors }}
                             <br />
 
                             <input id="coordinates" type="hidden" name = "map_coordinates" value="" size="5000" />
+                            <input id="length" type="hidden" name = "length" value="" size="200" />
                         </div>
                     </div>
                     <div class="row">

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+{% load stroll_template_tags %}
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="{% static 'css/comments_section.css' %}"/>
+    </head>
+    <body>
+        <div class="container-xxl main_body">
+            <div class="row screen comment_section">
+                <div class="col content_seperator">
+                    <div class="row title" >
+                        <h4>Comments</h4>
+                    </div>
+                    {% if user.is_authenticated %}
+                        <div class="row">
+                            <div class="col-lg-11 col-12">
+                                <input class="form-control" type="post" placeholder="Post Comment" aria-label="Post">
+                            </div>
+                            <div class="col-lg-1">
+                                <button class="btn question_button down" type="submit">Post</button> 
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="row section_text">
+                            <a href="{% url 'stroll:login' %}"><p>Log in to be able to post comments</p></a>
+                        </div>
+                    {% endif %}
+                    <div class="row">
+                        {% if comments|length == 0 %}
+                            <p class="section_text">No one has left a comment yet. Be the first to comment!</p>
+                        {% else %}
+                            {% for comment in comments %}
+                                <p>{% comment_element comment%}</p>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
+
