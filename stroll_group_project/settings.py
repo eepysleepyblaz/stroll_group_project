@@ -131,3 +131,7 @@ MEDIA_URL = '/media/'
 
 STATICFILES_DIRS = [STATIC_DIR, ]
 STATIC_URL = '/static/'
+
+
+# Authentication settings
+#AUTH_USER_MODEL = 'stroll.UserProfile'

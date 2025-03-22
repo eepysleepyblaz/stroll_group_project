@@ -9,7 +9,7 @@ class UserProfile(models.Model):
     description = models.CharField(max_length=500, null=True, blank=True)
     total_likes = models.IntegerField(default=0)
     total_views = models.IntegerField(default=0)
-    picture = models.ImageField(upload_to='profile_pictures/', null=True, blank=True)
+    profile_picture = models.ImageField(upload_to='profile_pictures/', null=True, blank=True)
 
     class Meta:
         verbose_name_plural = 'Users'
@@ -20,7 +20,7 @@ class UserProfile(models.Model):
 
 
 class Walk(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE) # Foreign key
+    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE) # Foreign key
     title = models.CharField(max_length=30)
     area = models.CharField(max_length=30)
     description = models.CharField(max_length=1000, null=True, blank=True)
@@ -46,7 +46,7 @@ class Walk(models.Model):
 
 
 class Question(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE) # Foreign key
+    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE) # Foreign key
     date_published = models.DateField(auto_now_add=True)
     likes = models.IntegerField(default=0)
     views = models.IntegerField(default=0)
@@ -62,7 +62,7 @@ class Question(models.Model):
 
 class WalkComment(models.Model):
     walk = models.ForeignKey(Walk, on_delete=models.CASCADE) # Foreign key
-    user = models.ForeignKey(User, on_delete=models.CASCADE) # Foreign key
+    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE) # Foreign key
     date_published = models.DateField(auto_now_add=True)
     text = models.CharField(max_length=300)
 
@@ -76,7 +76,7 @@ class WalkComment(models.Model):
 
 class QuestionComment(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE) # Foreign key
-    user = models.ForeignKey(User, on_delete=models.CASCADE) # Foreign key
+    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE) # Foreign key
     date_published = models.DateField(auto_now_add=True)
     text = models.CharField(max_length=300)
 
