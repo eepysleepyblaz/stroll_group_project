@@ -64,7 +64,7 @@
                     </div>
                     <div class="row">
                         <p>
-                            Tags: {% for tag in tags %}
+                            Tags: {% for tag in walk.tags_as_list %}
                                     {% if not forloop.last %}
                                         {{ tag }}, 
                                     {% else %}

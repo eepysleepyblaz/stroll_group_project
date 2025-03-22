@@ -113,10 +113,11 @@ LOGIN_URL = 'stroll:login'
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'en-GB'
 
 TIME_ZONE = 'UTC'
 
+DATE_INPUT_FORMATS = ('%d/%m/%Y')
 USE_I18N = True
 
 USE_L10N = True

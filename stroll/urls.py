@@ -16,7 +16,7 @@ urlpatterns = [
     path('my-profile/my-walks/', views.my_walks, name='my_walks'),
     path('my-profile/my-questions/', views.my_questions, name='my_questions'),
     path('search-walks/', views.search_walks, name='search_walks'),
-    path('walk/<walk_id>/', views.show_walk, name='show_walk'),
+    path('walk/<id>/', views.show_walk, name='show_walk'),
     path('questions/', views.questions, name='questions'),
-    path('questions/<slug:question_slug>', views.show_question, name='show_question'),
+    path('questions/<slug:id>', views.show_question, name='show_question'),
 ]
