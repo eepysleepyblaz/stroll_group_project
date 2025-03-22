@@ -26,7 +26,7 @@ Please check validity of input
 {% else %}
 
 <div class="container-xxl content_box_thin">
-    <form id="signup_form" method="post" action="{% url 'stroll:signup' %}">        
+    <form id="signup_form" method="post" action="{% url 'stroll:signup' %}" enctype="multipart/form-data">        
         {% csrf_token %}
         <div class="row">
             

@@ -47,7 +47,7 @@ def signup(request):
             profile.user = user
 
             if 'picture' in request.FILES:
-                profile.picture = request.FILES['picture']
+                profile.profile_picture = request.FILES['picture']
 
             profile.save()
 
