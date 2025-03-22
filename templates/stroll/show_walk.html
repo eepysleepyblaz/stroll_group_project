@@ -8,15 +8,7 @@
 {% endblock %}
 
 {% block title_block %}
-<<<<<<< HEAD:templates/stroll/show_walk.html
-<<<<<<< HEAD:templates/stroll/show_walk.html
-    Walk - {{ walk_name }}
-=======
-    {{ name }}
->>>>>>> 4f391acdfc2997df88632819482a092161bb6af0:templates/stroll/walk.html
-=======
     {{ walk.title }}
->>>>>>> 2a8e76788926d2402964bf21500bf6a6ab80b39f:templates/stroll/walk.html
 {% endblock %}
 
 {% block body_block %}
@@ -89,6 +81,7 @@
                             <p>Likes: {{ walk.likes }}</p>
                         </div>
                         <div class="col">
+                            <!-- If walk is liked, add 1 to walk liked and to the likes of the user who made the walk -->
                             {% if request.user.is_authenticated %}
                             <button class="btn like_button" type="submit">Like this walk</button> 
                             {% endif %}

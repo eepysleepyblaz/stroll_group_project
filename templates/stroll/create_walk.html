@@ -3,7 +3,7 @@
 
 {% block script_block %}
 <script
-    src="https://maps.googleapis.com/maps/api/js?key=ARpAik&callback=initMap&v=weekly&libraries=geometry"
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD7pRy7CrLRgS1Ew6hqH7ZWitoa8zRpAik&callback=initMap&v=weekly&libraries=geometry"
     defer
 ></script>
 <script src="{% static 'js/create_walk.js' %}"></script>
@@ -16,7 +16,7 @@
 {% block body_block %}
 <div class="container-xxl">
     <div>
-        <form id="create_walk_form" method="post" action="{% url 'stroll:create_walk' %}">
+        <form id="create_walk_form" method="post" action="{% url 'stroll:create_walk' %}" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="row">
                 <div class="col title">
@@ -43,6 +43,10 @@
                             {{ form.tags.errors }}
                             <br />
 
+                            {% for hidden in form.hidden_fields %}
+            {{ hidden }}
+        {% endfor %}
+
                             <input id="coordinates" type="hidden" name = "map_coordinates" value="" size="5000" />
                             <input id="length" type="hidden" name = "length" value="" size="200" />
                         </div>
@@ -50,12 +54,17 @@
                     <div class="row">
                         <div class="col" id="box">
                             <p>Upload Thumbnail (Optional)</p>
-                            Thumbnail: <input class="form-control" type="file" accept="image/*" name="photo" />
-                            <br />
+                            {{ form.thumbnail }}
                         </div>
                         <div class="col" id="box">
                             <p>Upload Images (Max 4)</p>
-                            Photo: <input class="form-control" type="file" accept="image/*" name="thumbnail" />
+                            Photo: <input class="form-control" type="file" accept="image/*" name="gallery_image_1" />
+                            <br />
+                            Photo: <input class="form-control" type="file" accept="image/*" name="gallery_image_2" />
+                            <br />
+                            Photo: <input class="form-control" type="file" accept="image/*" name="gallery_image_3" />
+                            <br />
+                            Photo: <input class="form-control" type="file" accept="image/*" name="gallery_image_4" />
                             <br />
                         </div>
                     </div>
