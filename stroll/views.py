@@ -152,10 +152,6 @@ def search_walks(request):
                                       ]
     return render(request, 'stroll/search_walks.html', context=context_dict)
 
-<<<<<<< HEAD
-def show_walk(request, walk_name_slug):
-    return render(request, 'stroll/show_walk.html')
-=======
 def show_walk(request, walk_id):
     walk = Walk.objects.get(id=walk_id)
 
@@ -166,7 +162,6 @@ def show_walk(request, walk_id):
                                       #"difficulty": 1, "description": "Thuis is my really cool walkssssssssssssssss ssssssssssssssssssssssss ssssssssssssssssssssssssssssssssssss sssssssssssssssssssssssssssss sssssssssssssssssssssssssssss sssssssssssssssssssssssssssssssssssssssssssssssssssssssssss", "slug": "a"}
     context_dict['comments'] = [{"text": "Good job", "date_published": "13/20/24", "user": "jules", "profile_picture": "photo"}, {"text": "Good job2", "date_published": "13/20/242", "user": "jules2", "profile_picture": "photo"}]
     return render(request, 'stroll/walk.html', context=context_dict)
->>>>>>> 2a8e76788926d2402964bf21500bf6a6ab80b39f
 
 def questions(request):
     context_dict = {}
