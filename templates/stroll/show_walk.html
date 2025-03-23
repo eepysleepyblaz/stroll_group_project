@@ -71,14 +71,14 @@
             <div class="row">
                 <div class="col-lg-6 col-12">
                     <div class="row">
-                        <p>Area: {{ walk.area }}</p>
+                        <p><strong>Area:</strong> {{ walk.area }}</p>
                     </div>
                     <div class="row">
-                        <p>Length: {{ walk.length }}m</p>
+                        <p><strong>Length:</strong> {{ walk.length }}m</p>
                     </div>
                     <div class="row">
                         <p>
-                            Tags: {% for tag in walk.tags_as_list %}
+                            <strong>Tags:</strong> {% for tag in walk.tags_as_list %}
                                     {% if not forloop.last %}
                                         {{ tag }}, 
                                     {% else %}
@@ -88,11 +88,11 @@
                         </p>
                     </div>
                     <div class="row">
-                        <p>Difficulty: {{ walk.difficulty }}</p>
+                        <p><strong>Difficulty:</strong> {{ walk.difficulty }}</p>
                     </div>
                     <div class="row">
                         <div class="col">
-                            <p>Likes: {{ walk.likes }}</p>
+                            <p><strong>Likes:</strong> {{ walk.likes }}</p>
                         </div>
                         <div class="col">
                             <!-- If walk is liked, add 1 to walk liked and to the likes of the user who made the walk -->
@@ -103,7 +103,7 @@
                     </div>
                 </div>
                 <div class="col-lg-6 col-12">
-                    <p>Description: {{ walk.description }}</p>
+                    <p><strong>Description:</strong> {{ walk.description }}</p>
                 </div>
             </div>
         </div>

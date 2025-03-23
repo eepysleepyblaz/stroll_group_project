@@ -16,3 +16,8 @@
     align-items: center;
     justify-content: center;
 }
+
+@media (min-width: 992px) { .walk_thumbnail {
+    height: 200px;
+}
+}
