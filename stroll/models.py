@@ -73,13 +73,12 @@ class Question(models.Model):
     date_published = models.DateField(auto_now_add=True)
     likes = models.IntegerField(default=0)
     views = models.IntegerField(default=0)
-    title = models.CharField(max_length=100)
-    text = models.CharField(max_length=300)
+    question = models.CharField(max_length=100)
     class Meta:
         verbose_name_plural = 'Questions'
 
     def __str__(self):
-        return self.title
+        return self.question
 
 
 
@@ -87,13 +86,13 @@ class WalkComment(models.Model):
     walk = models.ForeignKey(Walk, on_delete=models.CASCADE) # Foreign key
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE) # Foreign key
     date_published = models.DateField(auto_now_add=True)
-    text = models.CharField(max_length=300)
+    comment = models.CharField(max_length=300)
 
     class Meta:
         verbose_name_plural = 'Walk Comments'
 
     def __str__(self):
-        return self.text
+        return self.comment
 
 
 
@@ -101,10 +100,10 @@ class QuestionComment(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE) # Foreign key
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE) # Foreign key
     date_published = models.DateField(auto_now_add=True)
-    text = models.CharField(max_length=300)
+    comment = models.CharField(max_length=300)
 
     class Meta:
         verbose_name_plural = 'Question Comments'
 
     def __str__(self):
-        return self.text
+        return self.comment
