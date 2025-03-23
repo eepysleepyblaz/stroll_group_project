@@ -163,11 +163,11 @@ def populate():
     for user_profile in UserProfile.objects.all():
         for walk in Walk.objects.filter(user=user_profile.user):
             for walk_comment in WalkComment.objects.filter(walk=walk):
-                print(f'- {user_profile}:\n     Walk: {walk}:\n     {walk_comment} comment made by {walk_comment.user}')
+                print(f'- {user_profile}:\n     Walk: {walk}\n     Comment: {walk_comment} comment made by {walk_comment.user}\n')
 
         for question in Question.objects.filter(user=user_profile):
             for question_comment in QuestionComment.objects.filter(question=question):
-                print(f'- {user_profile}:\n     Questoin: {question}:\n     {question_comment} comment made by {question_comment.user}')
+                print(f'- {user_profile}:\n     Questoin: {question}\n     Comment: {question_comment} comment made by {question_comment.user}\n')
 
 
 def add_question_comment_helper(user_profile, question, user_index, users):
