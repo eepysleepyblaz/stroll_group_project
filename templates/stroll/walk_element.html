@@ -17,7 +17,7 @@
                 <div class="col-lg-9">
                     <div class="card-body">
                         <div class="col">
-                        <h4 class="card-title">{{ walk.name }}</h4>
+                        <h4 class="card-title">{{ walk.title }}</h4>
                         <dl class="card-text">
                             <dt><small>Area: {{ walk.area }}</small></dt>
                             <dt><small>Tags: {% for tag in walk.tags %}
@@ -47,10 +47,10 @@
             <div class="card text-center walk_card">
                 <div class="row">
                     <!-- This doesn't use the media url as this can't see that variable -->
-                    <img src="/media/walk_photos/{{ walk.thumbnail }}.png" class="img-fluid rounded" width="150" alt="{{ walk.name }}'s thumbnail">
+                    <img src="{{ walk.thumbnail.url }}" class="img-fluid rounded" width="150" alt="{{ walk.title }}'s thumbnail">
                     <div>
                         <div class="card-body">
-                            <h8 class="card-title">{{ walk.name }}</h8>
+                            <h8 class="card-title">{{ walk.title }}</h8>
                         </div>
                     </div>
                 </div>

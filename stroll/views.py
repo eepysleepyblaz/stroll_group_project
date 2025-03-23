@@ -136,11 +136,12 @@ def my_profile(request):
                 walk_information = {}
                 walk_information['thumbnail'] = walk.thumbnail
                 walk_information['area'] = walk.area
+                walk_information['title'] = walk.title
                 walk_information['tags'] = walk.tags.split(',') # Must be formatted: 'tag1,tag2,tag3...'
                 walk_information['difficulty'] = str(walk.difficulty)
                 walk_information['desciption'] = walk.description
                 walk_information['slug'] = 'a'
-                walk_information.append(walks_list)
+                walks_list.append(walk_information)
 
         if current_user_profile == None:
             context_dict = {}
