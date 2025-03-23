@@ -38,30 +38,27 @@ def populate():
     ]
 
     questions = [
-        {'title':'What are some good walks around Govan?',
-        'text':'Heard about this neighbourhood, is there anything to do around there?'},
+        {'question':'What are some good walks around Govan?'},
 
-        {'title':'Can anyone recommend some shoes for long walks?',
-        'text':"current shoes aren't fit for the task"},
+        {'question':'Can anyone recommend some shoes for long walks?'},
 
-        {'title':'Where can I go for more nature walks?',
-        'text':'Ideally a place with many fields and trees please'},
+        {'question':'Where can I go for more nature walks?'},
     ]
 
     walk_comments = [
-        {'text':'nice walk'},
+        {'comment':'nice walk'},
 
-        {'text':'There is another way you can take, has some interesting shops.'},
+        {'comment':'There is another way you can take, has some interesting shops.'},
 
-        {'text':"try going to glasgow green, it's not too far"},
+        {'comment':"try going to glasgow green, it's not too far"},
     ]
 
     question_comments = [
-        {'text':'Try going along the river'},
+        {'comment':'Try going along the river'},
 
-        {'text':'any quality hiking shoes/boots will be enough'},
+        {'comment':'any quality hiking shoes/boots will be enough'},
 
-        {'text':'here: *link to walk in nature*'},
+        {'comment':'try walking east along river clyde'},
     ]
 
     # ellie1:
@@ -88,8 +85,7 @@ def populate():
         'is_moderator':False,
         'walks':[walks[2]],
         'questions':[questions[1]],
-        'comments':[walk_comments[0], question_comments[2]],
-        'commented_on':[walks[0], questions[2]]},
+        'comments':([walk_comments[0]], [question_comments[2]]),},
 
         {'username':'kevin2',
         'description':'intermediate walker',
@@ -101,8 +97,7 @@ def populate():
         'is_moderator':False,        
         'walks':[walks[1]],
         'questions':[questions[2]],
-        'comments':[walk_comments[2], question_comments[0]],
-        'commented_on':[walks[2], questions[0]]},
+        'comments':([walk_comments[2]], [question_comments[0]]),},
 
         {'username':'scott3',
         'description':'pro walker',
@@ -114,8 +109,7 @@ def populate():
         'is_moderator':True,
         'walks':[walks[0]],
         'questions':[questions[0]],
-        'comments':[walk_comments[1], question_comments[1]],
-        'commented_on':[walks[1], questions[1]]}
+        'comments':([walk_comments[1]], [question_comments[1]]),}
     ]
         
 
@@ -123,36 +117,80 @@ def populate():
         u = add_user(user['username'], user['description'], user['is_moderator'],
                      user['date_of_birth'], user['profile_picture'], user['total_likes'],
                      user['total_views'], user['email'])
-        u[0].refresh_from_db()
-        u[1].refresh_from_db()
         
-        for walk in user['walks']:
-            w = add_walk(u[0], walk['title'], walk['description'], walk['area'],
-                         walk['tags'], walk['difficulty'], walk['thumbnail'])
-            w.refresh_from_db()
+    for user_profile in UserProfile.objects.all():
+        if user_profile.user.username == 'ellie1':
+            add_walk_and_question(user_profile, 0, users)
+                
+        elif user_profile.user.username == 'kevin2':
+            add_walk_and_question(user_profile, 1, users)
+
+        elif user_profile.user.username == 'scott3':
+            add_walk_and_question(user_profile, 2, users)
+
+
+    for user_profile in UserProfile.objects.all():
+        for walk in Walk.objects.all():
+            if walk.user == user_profile.user and user_profile.user.username == 'ellie1':
+                add_walk_comment_helper(user_profile, walk, 0, users)
+            
+            elif walk.user == user_profile.user and user_profile.user.username == 'kevin2':
+                add_walk_comment_helper(user_profile, walk, 1, users)
+
+            elif walk.user == user_profile.user and user_profile.user.username == 'scott3':
+                add_walk_comment_helper(user_profile, walk, 2, users)
+
+
+
+        for question in Question.objects.all():
+            if question.user == user_profile and user_profile.user.username == 'ellie1':
+                add_question_comment_helper(user_profile, question, 0, users)
+
+            elif question.user == user_profile and user_profile.user.username == 'kevin2':
+                add_question_comment_helper(user_profile, question, 1, users)
+
+            elif question.user == user_profile and user_profile.user.username == 'scott3':
+                add_question_comment_helper(user_profile, question, 2, users)
+
+
+
+    for user_profile in UserProfile.objects.all():
+        for walk in Walk.objects.filter(user=user_profile.user):
+            for walk_comment in WalkComment.objects.filter(walk=walk):
+                print(f'- {user_profile}:\n     Walk: {walk}:\n     {walk_comment} comment made by {walk_comment.user}')
+
+        for question in Question.objects.filter(user=user_profile):
+            for question_comment in QuestionComment.objects.filter(question=question):
+                print(f'- {user_profile}:\n     Walk: {question}:\n     {question_comment} comment made by {question_comment.user}')
+
+
+def add_question_comment_helper(user_profile, question, user_index, users):
+    question_comments = users[user_index]['comments'][1]
+
+    for comment in question_comments:
+        add_question_comment(user_profile, question, comment['comment'])
+
+def add_walk_comment_helper(user_profile, walk, user_index, users):
+    walk_comments = users[user_index]['comments'][0]
+    for comment in walk_comments:
+        add_walk_comment(user_profile, walk, comment['comment'])
+
+def add_walk_and_question(user_profile, user_index, users):
+    walks = users[user_index]['walks']
+    questions = users[user_index]['questions']
+    add_walk_helper(user_profile.user, walks)
+    add_question_helper(user_profile, questions)
+
+
+def add_walk_helper(user, walks):
+    for walk in walks:
+        add_walk(user, walk['title'], walk['description'], walk['area'],
+                    walk['tags'], walk['difficulty'], walk['thumbnail'])
         
-        for question in user['questions']:
-            q = add_question(u[1], question['title'], question['text'])
-            q.refresh_from_db()
+def add_question_helper(user_profile, questions):
+    for question in questions:
+        add_question(user_profile, question['question'])
 
-        for w in Walk.objects.all():
-            if w.title == user['commented_on'][0]['title']:
-                wq = add_walk_comment(u[1], w, user['comments'][0]['text'])
-                wq.refresh_from_db()
-
-        for q in Question.objects.all():
-            if q.title == user['commented_on'][1]['title']:
-                qc = add_question_comment(u[1], q, user['comments'][1]['text'])
-                qc.refresh_from_db()
-
-    for up in UserProfile.objects.all():
-        for w in Walk.objects.filter(user=up.user):
-            for wc in WalkComment.objects.filter(walk=w):
-                print(f'- {up}: Walk, {w}: {wc} comment made by {wc.user}')
-
-        for q in Question.objects.filter(user=up):
-            for qc in QuestionComment.objects.filter(question=q):
-                print(f'- {up}: Question, {q}: {qc} comment made by {qc.user}')
 
 
 def add_user(username, description, is_moderator, date_of_birth, profile_picture, total_likes,
@@ -192,18 +230,18 @@ def add_walk(user, title, description, area, tags, difficulty, thumbnail):
     w.save()
     return w
 
-def add_question(user, title, text):
-    q = Question.objects.get_or_create(user=user, title=title, text=text)[0]
+def add_question(user, question):
+    q = Question.objects.get_or_create(user=user, question=question)[0]
     q.save()
     return q
 
-def add_walk_comment(user, walk, text):
-    wc = WalkComment.objects.get_or_create(user=user, walk=walk, text=text)[0]
+def add_walk_comment(user, walk, comment):
+    wc = WalkComment.objects.get_or_create(user=user, walk=walk, comment=comment)[0]
     wc.save()
     return wc
 
-def add_question_comment(user, question, text):
-    qc = QuestionComment.objects.get_or_create(user=user, question=question, text=text)[0]
+def add_question_comment(user, question, comment):
+    qc = QuestionComment.objects.get_or_create(user=user, question=question, comment=comment)[0]
     qc.save()
     return qc
     

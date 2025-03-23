@@ -39,12 +39,12 @@ class Walk(models.Model):
     views = models.IntegerField(default=0)
     difficulty = models.IntegerField(default=0)
     length = models.IntegerField(default=0)
-    thumbnail = models.ImageField(upload_to='walk_photos/', null=True, blank=True)
+    thumbnail = models.ImageField(upload_to='walk_thumbnails/', null=True, blank=True)
     tags = models.CharField(max_length=255, null=True, blank=True)
-    gallery_image_1 = models.ImageField(upload_to='walk_photos/', null=True, blank=True)
-    gallery_image_2 = models.ImageField(upload_to='walk_photos/', null=True, blank=True)
-    gallery_image_3 = models.ImageField(upload_to='walk_photos/', null=True, blank=True)
-    gallery_image_4 = models.ImageField(upload_to='walk_photos/', null=True, blank=True)
+    gallery_image_1 = models.ImageField(upload_to='walk_gelleries/', null=True, blank=True)
+    gallery_image_2 = models.ImageField(upload_to='walk_galleries/', null=True, blank=True)
+    gallery_image_3 = models.ImageField(upload_to='walk_galleries/', null=True, blank=True)
+    gallery_image_4 = models.ImageField(upload_to='walk_galleries/', null=True, blank=True)
     map_coordinates = models.CharField(max_length=5000, null=True)
 
     class Meta:
@@ -73,13 +73,12 @@ class Question(models.Model):
     date_published = models.DateField(auto_now_add=True)
     likes = models.IntegerField(default=0)
     views = models.IntegerField(default=0)
-    title = models.CharField(max_length=100)
-    text = models.CharField(max_length=300)
+    question = models.CharField(max_length=100)
     class Meta:
         verbose_name_plural = 'Questions'
 
     def __str__(self):
-        return self.title
+        return self.question
 
 
 
@@ -87,13 +86,13 @@ class WalkComment(models.Model):
     walk = models.ForeignKey(Walk, on_delete=models.CASCADE) # Foreign key
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE) # Foreign key
     date_published = models.DateField(auto_now_add=True)
-    text = models.CharField(max_length=300)
+    comment = models.CharField(max_length=300)
 
     class Meta:
         verbose_name_plural = 'Walk Comments'
 
     def __str__(self):
-        return self.text
+        return self.comment
 
 
 
@@ -101,10 +100,10 @@ class QuestionComment(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE) # Foreign key
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE) # Foreign key
     date_published = models.DateField(auto_now_add=True)
-    text = models.CharField(max_length=300)
+    comment = models.CharField(max_length=300)
 
     class Meta:
         verbose_name_plural = 'Question Comments'
 
     def __str__(self):
-        return self.text
+        return self.comment

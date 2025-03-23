@@ -27,8 +27,7 @@ class WalkAdmin(admin.ModelAdmin):
 class QuestionAdmin(admin.ModelAdmin):
     list_display = ('user',
                     'date_published',
-                    'title',
-                    'text',)
+                    'question',)
     
 class UserProfileAdmin(admin.ModelAdmin):
     list_display = ('user',
