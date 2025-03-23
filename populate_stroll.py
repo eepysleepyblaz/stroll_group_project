@@ -16,6 +16,8 @@ def populate():
         'title':'Govan walk',
         'description':'Walking around govan, took photos of the river',
         'area':'Govan',
+        'likes':54,
+        'views':260,
         'tags':'govan,river',
         'difficulty':3,
         'slug':'a'},
@@ -24,6 +26,8 @@ def populate():
         'title':'Milngavie walk',
         'description':'The neighbourhood seems nice',
         'area':'Milngavie',
+        'likes':1893,
+        'views':5845,
         'tags':'milngavie,nice',
         'difficulty':2,
         'slug':'a'},
@@ -32,17 +36,25 @@ def populate():
         'title':'City centre walk',
         'description':'There are many places to eat',
         'area':'Town',
+        'likes':53878,
+        'views':104953,
         'tags':'city centre,town,shops',
         'difficulty':4,
         'slug':'a'},
     ]
 
     questions = [
-        {'question':'What are some good walks around Govan?'},
+        {'question':'What are some good walks around Govan?',
+         'likes':856,
+         'views':3475},
 
-        {'question':'Can anyone recommend some shoes for long walks?'},
+        {'question':'Can anyone recommend some shoes for long walks?',
+         'likes':5989,
+         'views':15699},
 
-        {'question':'Where can I go for more nature walks?'},
+        {'question':'Where can I go for more nature walks?',
+         'likes':84,
+         'views':374},
     ]
 
     walk_comments = [
@@ -80,8 +92,8 @@ def populate():
         'email':'ellie@gmail.com',
         'date_of_birth':'2005-08-14',
         'profile_picture':'population_profile_pictures/ellie1.jpg',
-        'total_likes':12_300,
-        'total_views':20_891,
+        'total_likes':walks[2]['likes'] + questions[1]['likes'],
+        'total_views':walks[2]['views'] + questions[1]['views'],
         'is_moderator':False,
         'walks':[walks[2]],
         'questions':[questions[1]],
@@ -93,8 +105,8 @@ def populate():
         'date_of_birth':'1979-10-12',
         'email':'kevin@gmail.com',
         'profile_picture':'population_profile_pictures/kevin2.jpg',
-        'total_likes':12,
-        'total_views':125,
+        'total_likes':walks[1]['likes'] + questions[2]['likes'],
+        'total_views':walks[1]['views'] + questions[2]['views'],
         'is_moderator':False,        
         'walks':[walks[1]],
         'questions':[questions[2]],
@@ -106,8 +118,8 @@ def populate():
         'date_of_birth':'1965-01-05',
         'email':'scott@gmail.com',
         'profile_picture':'population_profile_pictures/scott3.jpg',
-        'total_likes':25,
-        'total_views':344,
+        'total_likes':walks[0]['likes'] + questions[0]['likes'],
+        'total_views':walks[0]['views'] + questions[0]['views'],
         'is_moderator':True,
         'walks':[walks[0]],
         'questions':[questions[0]],
@@ -117,22 +129,22 @@ def populate():
         
 
     for user in users:
-        u = add_user(user['username'], user['description'], user['is_moderator'],
+        add_user(user['username'], user['description'], user['is_moderator'],
                      user['date_of_birth'], user['profile_picture'], user['total_likes'],
                      user['total_views'], user['email'])
         
     for user_profile in UserProfile.objects.all():
         if user_profile.user.username == 'ellie1':
-            walk_and_question = add_walk_and_question(user_profile, 0, users)
+            add_walk_and_question(user_profile, 0, users)
 
  
 
         elif user_profile.user.username == 'kevin2':
-            walk_and_question = add_walk_and_question(user_profile, 1, users)
+            add_walk_and_question(user_profile, 1, users)
 
 
         elif user_profile.user.username == 'scott3':
-            walk_and_question = add_walk_and_question(user_profile, 2, users)
+            add_walk_and_question(user_profile, 2, users)
 
 
     for user_profile in UserProfile.objects.all():
@@ -191,11 +203,11 @@ def add_walk_and_question(user_profile, user_index, users):
 def add_walk_helper(user, walks):
     for walk in walks:
         add_walk(user, walk['title'], walk['description'], walk['area'],
-                    walk['tags'], walk['difficulty'], walk['thumbnail'])
+                    walk['tags'], walk['difficulty'], walk['thumbnail'], walk['likes'], walk['views'])
         
 def add_question_helper(user_profile, questions):
     for question in questions:
-        add_question(user_profile, question['question'])
+        add_question(user_profile, question['question'], question['likes'], question['views'])
 
 
 
@@ -222,10 +234,12 @@ def add_user(username, description, is_moderator, date_of_birth, profile_picture
     up.save()
     return (u, up)
 
-def add_walk(user, title, description, area, tags, difficulty, thumbnail):
+def add_walk(user, title, description, area, tags, difficulty, thumbnail, likes, views):
     w = Walk.objects.get_or_create(user=user, title=title, description=description)[0]
     w.area = area
     w.tags = tags
+    w.likes = likes
+    w.views = views
     w.difficulty = difficulty
 
     image_path = os.path.join("media", thumbnail)
@@ -236,8 +250,10 @@ def add_walk(user, title, description, area, tags, difficulty, thumbnail):
     w.save()
     return w
 
-def add_question(user, question):
+def add_question(user, question, likes, views):
     q = Question.objects.get_or_create(user=user, question=question)[0]
+    q.likes = likes
+    q.views = views
     q.save()
     return q
 
