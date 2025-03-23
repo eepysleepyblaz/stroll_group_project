@@ -74,6 +74,8 @@ class Question(models.Model):
     likes = models.IntegerField(default=0)
     views = models.IntegerField(default=0)
     question = models.CharField(max_length=100)
+    comment_count = models.IntegerField(default=0)
+    slug = models.CharField(max_length=1, default='a')
     class Meta:
         verbose_name_plural = 'Questions'
 

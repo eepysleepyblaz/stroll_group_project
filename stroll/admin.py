@@ -27,7 +27,8 @@ class WalkAdmin(admin.ModelAdmin):
 class QuestionAdmin(admin.ModelAdmin):
     list_display = ('user',
                     'date_published',
-                    'question',)
+                    'question',
+                    'comment_count')
     
 class UserProfileAdmin(admin.ModelAdmin):
     list_display = ('user',

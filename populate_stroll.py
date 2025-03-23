@@ -46,15 +46,18 @@ def populate():
     questions = [
         {'question':'What are some good walks around Govan?',
          'likes':856,
-         'views':3475},
+         'views':3475,
+         'comment_count':1},
 
         {'question':'Can anyone recommend some shoes for long walks?',
          'likes':5989,
-         'views':15699},
+         'views':15699,
+         'comment_count':1},
 
         {'question':'Where can I go for more nature walks?',
          'likes':84,
-         'views':374},
+         'views':374,
+         'comment_count':1},
     ]
 
     walk_comments = [
@@ -207,7 +210,8 @@ def add_walk_helper(user, walks):
         
 def add_question_helper(user_profile, questions):
     for question in questions:
-        add_question(user_profile, question['question'], question['likes'], question['views'])
+        add_question(user_profile, question['question'], question['likes'], question['views'],
+                     question['comment_count'])
 
 
 
@@ -250,10 +254,11 @@ def add_walk(user, title, description, area, tags, difficulty, thumbnail, likes,
     w.save()
     return w
 
-def add_question(user, question, likes, views):
+def add_question(user, question, likes, views, comment_count):
     q = Question.objects.get_or_create(user=user, question=question)[0]
     q.likes = likes
     q.views = views
+    q.comment_count = comment_count
     q.save()
     return q
 

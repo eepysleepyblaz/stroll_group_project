@@ -185,15 +185,12 @@ def show_walk(request, id):
     context_dict['map_coordinates'] = walk.map_coordinates
     context_dict['comments'] = comments
    
-    #context_dict['comments'] = [{"text": "Good job", "date_published": "13/20/24", "user": "jules", "profile_picture": "photo"}, {"text": "Good job2", "date_published": "13/20/242", "user": "jules2", "profile_picture": "photo"}]
     return render(request, 'stroll/show_walk.html', context=context_dict)
 
 def questions(request):
     context_dict = {}
-    context_dict['questions'] = [{"user": "John", "date_published":"12-21-2520", "title": "how do i walk", "likes": 50, "text": "how do i walk with my legs", "views": 100, "slug": "a"},
-                                 {"user": "John", "date_published":"12-21-2520", "title": "yooo haso has has f asjfasks   jasfjk  ajsfkja   ajsdfassa aaaas ", "likes": 35, "text": "how do i walk with my legs", "views":500, "slug": "a"},
-                                 {"user": "John", "date_published":"12-21-2520", "title": "yooo haso has has f asjfasks   jasfjk  ajsfkja   ajsdfassa aaaas ", "likes": 100, "text": "how do i walk with my legs", "views":500, "slug": "a"}]
-
+    questions = Question.objects.all()
+    context_dict['questions'] = questions
     return render(request, 'stroll/questions.html', context=context_dict)
 
 def show_question(request, question_slug):
