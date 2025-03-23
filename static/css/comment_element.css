@@ -14,6 +14,7 @@
 }
 
 .profile_photo {
+    object-fit: cover;
     border-radius: 1000px;
     width: 100px;
     height: 100px;

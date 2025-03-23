@@ -17,7 +17,22 @@
     justify-content: center;
 }
 
+.walk_thumbnail {
+    object-fit: cover;
+}
+
 @media (min-width: 992px) { .walk_thumbnail {
     height: 200px;
+    width: 300px;
+}
+}
+
+.walk_thumbnail_small {
+    object-fit: cover;
+}
+
+@media (min-width: 992px) { .walk_thumbnail_small {
+    height: 100px;
+    width: 300px;
 }
 }

@@ -12,7 +12,7 @@
             <div class="row g-0">
                 <div class="col-lg-3 d-flex walk_card_elements">
                     <!-- This doesn't use the media url as this can't see that variable -->
-                    <img src="/media/{{ walk.thumbnail }}" class="img-fluid rounded walk_thumbnail" alt="{{ walk.title }}'s thumbnail">   
+                    <img src="{{ walk.thumbnail.url }}" class="img-fluid rounded walk_thumbnail" alt="{{ walk.title }}'s thumbnail">   
                 </div>               
                 <div class="col-lg-9">
                     <div class="card-body">
@@ -47,9 +47,9 @@
             <div class="card text-center walk_card">
                 <div class="row">
                     <!-- This doesn't use the media url as this can't see that variable -->
-                    <img src="{{ walk.thumbnail.url }}" class="img-fluid rounded" width="150" alt="{{ walk.title }}'s thumbnail">
+                    <img src="{{ walk.thumbnail.url }}" class="img-fluid rounded walk_thumbnail_small" alt="{{ walk.title }}'s thumbnail">
                     <div>
-                        <div class="card-body">
+                        <div class="card-body small_text_body">
                             <h8 class="card-title">{{ walk.title }}</h8>
                         </div>
                     </div>

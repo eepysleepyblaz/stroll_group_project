@@ -30,7 +30,7 @@
     <h1>{{ walk.title }}</h1>
     <h2>By {{ walk.user.username }}</h2>
     {% if user.is_moderator %}
-        <div class="row">
+        <div class="row main_body">
             <div class="col d-grid">
                 <input type="submit" class="btn delete_button" value="Delete Walk" />
             </div>
@@ -91,10 +91,10 @@
                         <p><strong>Difficulty:</strong> {{ walk.difficulty }}</p>
                     </div>
                     <div class="row">
-                        <div class="col">
+                        <div class="col-12">
                             <p><strong>Likes:</strong> {{ walk.likes }}</p>
                         </div>
-                        <div class="col">
+                        <div class="col-12">
                             <!-- If walk is liked, add 1 to walk liked and to the likes of the user who made the walk -->
                             {% if request.user.is_authenticated %}
                             <button class="btn like_button" type="submit">Like this walk</button> 

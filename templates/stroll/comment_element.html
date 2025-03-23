@@ -29,7 +29,7 @@
                                 <p>{{ comment.text }}</p>
                             </div>
                         </div>
-                        {% if comment.user.is_moderator %}
+                        {% if UserProfile.user.is_moderator %}
                             <div class="row">
                                 <div class="col d-grid">
                                     <input type="submit" class="btn delete_button" value="Delete Comment" />

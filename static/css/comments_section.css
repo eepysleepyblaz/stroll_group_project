@@ -33,6 +33,7 @@
 @media (max-width: 992px) { .down {
     margin-top: 10px;
     align-self: center;
+    text-align: center;
 }
 }
 
