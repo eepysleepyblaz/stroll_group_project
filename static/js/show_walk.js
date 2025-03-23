@@ -12,14 +12,14 @@ for (let i = 0; i < lines.length-1; i++){
 function initMap() {
     map = new google.maps.Map(document.getElementById("map"), {
         zoom: 13,
-        center: { lat: 55.87, lng: -4.3 },
+        center: coords[0],
     });
     poly = new google.maps.Polyline({
         path: coords,
         strokeColor: "#000000",
         strokeOpacity: 1.0,
         strokeWeight: 3,
-        editable: true,
+        editable: false,
     });
     poly.setMap(map);
 }
