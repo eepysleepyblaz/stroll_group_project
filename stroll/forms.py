@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-from stroll.models import UserProfile, Walk
+from stroll.models import *
 
 class CreateWalkForm(forms.ModelForm):
     title = forms.CharField(max_length=30, help_text="Title:")
@@ -48,5 +48,29 @@ class UserProfileForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(UserProfileForm, self).__init__(*args, **kwargs)
+        for field in self.fields.values():
+            field.widget.attrs.update({'class': 'form-control'})
+
+class QuestionForm(forms.ModelForm):
+    question = forms.CharField(max_length=100)
+
+    class Meta:
+        model = Question
+        fields = ('question',)
+    
+    def __init__(self, *args, **kwargs):
+        super(QuestionForm, self).__init__(*args, **kwargs)
+        for field in self.fields.values():
+            field.widget.attrs.update({'class': 'form-control'})
+
+class QuestionCommentForm(forms.ModelForm):
+    comment = forms.CharField(max_length=300)
+
+    class Meta:
+        model = QuestionComment
+        fields = ('comment',)
+    
+    def __init__(self, *args, **kwargs):
+        super(QuestionCommentForm, self).__init__(*args, **kwargs)
         for field in self.fields.values():
             field.widget.attrs.update({'class': 'form-control'})

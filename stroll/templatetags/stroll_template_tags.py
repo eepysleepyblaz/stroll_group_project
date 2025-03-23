@@ -14,11 +14,11 @@ def question_element(question):
 
 # Creates a comment from its attributes
 @register.inclusion_tag('stroll/comment_element.html')
-def comment_element(comment):
-    return {"comment": comment}
+def comment_element(comment, user):
+    return {"comment": comment, "user": user}
 
 # Creates a comment section from an array some comments
 # User need to passed into this
 @register.inclusion_tag('stroll/comments_section.html')
-def comments_section(comments, user):
-    return {"comments": comments, "user": user}
+def comments_section(comments, user, question):
+    return {"comments": comments, "user": user, "question": question}

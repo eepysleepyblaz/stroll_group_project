@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from stroll.forms import UserForm, UserProfileForm
+from stroll.forms import *
 from stroll.models import *
 
 from stroll.forms import CreateWalkForm
@@ -13,15 +13,14 @@ def home(request):
     # Array of popular walks
     # Current code just for test
     context_dict = {}
-    context_dict["popular_walks"] = walks = Walk.objects.order_by('-likes')[:3]
+    context_dict["popular_walks"] = Walk.objects.order_by('-likes')[:3]
 
     return render(request, 'stroll/home.html', context=context_dict)
 
 def about(request):
     context_dict = {}
     #Always give three popular walks just make them None type if not not enough
-    context_dict["popular_walks"] = [{"thumbnail": "photo", "name": "my last walk", "area": "govan", "tags": "goodbye,fairwell,bad".split(","), 
-                                      "difficulty": 4, "description": "Thuis is my really bad walk", "slug": "a"}]
+    context_dict["popular_walks"] = Walk.objects.order_by('-likes')[:3]
     return render(request, 'stroll/about.html', context=context_dict)
 
 def signup(request):
@@ -153,13 +152,7 @@ def edit_profile(request):
 
 def my_walks(request):
     context_dict = {}
-    context_dict["search_results"] = [{"thumbnail": "walk_hill", "name": "my first walk", "area": "partickwwwwwwwwwwwwwwww", "tags": "hi,hello,good".split(","), 
-                                      "difficulty": 1, "description": "Thuis is my really cool walkssssssssssssssss ssssssssssssssssssssssss ssssssssssssssssssssssssssssssssssss sssssssssssssssssssssssssssss sssssssssssssssssssssssssssss sssssssssssssssssssssssssssssssssssssssssssssssssssssssssss", "slug": "a"},
-                                      {"thumbnail": "walk_hill", "name": "my last walk", "area": "govan", "tags": "goodbye,fairwell,bad".split(","), 
-                                      "difficulty": 4, "description": "Thuis is my really bad walk", "slug": "a"},
-                                      {"thumbnail": "walk_hill", "name": "my new walk", "area": "leith", "tags": "i,regret,this".split(","), 
-                                      "difficulty": 10, "description": "Thuis is not fun", "slug": "a"},
-                                      ]
+    context_dict["walks"] = Walk.objects.filter(user=request.user)
     return render(request, 'stroll/my_walks.html', context=context_dict)
 
 def my_questions(request):
@@ -188,15 +181,45 @@ def show_walk(request, id):
     return render(request, 'stroll/show_walk.html', context=context_dict)
 
 def questions(request):
+    form = QuestionForm()
+    if request.method == 'POST':
+        form = QuestionForm(request.POST, request.FILES)
+        
+        if form.is_valid():
+            new_question = form.save(commit=False)
+            new_question.question = request.POST.get('question')
+            new_question.user = UserProfile.objects.get(user_id=request.user.id)
+
+            new_question.save()
+
+        else:
+            print(form.errors)
+            
     context_dict = {}
     questions = Question.objects.all()
     context_dict['questions'] = questions
+    context_dict['form'] = form
     return render(request, 'stroll/questions.html', context=context_dict)
 
 def show_question(request, id):
+    form = QuestionCommentForm()
+    if request.method == 'POST':
+        form = QuestionCommentForm(request.POST, request.FILES)
+        
+        if form.is_valid():
+            new_comment = form.save(commit=False)
+            new_comment.comment = request.POST.get('comment')
+            new_comment.user = UserProfile.objects.get(user_id=request.user.id)
+            new_comment.question = Question.objects.get(id=id)
+
+            new_comment.save()
+
+        else:
+            print(form.errors)
+
     context_dict = {}
     context_dict['question'] = Question.objects.get(id=id)
+    print(context_dict['question'].id)
     context_dict['comments'] = QuestionComment.objects.filter(question_id=id)
-    print(context_dict['comments'])
 
     return render(request, 'stroll/show_question.html', context=context_dict)

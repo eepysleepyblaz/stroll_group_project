@@ -8,13 +8,13 @@
 {% endblock %}
 
 {% block title_block %}
-    {{ text }}
+    Question By {{ question.user }}
 {% endblock %}
 
 {% block body_block %}
 <div class="container title">
     <h1>Question</h1>
-    {% if user.is_moderator %}
+    {% if request.user.userprofile.is_moderator %}
         <div class="row">
             <div class="col d-grid">
                 <input type="submit" class="btn delete_button" value="Delete Question" />
@@ -63,6 +63,6 @@
     </div>
 </div>
 
-{% comments_section comments request.user %}
+{% comments_section comments request.user question %}
 
 {% endblock %}
