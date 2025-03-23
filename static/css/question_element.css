@@ -20,7 +20,7 @@
 .like_button {
     background-color: gold;
     margin-bottom: 10px;
-    
+    justify-content: center;
 }
 
 .like_button:hover {

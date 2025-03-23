@@ -178,7 +178,7 @@ def search_walks(request):
 
 def show_walk(request, id):
     walk = Walk.objects.get(id=id)
-    comments = WalkComment.objects.filter(walk__id=id)
+    comments = WalkComment.objects.filter(walk_id=id)
 
     context_dict = {'walk':walk}
     context_dict['photos'] = [x for x in [walk.gallery_image_1, walk.gallery_image_2, walk.gallery_image_3, walk.gallery_image_4] if x != ""]
@@ -193,5 +193,10 @@ def questions(request):
     context_dict['questions'] = questions
     return render(request, 'stroll/questions.html', context=context_dict)
 
-def show_question(request, question_slug):
-    return render(request, 'stroll/show_question.html')
+def show_question(request, id):
+    context_dict = {}
+    context_dict['question'] = Question.objects.get(id=id)
+    context_dict['comments'] = QuestionComment.objects.filter(question_id=id)
+    print(context_dict['comments'])
+
+    return render(request, 'stroll/show_question.html', context=context_dict)

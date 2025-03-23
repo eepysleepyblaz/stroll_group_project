@@ -38,3 +38,14 @@
     align-self: center;
 }
 }
+
+.like_button {
+    background-color: gold;
+    margin-bottom: 10px;
+    justify-content: center;
+}
+
+.like_button:hover {
+    background-color: rgb(204, 173, 0);
+    margin-bottom: 10px;
+}

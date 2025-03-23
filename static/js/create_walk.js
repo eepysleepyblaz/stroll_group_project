@@ -1,6 +1,6 @@
 let poly;
 let map;
-
+// based off of google maps API website example code
 function initMap() {
     map = new google.maps.Map(document.getElementById("map"), {
         zoom: 13,

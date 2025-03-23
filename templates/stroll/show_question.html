@@ -1,9 +1,68 @@
 {% extends 'stroll/base.html' %}
 {% load staticfiles %}
+{% load stroll_template_tags %}
+
+{% block stylesheet_block %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/question_page.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/comment_element.css' %}"/>
+{% endblock %}
 
 {% block title_block %}
-    {{ question_name }}
+    {{ text }}
 {% endblock %}
 
 {% block body_block %}
+<div class="container title">
+    <h1>Question</h1>
+    {% if user.is_moderator %}
+        <div class="row">
+            <div class="col d-grid">
+                <input type="submit" class="btn delete_button" value="Delete Question" />
+            </div>
+        </div>
+    {% endif %}
+</div>
+<div class="container-xxl main_body walk_text">
+    <div class="row question_screen">
+        <div class="col content_seperator">
+            <div class="row">
+                <div class="col">
+                    <div class="row">
+                        <div class="col-xxl-1 col-md-2 col-12 profile_photo_box">
+                            <img src="/media/{{ question.user.profile_picture }}" class="profile_photo">
+                        </div>
+                        <div class="col">
+                            <div class="row" >
+                                <div class="row">
+                                    <div class="col">
+                                        <!-- Shows if the person asking the question is a moderator or not -->
+                                        {% if question.user.is_moderator %}
+                                            <p><strong>{{ question.user }}</strong> (Moderator) • {{ question.date_published }}</p>
+                                        {% else %}
+                                            <p><strong>{{ question.user }}</strong> • {{ question.date_published }}</p>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <p>{{ question.question }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% if request.user.is_authenticated %}
+                        <div class="col-lg-2 col-12 button_offset">
+                            <!-- If walk is liked, add 1 to walk liked and to the likes of the user who made the walk -->
+                            <button class="btn like_button" type="submit">Like this Question ❤</button>     
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% comments_section comments request.user %}
+
 {% endblock %}
