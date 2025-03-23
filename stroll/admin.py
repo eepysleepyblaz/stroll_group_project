@@ -31,6 +31,12 @@ class QuestionAdmin(admin.ModelAdmin):
                     'text',)
     
 class UserProfileAdmin(admin.ModelAdmin):
+    list_display = ('user',
+                    'id',
+                    'is_moderator',
+                    'total_likes',
+                    'total_views',
+                    'date_of_birth',)
     def delete_queryset(self, request, queryset):
         for x in queryset:
             x.delete()

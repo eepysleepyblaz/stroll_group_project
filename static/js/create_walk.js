@@ -5,6 +5,13 @@ function initMap() {
     map = new google.maps.Map(document.getElementById("map"), {
         zoom: 13,
         center: { lat: 55.87, lng: -4.3 },
+        disableDoubleClickZoom: true,
+        mapTypeId: 'hybrid',
+        styles: [{
+            featureType: "poi",
+            elementType: "labels",
+            stylers: [{ visibility: "off" }],
+          }]
     });
     poly = new google.maps.Polyline({
         strokeColor: "#000000",
