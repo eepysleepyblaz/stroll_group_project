@@ -178,14 +178,14 @@ def search_walks(request):
 
 def show_walk(request, id):
     walk = Walk.objects.get(id=id)
+    comments = WalkComment.objects.filter(walk__id=id)
 
     context_dict = {'walk':walk}
     context_dict['photos'] = [x for x in [walk.gallery_image_1, walk.gallery_image_2, walk.gallery_image_3, walk.gallery_image_4] if x != ""]
     context_dict['map_coordinates'] = walk.map_coordinates
-    
-    #context_dict = {"user": "emi", "thumbnail": "walk_hill", "photo1": "photo", "name": "my first walk", "length": "100km", "area": "partickwwwwwwwwwwwwwwww", "tags": "hi,hello,good".split(","), 
-                                      #"difficulty": 1, "description": "Thuis is my really cool walkssssssssssssssss ssssssssssssssssssssssss ssssssssssssssssssssssssssssssssssss sssssssssssssssssssssssssssss sssssssssssssssssssssssssssss sssssssssssssssssssssssssssssssssssssssssssssssssssssssssss", "slug": "a"}
-    context_dict['comments'] = [{"text": "Good job", "date_published": "13/20/24", "user": "jules", "profile_picture": "photo"}, {"text": "Good job2", "date_published": "13/20/242", "user": "jules2", "profile_picture": "photo"}]
+    context_dict['comments'] = comments
+   
+    #context_dict['comments'] = [{"text": "Good job", "date_published": "13/20/24", "user": "jules", "profile_picture": "photo"}, {"text": "Good job2", "date_published": "13/20/242", "user": "jules2", "profile_picture": "photo"}]
     return render(request, 'stroll/show_walk.html', context=context_dict)
 
 def questions(request):

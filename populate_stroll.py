@@ -85,7 +85,8 @@ def populate():
         'is_moderator':False,
         'walks':[walks[2]],
         'questions':[questions[1]],
-        'comments':([walk_comments[0]], [question_comments[2]]),},
+        'comments':([walk_comments[0]], [question_comments[2]]),
+        'commented_on':([walks[0]], [questions[2]])},
 
         {'username':'kevin2',
         'description':'intermediate walker',
@@ -97,7 +98,8 @@ def populate():
         'is_moderator':False,        
         'walks':[walks[1]],
         'questions':[questions[2]],
-        'comments':([walk_comments[2]], [question_comments[0]]),},
+        'comments':([walk_comments[2]], [question_comments[0]]),
+        'commented_on':([walks[2]], [questions[0]])},
 
         {'username':'scott3',
         'description':'pro walker',
@@ -109,7 +111,8 @@ def populate():
         'is_moderator':True,
         'walks':[walks[0]],
         'questions':[questions[0]],
-        'comments':([walk_comments[1]], [question_comments[1]]),}
+        'comments':([walk_comments[1]], [question_comments[1]]),
+        'commented_on':([walks[1]], [questions[1]])}
     ]
         
 
@@ -120,36 +123,39 @@ def populate():
         
     for user_profile in UserProfile.objects.all():
         if user_profile.user.username == 'ellie1':
-            add_walk_and_question(user_profile, 0, users)
-                
+            walk_and_question = add_walk_and_question(user_profile, 0, users)
+
+ 
+
         elif user_profile.user.username == 'kevin2':
-            add_walk_and_question(user_profile, 1, users)
+            walk_and_question = add_walk_and_question(user_profile, 1, users)
+
 
         elif user_profile.user.username == 'scott3':
-            add_walk_and_question(user_profile, 2, users)
+            walk_and_question = add_walk_and_question(user_profile, 2, users)
 
 
     for user_profile in UserProfile.objects.all():
         for walk in Walk.objects.all():
-            if walk.user == user_profile.user and user_profile.user.username == 'ellie1':
+            if walk.title == users[0]['commented_on'][0][0]['title'] and user_profile.user.username == 'ellie1':
                 add_walk_comment_helper(user_profile, walk, 0, users)
             
-            elif walk.user == user_profile.user and user_profile.user.username == 'kevin2':
+            elif walk.title == users[1]['commented_on'][0][0]['title'] and user_profile.user.username == 'kevin2': 
                 add_walk_comment_helper(user_profile, walk, 1, users)
 
-            elif walk.user == user_profile.user and user_profile.user.username == 'scott3':
+            elif walk.title == users[2]['commented_on'][0][0]['title'] and user_profile.user.username == 'scott3': 
                 add_walk_comment_helper(user_profile, walk, 2, users)
 
 
 
         for question in Question.objects.all():
-            if question.user == user_profile and user_profile.user.username == 'ellie1':
+            if question.question == users[0]['commented_on'][1][0]['question'] and user_profile.user.username == 'ellie1':
                 add_question_comment_helper(user_profile, question, 0, users)
 
-            elif question.user == user_profile and user_profile.user.username == 'kevin2':
+            elif question.question == users[1]['commented_on'][1][0]['question'] and user_profile.user.username == 'kevin2':
                 add_question_comment_helper(user_profile, question, 1, users)
 
-            elif question.user == user_profile and user_profile.user.username == 'scott3':
+            elif question.question == users[2]['commented_on'][1][0]['question'] and user_profile.user.username == 'scott3':
                 add_question_comment_helper(user_profile, question, 2, users)
 
 
@@ -161,7 +167,7 @@ def populate():
 
         for question in Question.objects.filter(user=user_profile):
             for question_comment in QuestionComment.objects.filter(question=question):
-                print(f'- {user_profile}:\n     Walk: {question}:\n     {question_comment} comment made by {question_comment.user}')
+                print(f'- {user_profile}:\n     Questoin: {question}:\n     {question_comment} comment made by {question_comment.user}')
 
 
 def add_question_comment_helper(user_profile, question, user_index, users):
@@ -178,8 +184,8 @@ def add_walk_comment_helper(user_profile, walk, user_index, users):
 def add_walk_and_question(user_profile, user_index, users):
     walks = users[user_index]['walks']
     questions = users[user_index]['questions']
-    add_walk_helper(user_profile.user, walks)
-    add_question_helper(user_profile, questions)
+    w = add_walk_helper(user_profile.user, walks)
+    q = add_question_helper(user_profile, questions)
 
 
 def add_walk_helper(user, walks):
