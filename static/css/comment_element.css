@@ -16,6 +16,7 @@
 .profile_photo {
     border-radius: 1000px;
     width: 100px;
+    height: 100px;
 }
 
 .profile_photo_box {

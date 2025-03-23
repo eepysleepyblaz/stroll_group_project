@@ -1,5 +1,6 @@
 {% extends 'stroll/base.html' %}
 {% load staticfiles %}
+{% load stroll_template_tags %}
 
 {% block script_block %}
 <script
@@ -9,12 +10,16 @@
 <script src="{% static 'js/create_walk.js' %}"></script>
 {% endblock %}
 
+{% block stylesheet_block %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/form_style.css' %}"/>
+{% endblock %}
+
 {% block title_block %}
     Create Walk
 {% endblock %}
 
 {% block body_block %}
-<div class="container-xxl">
+<div class="container-xxl content_box">
     <div>
         <form id="create_walk_form" method="post" action="{% url 'stroll:create_walk' %}" enctype="multipart/form-data">
             {% csrf_token %}
@@ -24,9 +29,9 @@
                 </div>
             </div>
             <div class="row main_body">
-                <div class="col-lg-6 col-12" id="box">
+                <div class="col-lg-6 col-12">
                     <div class="row">
-                        <div class="col" id="box">
+                        <div class="col">
                             Title: <input class="form-control" type="text" name="title" value="" size="30" />
                             {{ form.title.errors }}
                             <br />
@@ -52,11 +57,11 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col" id="box">
+                        <div class="col">
                             <p>Upload Thumbnail (Optional)</p>
                             {{ form.thumbnail }}
                         </div>
-                        <div class="col" id="box">
+                        <div class="col">
                             <p>Upload Images (Max 4)</p>
                             Photo: <input class="form-control" type="file" accept="image/*" name="gallery_image_1" />
                             <br />
@@ -69,12 +74,12 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6 col-12" id="box">
+                <div class="col-lg-6 col-12">
                     <div id="map"></div>
                 </div>
                 <div class="col">
                     <br />
-                    <input class="form-control" type="submit" name="submit" value="Create Walk" />
+                    <input class="form-control submit_button" type="submit" name="submit" value="Create Walk" />
                 </div>
             </div>
         </form>
