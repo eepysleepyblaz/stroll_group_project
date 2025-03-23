@@ -50,6 +50,12 @@
                                 </div>
                             </div>
                         </div>
+                        {% if user.is_authenticated %}
+                        <div class="col-lg-2 col-12 button_offset">
+                            <!-- If walk is liked, add 1 to walk liked and to the likes of the user who made the walk -->
+                            <button class="btn like_button" type="submit">Like this Question ❤</button>     
+                        </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>

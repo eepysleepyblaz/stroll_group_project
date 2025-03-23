@@ -29,15 +29,25 @@
                                 <p>{{ comment.comment }}</p>
                             </div>
                         </div>
-                        {% if UserProfile.user.is_moderator %}
-                            <div class="row">
-                                <div class="col d-grid">
-                                    <input type="submit" class="btn delete_button" value="Delete Comment" />
-                                </div>
-                            </div>
-                        {% endif %}
+                        
+                        
                     </div>
                 </div>
+
+                {% if request.user.is_authenticated %}
+                <div class="col-lg-2 col-12 button_offset">
+                    <!-- If walk is liked, add 1 to walk liked and to the likes of the user who made the walk -->
+                    <button class="btn like_button" type="submit">Like this Comment ❤</button>     
+                </div>
+                {% endif %}
+
+                {% if UserProfile.user.is_moderator %}
+                    <div class="row">
+                        <div class="col d-grid">
+                            <input type="submit" class="btn delete_button" value="Delete Comment" />
+                        </div>
+                    </div>
+                {% endif %}
             </div>
         </div>
     </body>

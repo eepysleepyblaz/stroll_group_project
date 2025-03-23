@@ -10,10 +10,6 @@
     defer
 ></script>
 <script src="{% static 'js/show_walk.js' %}"></script>
-
-
-
-
 {% endblock %}
 
 {% block stylesheet_block %}
@@ -94,16 +90,16 @@
                         <div class="col-12">
                             <p><strong>Likes:</strong> {{ walk.likes }}</p>
                         </div>
-                        <div class="col-12">
-                            <!-- If walk is liked, add 1 to walk liked and to the likes of the user who made the walk -->
-                            {% if request.user.is_authenticated %}
-                            <button class="btn like_button" type="submit">Like this walk</button> 
-                            {% endif %}
-                        </div>
                     </div>
                 </div>
                 <div class="col-lg-6 col-12">
                     <p><strong>Description:</strong> {{ walk.description }}</p>
+                </div>
+                <div class="col-12">
+                    <!-- If walk is liked, add 1 to walk liked and to the likes of the user who made the walk -->
+                    {% if request.user.is_authenticated %}
+                    <button class="btn like_button" type="submit">Like this walk ❤</button> 
+                    {% endif %}
                 </div>
             </div>
         </div>

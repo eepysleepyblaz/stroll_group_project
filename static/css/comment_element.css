@@ -30,3 +30,9 @@
 .comment_text {
     word-wrap: break-word;
 }
+
+.button_offset{
+    margin-top: auto;
+    margin-bottom: auto;
+
+}
