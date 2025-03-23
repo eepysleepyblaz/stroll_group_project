@@ -16,3 +16,14 @@
     background-color: #e0fff5;
     color: rgb(42, 42, 42);
 }
+
+.like_button {
+    background-color: gold;
+    margin-bottom: 10px;
+    
+}
+
+.like_button:hover {
+    background-color: rgb(204, 173, 0);
+    margin-bottom: 10px;
+}
