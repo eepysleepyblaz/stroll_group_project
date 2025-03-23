@@ -2,6 +2,20 @@
 {% load staticfiles %}
 {% load stroll_template_tags %}
 
+{% block script_block %}
+
+{{ map_coordinates|json_script:"coords" }}
+<script
+    src="https://maps.googleapis.com/maps/api/js?key={{ API_KEY }}&callback=initMap&v=weekly&libraries=geometry"
+    defer
+></script>
+<script src="{% static 'js/show_walk.js' %}"></script>
+
+
+
+
+{% endblock %}
+
 {% block stylesheet_block %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/walk.css' %}"/>
     <link rel="stylesheet" type="text/css" href="{% static 'css/question.css' %}"/>
@@ -28,7 +42,7 @@
         <div class="col content_seperator">
             <div class="row">
                 <div class="col-lg-6 col-12">
-                    map here
+                    <div id="map"></div>
                 </div>
                 <div class="col-lg-6 col-12">
                     <!-- This carosell is from the bootstrap website -->
@@ -60,11 +74,11 @@
                         <p>Area: {{ walk.area }}</p>
                     </div>
                     <div class="row">
-                        <p>Length: {{ walk.length }}</p>
+                        <p>Length: {{ walk.length }}m</p>
                     </div>
                     <div class="row">
                         <p>
-                            Tags: {% for tag in tags %}
+                            Tags: {% for tag in walk.tags_as_list %}
                                     {% if not forloop.last %}
                                         {{ tag }}, 
                                     {% else %}

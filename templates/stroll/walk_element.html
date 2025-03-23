@@ -7,12 +7,12 @@
     <body>
     {% if display_type == "full" %}
     <div class="container-xxl">
-    <a href="{% url 'stroll:show_walk' walk.slug %}" id="walk_link">
+    <a href="{% url 'stroll:show_walk' walk.id %}" id="walk_link">
         <div class="card w-m-50 w-100 walk_card">
             <div class="row g-0">
                 <div class="col-lg-3 d-flex walk_card_elements">
                     <!-- This doesn't use the media url as this can't see that variable -->
-                    <img src="/media/walk_photos/{{ walk.thumbnail }}.png" class="img-fluid rounded" height="150" alt="{{ walk.name }}'s thumbnail">   
+                    <img src="/media/{{ walk.thumbnail }}" class="img-fluid rounded" height="150" alt="{{ walk.title }}'s thumbnail">   
                 </div>               
                 <div class="col-lg-9">
                     <div class="card-body">
@@ -20,7 +20,7 @@
                         <h4 class="card-title">{{ walk.title }}</h4>
                         <dl class="card-text">
                             <dt><small>Area: {{ walk.area }}</small></dt>
-                            <dt><small>Tags: {% for tag in walk.tags %}
+                            <dt><small>Tags: {% for tag in walk.tags_as_list %}
                                             {% if not forloop.last %}
                                                 {{ tag }}, 
                                             {% else %}
@@ -43,7 +43,7 @@
     </div>
     {% elif display_type == "small" %}
     <div class="container">
-        <a href="{% url 'stroll:show_walk' walk.slug %}" class="link-underline link-underline-opacity-0 text-dark">
+        <a href="{% url 'stroll:show_walk' walk.id %}" class="link-underline link-underline-opacity-0 text-dark">
             <div class="card text-center walk_card">
                 <div class="row">
                     <!-- This doesn't use the media url as this can't see that variable -->

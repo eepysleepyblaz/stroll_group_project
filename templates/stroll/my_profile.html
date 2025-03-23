@@ -67,7 +67,7 @@
         <div class="col-lg-3 col-12 ">
             <div class="row">
                 <h4 class="title">
-                    {% if recent_walks %}
+                    {% if walks %}
                         My Recent Walks:
                     {% else %}
                         No Recent Walks
@@ -75,8 +75,8 @@
                 </h4>
             </div>
             <div class="row">
-                {% if recent_walks %}
-                    {% for walk in recent_walks %}
+                {% if walks %}
+                    {% for walk in walks %}
                         <div>
                             <p class="row walk_position">{% walk_element walk display_type="small" %}</p>
                         </div>

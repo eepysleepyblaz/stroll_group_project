@@ -13,13 +13,14 @@ def home(request):
     # Array of popular walks
     # Current code just for test
     context_dict = {}
-    context_dict["popular_walks"] = [{"thumbnail": "walk_hill", "name": "my first walk", "area": "partickwwwwwwwwwwwwwwww", "tags": "hi,hello,good".split(","), 
+    context_dict["popular_walks"] = walks = Walk.objects.order_by('-likes')[:3]
+    """[{"thumbnail": "walk_hill", "name": "my first walk", "area": "partickwwwwwwwwwwwwwwww", "tags": "hi,hello,good".split(","), 
                                       "difficulty": 1, "description": "Thuis is my really cool walkssssssssssssssss ssssssssssssssssssssssss ssssssssssssssssssssssssssssssssssss sssssssssssssssssssssssssssss sssssssssssssssssssssssssssss sssssssssssssssssssssssssssssssssssssssssssssssssssssssssss", "slug": "a"},
                                       {"thumbnail": "walk_hill", "name": "my last walk", "area": "govan", "tags": "goodbye,fairwell,bad".split(","), 
                                       "difficulty": 4, "description": "Thuis is my really bad walk", "slug": "a"},
                                       {"thumbnail": "walk_hill", "name": "my new walk", "area": "leith", "tags": "i,regret,this".split(","), 
                                       "difficulty": 10, "description": "Thuis is not fun", "slug": "a"},
-                                      ]
+                                      ]"""
     return render(request, 'stroll/home.html', context=context_dict)
 
 def about(request):
@@ -31,7 +32,6 @@ def about(request):
 
 def signup(request):
     registered = False
-    invalid = False
 
     if request.method == 'POST':
         user_form = UserForm(request.POST)
@@ -53,7 +53,6 @@ def signup(request):
 
             registered = True
         else:
-            invalid = True
             print(user_form.errors, profile_form.errors)
     else:
         user_form = UserForm()
@@ -61,8 +60,7 @@ def signup(request):
     
     return render(request, 'stroll/signup.html', context = {'user_form': user_form,
                                                             'profile_form':profile_form,
-                                                             'registered': registered,
-                                                             'invalid':invalid})
+                                                             'registered': registered,})
 
 @login_required
 def create_walk(request):
@@ -130,18 +128,6 @@ def my_profile(request):
             current_user_profile = None
 
         walks = Walk.objects.filter(user=current_user_profile.user).order_by('-date_published')
-        walks_list = []
-        if walks != None:
-            for walk in walks:
-                walk_information = {}
-                walk_information['thumbnail'] = walk.thumbnail
-                walk_information['area'] = walk.area
-                walk_information['title'] = walk.title
-                walk_information['tags'] = walk.tags.split(',') # Must be formatted: 'tag1,tag2,tag3...'
-                walk_information['difficulty'] = str(walk.difficulty)
-                walk_information['desciption'] = walk.description
-                walk_information['slug'] = 'a'
-                walks_list.append(walk_information)
 
         if current_user_profile == None:
             context_dict = {}
@@ -161,21 +147,10 @@ def my_profile(request):
             context_dict['total_likes'] = current_user_profile.total_likes 
             context_dict['total_views'] = current_user_profile.total_views 
 
-            if len(walks_list) != 0:
-                context_dict['recent_walks'] = walks_list
+            if len(walks) != 0:
+                context_dict['walks'] = walks
             else:
-                context_dict['recent_walks'] = None
-
-
-        # The code below can be uncommented to provide sample walk information
-
-        # context_dict['recent_walks'] = [{"thumbnail": "walk_hill", "name": "my first walk", "area": "partickwwwwwwwwwwwwwwww", "tags": "hi,hello,good".split(","), 
-        #                               "difficulty": 1, "description": "Thuis is my really cool walkssssssssssssssss ssssssssssssssssssssssss ssssssssssssssssssssssssssssssssssss sssssssssssssssssssssssssssss sssssssssssssssssssssssssssss sssssssssssssssssssssssssssssssssssssssssssssssssssssssssss", "slug": "a"},
-        #                               {"thumbnail": "walk_hill", "name": "my last walk", "area": "govan", "tags": "goodbye,fairwell,bad".split(","), 
-        #                               "difficulty": 4, "description": "Thuis is my really bad walk", "slug": "a"},
-        #                               {"thumbnail": "walk_hill", "name": "my new walk", "area": "leith", "tags": "i,regret,this".split(","), 
-        #                               "difficulty": 10, "description": "Thuis is not fun", "slug": "a"},
-        #                               ]
+                context_dict['walks'] = None
             
     return render(request, 'stroll/my_profile.html', context=context_dict)
 
@@ -207,12 +182,12 @@ def search_walks(request):
                                       ]
     return render(request, 'stroll/search_walks.html', context=context_dict)
 
-def show_walk(request, walk_id):
-    walk = Walk.objects.get(id=walk_id)
+def show_walk(request, id):
+    walk = Walk.objects.get(id=id)
 
     context_dict = {'walk':walk}
-    context_dict['tags'] = walk.tags.split(",")
     context_dict['photos'] = [walk.gallery_image_1, walk.gallery_image_2, walk.gallery_image_3, walk.gallery_image_4]
+    context_dict['map_coordinates'] = walk.map_coordinates
     
     #context_dict = {"user": "emi", "thumbnail": "walk_hill", "photo1": "photo", "name": "my first walk", "length": "100km", "area": "partickwwwwwwwwwwwwwwww", "tags": "hi,hello,good".split(","), 
                                       #"difficulty": 1, "description": "Thuis is my really cool walkssssssssssssssss ssssssssssssssssssssssss ssssssssssssssssssssssssssssssssssss sssssssssssssssssssssssssssss sssssssssssssssssssssssssssss sssssssssssssssssssssssssssssssssssssssssssssssssssssssssss", "slug": "a"}

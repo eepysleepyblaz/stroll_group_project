@@ -13,7 +13,7 @@ class UserProfile(models.Model):
     date_of_birth = models.DateField(null=True, blank=True)
 
     class Meta:
-        verbose_name_plural = 'Users'
+        verbose_name_plural = 'UserProfiles'
     
     def delete(self,*args,**kwargs):
         for image in [self.profile_picture]:
@@ -27,7 +27,6 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return self.user.username
-
 
 
 class Walk(models.Model):
@@ -60,6 +59,9 @@ class Walk(models.Model):
                 pass
 
         super(Walk, self).delete(*args,**kwargs)
+    
+    def tags_as_list(self):
+        return self.tags.split(",")
 
     def __str__(self):
         return f"{self.title} {self.area}"
