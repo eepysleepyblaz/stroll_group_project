@@ -14,15 +14,26 @@ function initMap() {
     });
     poly.setMap(map);
     map.addListener("click", addLatLng);
+    map.addListener("rightclick", clearPath);
 }
 
 
+function addLatLng( event ) {
+    path = poly.getPath();
+    if (path.length < 60){
 
-function addLatLng(event) {
-    const path = poly.getPath();
+        path.push(event.latLng);
+        printLatLng();
+    }
+}
 
-    path.push(event.latLng);
-    printLatLng();
+function clearPath( event ) {
+    path = poly.getPath()
+    if (path.length > 0){
+        
+        path.removeAt(path.length-1)
+        printLatLng()
+    }
 }
 
 function printLatLng( event ) {
@@ -32,7 +43,7 @@ function printLatLng( event ) {
         console.log(i+": "+poly.getPath().getAt(i).lat(), poly.getPath().getAt(i).lng());
         coordString += poly.getPath().getAt(i).lat() + "," + poly.getPath().getAt(i).lng()+":"
     }
-    console.log("Path Length: "+google.maps.geometry.spherical.computeLength(poly.getPath()))
+    console.log("Path Length: "+google.maps.geometry.spherical.computeLength(poly.getPath())+"m")
     console.log("\n");
 
     coords = document.getElementById("coordinates")
