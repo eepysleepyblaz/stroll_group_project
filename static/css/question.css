@@ -5,7 +5,6 @@
     border-radius: 1px;
     border-color: var(--question_button_colour);
     color: var(--question_button_colour);
-    
 }
 
 .question_button:hover {

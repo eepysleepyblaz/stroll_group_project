@@ -10,22 +10,22 @@
         <div class="container-xxl main_body">
             <div class="row screen comment_section">
                 <div class="col content_seperator">
-                    <div class="row title" >
+                    <div class="row section_text">
                         <h4>Comments</h4>
                     </div>
                     {% if user.is_authenticated %}
                         <div class="row">
                             {% if parent == "question" %}
-                                <form id="question_form" method="post" action="{% url 'stroll:show_question' id %}" >
+                                <form class="content_seperator" id="question_form" method="post" action="{% url 'stroll:show_question' id %}" >
                             {% elif parent == "walk" %}
-                                <form id="walk_form" method="post" action="{% url 'stroll:show_walk' id %}" >
+                                <form class="content_seperator" id="walk_form" method="post" action="{% url 'stroll:show_walk' id %}" >
                             {% endif %}
 
                                 {% csrf_token %}
-                                <div class="col-lg-10 col-12">
+                                <div class="col-12">
                                     <input class="form-control" type="text" name="comment" placeholder="Post Comment" aria-label="Post">
                                 </div>
-                                <div class="col-lg-1">
+                                <div class="col-12">
                                     <input class="form-control submit_button" type="submit" name="submit" value="Post" />
                                 </div>
                             </form>
