@@ -15,7 +15,12 @@
                     </div>
                     {% if user.is_authenticated %}
                         <div class="row">
-                            <form id="question_form" method="post" action="{% url 'stroll:show_question' question.id %}" >
+                            {% if parent == "question" %}
+                                <form id="question_form" method="post" action="{% url 'stroll:show_question' id %}" >
+                            {% elif parent == "walk" %}
+                                <form id="walk_form" method="post" action="{% url 'stroll:show_walk' id %}" >
+                            {% endif %}
+
                                 {% csrf_token %}
                                 <div class="col-lg-10 col-12">
                                     <input class="form-control" type="text" name="comment" placeholder="Post Comment" aria-label="Post">

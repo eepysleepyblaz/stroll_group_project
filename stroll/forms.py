@@ -74,3 +74,15 @@ class QuestionCommentForm(forms.ModelForm):
         super(QuestionCommentForm, self).__init__(*args, **kwargs)
         for field in self.fields.values():
             field.widget.attrs.update({'class': 'form-control'})
+
+class WalkCommentForm(forms.ModelForm):
+    comment = forms.CharField(max_length=300)
+
+    class Meta:
+        model = WalkComment
+        fields = ('comment',)
+    
+    def __init__(self, *args, **kwargs):
+        super(WalkCommentForm, self).__init__(*args, **kwargs)
+        for field in self.fields.values():
+            field.widget.attrs.update({'class': 'form-control'})

@@ -170,6 +170,21 @@ def search_walks(request):
     return render(request, 'stroll/search_walks.html', context=context_dict)
 
 def show_walk(request, id):
+    form = WalkCommentForm()
+    if request.method == 'POST':
+        form = WalkCommentForm(request.POST, request.FILES)
+        
+        if form.is_valid():
+            new_comment = form.save(commit=False)
+            new_comment.comment = request.POST.get('comment')
+            new_comment.user = UserProfile.objects.get(user_id=request.user.id)
+            new_comment.walk = Walk.objects.get(id=id)
+
+            new_comment.save()
+
+        else:
+            print(form.errors)
+
     walk = Walk.objects.get(id=id)
     comments = WalkComment.objects.filter(walk_id=id)
 
@@ -177,6 +192,7 @@ def show_walk(request, id):
     context_dict['photos'] = [x for x in [walk.gallery_image_1, walk.gallery_image_2, walk.gallery_image_3, walk.gallery_image_4] if x != ""]
     context_dict['map_coordinates'] = walk.map_coordinates
     context_dict['comments'] = comments
+    context_dict['form'] = form
    
     return render(request, 'stroll/show_walk.html', context=context_dict)
 
@@ -219,7 +235,6 @@ def show_question(request, id):
 
     context_dict = {}
     context_dict['question'] = Question.objects.get(id=id)
-    print(context_dict['question'].id)
     context_dict['comments'] = QuestionComment.objects.filter(question_id=id)
 
     return render(request, 'stroll/show_question.html', context=context_dict)
