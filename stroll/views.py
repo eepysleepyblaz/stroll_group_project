@@ -160,19 +160,51 @@ def my_questions(request):
 
 def search_walks(request):
     context_dict = {}
-    context_dict["search_results"] = [{"thumbnail": "walk_hill", "name": "my first walk", "area": "partickwwwwwwwwwwwwwwww", "tags": "hi,hello,good".split(","), 
-                                      "difficulty": 1, "description": "Thuis is my really cool walkssssssssssssssss ssssssssssssssssssssssss ssssssssssssssssssssssssssssssssssss sssssssssssssssssssssssssssss sssssssssssssssssssssssssssss sssssssssssssssssssssssssssssssssssssssssssssssssssssssssss", "slug": "a"},
-                                      {"thumbnail": "walk_hill", "name": "my last walk", "area": "govan", "tags": "goodbye,fairwell,bad".split(","), 
-                                      "difficulty": 4, "description": "Thuis is my really bad walk", "slug": "a"},
-                                      {"thumbnail": "walk_hill", "name": "my new walk", "area": "leith", "tags": "i,regret,this".split(","), 
-                                      "difficulty": 10, "description": "Thuis is not fun", "slug": "a"},
-                                      ]
+
+    form = SearchWalkForm()
+    if request.method == 'POST':
+        title = area = description = tags = min_length = max_length = min_difficulty = max_difficulty = search = ""
+        if 'search' in request.POST.keys():
+            search = request.POST['search']
+        if 'title' in request.POST.keys():
+            title = request.POST['title']
+            area = request.POST['area']
+            description = request.POST['description']
+            tags = request.POST['tags']
+
+            min_length = request.POST['min_length']
+            max_length = request.POST['max_length']
+            min_difficulty = request.POST['min_difficulty']
+            max_difficulty = request.POST['max_difficulty']
+
+        if search:
+            context_dict["search_results"] = Walk.objects.filter(title__icontains=search) | Walk.objects.filter(area__icontains="the") | Walk.objects.filter(description__icontains=search) | Walk.objects.filter(tags__icontains=search)
+        elif title or area or description or tags or min_length or max_length or min_difficulty or max_difficulty:
+            kwargdict = {'title__icontains': title,
+                    'area__icontains': area,
+                    'description__icontains': description,
+                    'tags__icontains': tags,}
+            if min_length:
+                kwargdict['length__gte'] = min_length/1000
+            if max_length:
+                kwargdict['length__lte'] = max_length/1000
+            
+            if min_difficulty:
+                kwargdict['difficulty__gte'] = min_difficulty
+
+            if max_difficulty:
+                kwargdict['difficulty__lte'] = max_difficulty
+            print(kwargdict)
+
+            context_dict["search_results"] = Walk.objects.filter(**kwargdict)
+
+    context_dict['form'] = form
     return render(request, 'stroll/search_walks.html', context=context_dict)
 
 def show_walk(request, id):
     form = WalkCommentForm()
     if request.method == 'POST':
-        form = WalkCommentForm(request.POST, request.FILES)
+        form = WalkCommentForm(request.POST)
         
         if form.is_valid():
             new_comment = form.save(commit=False)
@@ -186,7 +218,7 @@ def show_walk(request, id):
             print(form.errors)
 
     walk = Walk.objects.get(id=id)
-    comments = WalkComment.objects.filter(walk_id=id)
+    comments = WalkComment.objects.filter(walk_id=id)[::-1]
 
     context_dict = {'walk':walk}
     context_dict['photos'] = [x for x in [walk.gallery_image_1, walk.gallery_image_2, walk.gallery_image_3, walk.gallery_image_4] if x != ""]
@@ -212,7 +244,7 @@ def questions(request):
             print(form.errors)
             
     context_dict = {}
-    questions = Question.objects.all()
+    questions = Question.objects.all()[::-1]
     context_dict['questions'] = questions
     context_dict['form'] = form
     return render(request, 'stroll/questions.html', context=context_dict)
@@ -235,6 +267,6 @@ def show_question(request, id):
 
     context_dict = {}
     context_dict['question'] = Question.objects.get(id=id)
-    context_dict['comments'] = QuestionComment.objects.filter(question_id=id)
+    context_dict['comments'] = QuestionComment.objects.filter(question_id=id)[::-1]
 
     return render(request, 'stroll/show_question.html', context=context_dict)

@@ -86,3 +86,6 @@ class WalkCommentForm(forms.ModelForm):
         super(WalkCommentForm, self).__init__(*args, **kwargs)
         for field in self.fields.values():
             field.widget.attrs.update({'class': 'form-control'})
+
+class SearchWalkForm(forms.Form):
+    pass

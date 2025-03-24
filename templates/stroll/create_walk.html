@@ -41,7 +41,7 @@
                             description: <input class="form-control" type="text" name = "description" value="" size="1000" />
                             {{ form.description.errors }}
                             <br />
-                            Difficulty: <input class="form-control" type="number" name="difficulty" value="" />
+                            Difficulty: <input class="form-control" type="number" name="difficulty" min="1" max="10" value="" />
                             {{ form.difficulty.errors }}
                             <br />
                             Tags: <input class="form-control" type="text" name = "tags" value="" size="200" />

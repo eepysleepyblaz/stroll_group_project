@@ -34,10 +34,11 @@
                 <span class="navbar-toggler-icon"></span>
               </button>
               <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <form class="d-flex ms-auto" role="search">
-                    <input class="form-control me-2" type="search" placeholder="Search walks" aria-label="Search">
-                    <button class="btn header_button" type="submit">Search</button>
-                  </form>
+                <form class="d-flex ms-auto" id="search_form" method="post" action="{% url 'stroll:search_walks' %}" >
+                  {% csrf_token %}
+                  <input class="form-control me-2" type="search" name="search" placeholder="Search walks" aria-label="Search">
+                  <input class="btn header_button" type="submit" value="Search" >
+                </form>
                 <ul class="navbar-nav ms-auto mb-lg-0">
                   {% if request.user.is_authenticated %}
                   <li class="nav-item">

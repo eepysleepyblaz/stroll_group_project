@@ -19,8 +19,7 @@ def populate():
         'likes':54,
         'views':260,
         'tags':'govan,river',
-        'difficulty':3,
-        'slug':'a'},
+        'difficulty':3,},
 
         {'thumbnail':'population_thumbnails/milngavie.jpg',
         'title':'Milngavie walk',
@@ -29,8 +28,7 @@ def populate():
         'likes':1893,
         'views':5845,
         'tags':'milngavie,nice',
-        'difficulty':2,
-        'slug':'a'},
+        'difficulty':2,},
 
         {'thumbnail':'population_thumbnails/town.jpg',
         'title':'City centre walk',
@@ -39,8 +37,7 @@ def populate():
         'likes':53878,
         'views':104953,
         'tags':'city centre,town,shops',
-        'difficulty':4,
-        'slug':'a'},
+        'difficulty':4,},
     ]
 
     questions = [
