@@ -21,4 +21,8 @@ urlpatterns = [
     path('questions/<slug:id>', views.show_question, name='show_question'),
     path('like_walk/', views.LikeWalkView.as_view(), name='like_walk'),
     path('like_question/', views.LikeQuestionView.as_view(), name='like_question'),
+    path('delete_walk/', views.DeleteWalkView.as_view(), name='delete_walk'),
+    path('delete_question/', views.DeleteQuestionView.as_view(), name='delete_question'),
+    path('delete_question_comment/', views.DeleteQuestionCommentView.as_view(), name='delete_question_comment'),
+    path('delete_walk_comment/', views.DeleteWalkCommentView.as_view(), name='delete_walk_comment'),
 ]

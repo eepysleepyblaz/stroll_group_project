@@ -25,10 +25,10 @@
 <div class="container title">
     <h1>{{ walk.title }}</h1>
     <h2>By {{ walk.user.username }}</h2>
-    {% if user.is_moderator %}
+    {% if request.user.userprofile.is_moderator %}
         <div class="row main_body">
             <div class="col d-grid">
-                <input type="submit" class="btn delete_button" value="Delete Walk" />
+                <button id="delete_walk_btn" class="btn delete_button" data-walkid="{{ walk.id }}" type="submit">Delete Walk</button>
             </div>
         </div>
     {% endif %}

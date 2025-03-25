@@ -210,7 +210,7 @@ def search_walks(request):
                 kwargdict['difficulty__lte'] = max_difficulty
 
             context_dict["search_results"] = Walk.objects.filter(**kwargdict)
-            
+
 
     context_dict['form'] = form
     return render(request, 'stroll/search_walks.html', context=context_dict)
@@ -328,3 +328,71 @@ class LikeQuestionView(View):
         questionUser.save()
 
         return HttpResponse(question.likes)
+
+class DeleteWalkView(View):
+    @method_decorator(login_required)
+    def get(self, request):
+    
+        walk_id = request.GET['walk_id']
+        try:
+            walk = Walk.objects.get(id=int(walk_id))
+
+        except Walk.DoesNotExist:
+            return HttpResponse(-1)
+        except ValueError:
+            return HttpResponse(-1)
+        
+        walk.delete()
+
+        return HttpResponse()
+
+class DeleteQuestionView(View):
+    @method_decorator(login_required)
+    def get(self, request):
+    
+        question_id = request.GET['question_id']
+        try:
+            question = Question.objects.get(id=int(question_id))
+
+        except Question.DoesNotExist:
+            return HttpResponse(-1)
+        except ValueError:
+            return HttpResponse(-1)
+        
+        question.delete()
+
+        return HttpResponse()
+
+class DeleteQuestionCommentView(View):
+    @method_decorator(login_required)
+    def get(self, request):
+    
+        question_comment_class = request.GET['question_comment_class']
+        try:
+            question_comment = QuestionComment.objects.get(id=int(question_comment_class))
+
+        except QuestionComment.DoesNotExist:
+            return HttpResponse(-1)
+        except ValueError:
+            return HttpResponse(-1)
+        
+        question_comment.delete()
+
+        return HttpResponse()
+
+class DeleteWalkCommentView(View):
+    @method_decorator(login_required)
+    def get(self, request):
+    
+        walk_comment_class = request.GET['walk_comment_class']
+        try:
+            walk_comment = WalkComment.objects.get(id=int(walk_comment_class))
+
+        except WalkComment.DoesNotExist:
+            return HttpResponse(-1)
+        except ValueError:
+            return HttpResponse(-1)
+        
+        walk_comment.delete()
+
+        return HttpResponse()

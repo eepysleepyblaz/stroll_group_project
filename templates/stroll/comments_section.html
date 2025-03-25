@@ -40,7 +40,7 @@
                             <p class="section_text">No one has left a comment yet. Be the first to comment!</p>
                         {% else %}
                             {% for comment in comments %}
-                                <p>{% comment_element comment user %}</p>
+                                <p>{% comment_element comment user parent %}</p>
                             {% endfor %}
                         {% endif %}
                     </div>

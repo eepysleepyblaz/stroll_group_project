@@ -5,7 +5,7 @@
         <link rel="stylesheet" type="text/css" href="{% static 'css/comment_element.css' %}"/>
     </head>
     <body>
-        <div class="container-xxl">
+        <div class="container-xxl" id="{{ comment.id }}">
             <div class="row" id="comment_box">
                 <div class="col-xxl-1 col-md-2 col-12 profile_photo_box">
                     <img src="/media/{{ comment.user.profile_picture }}" class="profile_photo" alt="{{ comment.user }}'s profile picture.">
@@ -37,7 +37,12 @@
                 {% if user.userprofile.is_moderator %}
                     <div class="row">
                         <div class="col d-grid">
-                            <input type="submit" class="btn delete_button" value="Delete Comment" />
+                            {% if parent == "question" %}
+                                <button class="btn delete_button delete_question_comment_btn" data-questioncommentclass="{{ comment.id }}" type="submit">Delete Comment</button>
+                            {% elif parent == "walk" %}
+                                <button class="btn delete_button delete_walk_comment_btn" data-walkcommentclass="{{ comment.id }}" type="submit">Delete Comment</button>
+                            {% endif %}
+                            
                         </div>
                     </div>
                 {% endif %}

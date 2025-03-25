@@ -17,7 +17,7 @@
     {% if request.user.userprofile.is_moderator %}
         <div class="row">
             <div class="col d-grid">
-                <input type="submit" class="btn delete_button" value="Delete Question" />
+                <button id="delete_question_btn" class="btn delete_button" data-questionid="{{ question.id }}" type="submit">Delete Question</button>
             </div>
         </div>
     {% endif %}
@@ -65,6 +65,6 @@
     </div>
 </div>
 
-{% comments_section comments request.user "question" question.id %}
+<span id="comments_section">{% comments_section comments request.user "question" question.id %}</span>
 
 {% endblock %}
