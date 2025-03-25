@@ -3,10 +3,11 @@ from django.http import HttpResponse
 from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.views import View
+from django.utils.decorators import method_decorator
+
 from stroll.forms import *
 from stroll.models import *
-
-from stroll.forms import CreateWalkForm
 
 def home(request):
     # Variables needed for home template:
@@ -159,27 +160,40 @@ def my_questions(request):
     return render(request, 'stroll/my_questions.html')
 
 def search_walks(request):
+
+    def toInt(string):
+        if string != "":
+            return int(string)
+        else:
+            return string
+
     context_dict = {}
 
     form = SearchWalkForm()
     if request.method == 'POST':
         title = area = description = tags = min_length = max_length = min_difficulty = max_difficulty = search = ""
-        if 'search' in request.POST.keys():
+        level = request.POST['form-level']
+
+        if level == 'simple':
             search = request.POST['search']
-        if 'title' in request.POST.keys():
+            
+            context_dict["search_results"] = (Walk.objects.filter(title__icontains=search) |
+                                              Walk.objects.filter(area__icontains=search) |
+                                              Walk.objects.filter(description__icontains=search) |
+                                              Walk.objects.filter(tags__icontains=search))
+
+
+        elif level == 'advanced':
             title = request.POST['title']
             area = request.POST['area']
             description = request.POST['description']
             tags = request.POST['tags']
 
-            min_length = request.POST['min_length']
-            max_length = request.POST['max_length']
-            min_difficulty = request.POST['min_difficulty']
-            max_difficulty = request.POST['max_difficulty']
+            min_length = toInt(request.POST['min_length'])
+            max_length = toInt(request.POST['max_length'])
+            min_difficulty = toInt(request.POST['min_difficulty'])
+            max_difficulty = toInt(request.POST['max_difficulty'])
 
-        if search:
-            context_dict["search_results"] = Walk.objects.filter(title__icontains=search) | Walk.objects.filter(area__icontains="the") | Walk.objects.filter(description__icontains=search) | Walk.objects.filter(tags__icontains=search)
-        elif title or area or description or tags or min_length or max_length or min_difficulty or max_difficulty:
             kwargdict = {'title__icontains': title,
                     'area__icontains': area,
                     'description__icontains': description,
@@ -194,9 +208,9 @@ def search_walks(request):
 
             if max_difficulty:
                 kwargdict['difficulty__lte'] = max_difficulty
-            print(kwargdict)
 
             context_dict["search_results"] = Walk.objects.filter(**kwargdict)
+            
 
     context_dict['form'] = form
     return render(request, 'stroll/search_walks.html', context=context_dict)
@@ -270,3 +284,47 @@ def show_question(request, id):
     context_dict['comments'] = QuestionComment.objects.filter(question_id=id)[::-1]
 
     return render(request, 'stroll/show_question.html', context=context_dict)
+
+class LikeWalkView(View):
+    @method_decorator(login_required)
+    def get(self, request):
+    
+        walk_id = request.GET['walk_id']
+        try:
+            walk = Walk.objects.get(id=int(walk_id))
+
+        except Walk.DoesNotExist:
+            return HttpResponse(-1)
+        except ValueError:
+            return HttpResponse(-1)
+        
+        walkUser = UserProfile.objects.get(user=walk.user)
+        
+        walk.likes = walk.likes + 1
+        walkUser.total_likes += 1
+        walk.save()
+        walkUser.save()
+
+        return HttpResponse(walk.likes)
+
+class LikeQuestionView(View):
+    @method_decorator(login_required)
+    def get(self, request):
+    
+        question_id = request.GET['question_id']
+        try:
+            question = Question.objects.get(id=int(question_id))
+
+        except Question.DoesNotExist:
+            return HttpResponse(-1)
+        except ValueError:
+            return HttpResponse(-1)
+        
+        questionUser = question.user
+
+        question.likes = question.likes + 1
+        questionUser.total_likes += 1
+        question.save()
+        questionUser.save()
+
+        return HttpResponse(question.likes)

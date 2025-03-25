@@ -88,7 +88,7 @@
                     </div>
                     <div class="row">
                         <div class="col-12">
-                            <p><strong>Likes:</strong> {{ walk.likes }}</p>
+                            <p><strong>Likes:</strong><span id="like_count"> {{ walk.likes }}</span></p>
                         </div>
                     </div>
                 </div>
@@ -98,7 +98,7 @@
                 <div class="col-12">
                     <!-- If walk is liked, add 1 to walk liked and to the likes of the user who made the walk -->
                     {% if request.user.is_authenticated %}
-                    <button class="btn like_button" type="submit">Like this walk ❤</button> 
+                    <button id="like_walk_btn" class="btn like_button" data-walkid="{{ walk.id }}" type="submit">Like this walk ❤</button> 
                     {% endif %}
                 </div>
             </div>

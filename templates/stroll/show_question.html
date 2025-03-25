@@ -37,9 +37,9 @@
                                     <div class="col">
                                         <!-- Shows if the person asking the question is a moderator or not -->
                                         {% if question.user.is_moderator %}
-                                            <p><strong>{{ question.user }}</strong> (Moderator) • {{ question.date_published }} • {{ question.likes }} likes</p>
+                                            <p><strong>{{ question.user }}</strong> (Moderator) • {{ question.date_published }} • <span id="like_count">{{ question.likes }}</span> likes</p>
                                         {% else %}
-                                            <p><strong>{{ question.user }}</strong> • {{ question.date_published }} • {{ question.likes }} likes</p>
+                                            <p><strong>{{ question.user }}</strong> • {{ question.date_published }} • <span id="like_count">{{ question.likes }}</span> likes</p>
                                         {% endif %}
                                     </div>
                                 </div>
@@ -52,12 +52,10 @@
                         </div>
                         {% if request.user.is_authenticated %}
                         <div class="col-lg-2 col-0 d-none d-lg-block button_offset">
-                            <!-- If walk is liked, add 1 to walk liked and to the likes of the user who made the walk -->
-                            <button class="btn like_button" type="submit">Like this Question ❤</button>     
+                            <button id="like_question_btn" class="btn like_button" data-questionid="{{ question.id }}" type="submit">Like this Question ❤</button>
                         </div>
                         <div class="col-lg-0 col-12 d-lg-none d-block button_offset">
-                            <!-- If walk is liked, add 1 to walk liked and to the likes of the user who made the walk -->
-                            <button class="btn like_button" type="submit">❤</button>     
+                            <button id="like_question_btn" class="btn like_button" data-questionid="{{ question.id }}" type="submit">❤</button>     
                         </div>
                         {% endif %}
                     </div>

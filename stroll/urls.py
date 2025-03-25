@@ -19,4 +19,6 @@ urlpatterns = [
     path('walk/<id>/', views.show_walk, name='show_walk'),
     path('questions/', views.questions, name='questions'),
     path('questions/<slug:id>', views.show_question, name='show_question'),
+    path('like_walk/', views.LikeWalkView.as_view(), name='like_walk'),
+    path('like_question/', views.LikeQuestionView.as_view(), name='like_question'),
 ]
