@@ -12,6 +12,7 @@
 
 {% block stylesheet_block %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/form_style.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/walk.css' %}"/>
 {% endblock %}
 
 {% block title_block %}
@@ -38,7 +39,7 @@
                             Area: <input class="form-control" type="text" name="area" value="" size="30" />
                             {{ form.area.errors }}
                             <br />
-                            description: <input class="form-control" type="text" name = "description" value="" size="1000" />
+                            Description: <input class="form-control" type="text" name = "description" value="" size="1000" />
                             {{ form.description.errors }}
                             <br />
                             Difficulty: <input class="form-control" type="number" name="difficulty" min="1" max="10" value="" />
@@ -74,7 +75,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6 col-12">
+                <div class="col-lg-6 col-12 map_container">
                     <div id="map"></div>
                 </div>
                 <div class="col">
