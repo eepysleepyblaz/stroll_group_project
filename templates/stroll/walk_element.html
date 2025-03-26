@@ -43,13 +43,13 @@
     </div>
     {% elif display_type == "small" %}
     <div class="container">
-        <a href="{% url 'stroll:show_walk' walk.id %}" class="link-underline link-underline-opacity-0 text-dark">
+        <a href="{% url 'stroll:show_walk' walk.id %}" class="walk_link">
             <div class="card text-center walk_card">
                 <div class="row">
                     <!-- This doesn't use the media url as this can't see that variable -->
                     <img src="{{ walk.thumbnail.url }}" class="img-fluid rounded walk_thumbnail_small" alt="{{ walk.title }}'s thumbnail">
                     <div>
-                        <div class="card-body small_text_body">
+                        <div class="card-body">
                             <h8 class="card-title">{{ walk.title }}</h8>
                         </div>
                     </div>

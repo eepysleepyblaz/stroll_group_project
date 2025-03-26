@@ -94,14 +94,13 @@
               </div>
               
               <!-- Displays your most recently viewed walks -->
-              <!-- change this to use cookies -->
-              {% for walk in popular_walks %}
-                <div class="col-lg-2 col-0 d-none d-lg-block">
-                  {% if walk != null %}
-                    <!-- Brings in the HTML required for a walk element in icon form -->
-                    {% walk_element walk display_type="small" %}
+              {% for walk in request.COOKIES.recently_viewed_walks|get_walks_from_cookie %}
+                  {% if walk %}
+                    <div class="col-lg-2 col-0 d-none d-lg-block footer_walk_container">
+                      <!-- Brings in the HTML required for a walk element in icon form -->
+                      {% walk_element walk display_type="small" %}
+                    </div>
                   {% endif %}
-                </div>
               {% endfor %}
 
               <div class="col-lg col-12 text-center">

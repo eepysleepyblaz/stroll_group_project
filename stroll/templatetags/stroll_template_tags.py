@@ -1,5 +1,6 @@
 from django import template
 
+from stroll.models import *
 register = template.Library()
 
 # Creates a walk from its attributes
@@ -22,3 +23,25 @@ def comment_element(comment, user, parent):
 @register.inclusion_tag('stroll/comments_section.html')
 def comments_section(comments, user, parent, id):
     return {"comments": comments, "user": user, "parent": parent, 'id': id}
+
+# Helper method to the walk objects accociated with the walk cookies
+@register.filter
+def get_walks_from_cookie(walk_cookies):
+
+    if walk_cookies == None:
+        return []
+
+    # Seperates out the ids
+    # The "a" is the seperator used between the cookie ids
+    walk_cookies = walk_cookies.split("a")
+
+    # Grabs the walk objects associated with the ids and skips them if the walk was deleted
+    return_walks = []
+    for walk_id in walk_cookies:
+        if walk_id:
+            try:
+                return_walks.append(Walk.objects.get(id=walk_id))
+            except:
+                pass
+    
+    return return_walks

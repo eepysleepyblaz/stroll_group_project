@@ -240,7 +240,10 @@ def show_walk(request, id):
     context_dict['comments'] = comments
     context_dict['form'] = form
    
-    return render(request, 'stroll/show_walk.html', context=context_dict)
+    response = render(request, 'stroll/show_walk.html', context=context_dict)
+    walk_vist_cookie_handeler(request, response, id)
+
+    return response
 
 def questions(request):
     form = QuestionForm()
@@ -396,3 +399,19 @@ class DeleteWalkCommentView(View):
         walk_comment.delete()
 
         return HttpResponse()
+
+
+# Handels the cookies to store the visitors most recently viewed walks
+def walk_vist_cookie_handeler(request, response, walk_id):
+
+    #Walks stores the ID's of the walks the user has viewed
+    walks = request.COOKIES.get('recently_viewed_walks', "")
+    if walks == "":
+        walks = walk_id
+    elif walk_id not in walks.split("a"):
+        walks = walks + "a" + walk_id
+    if len(walks.split("a")) > 3:
+        walks = "a".join(walks.split("a")[-3:])
+    
+
+    response.set_cookie('recently_viewed_walks', walks)
