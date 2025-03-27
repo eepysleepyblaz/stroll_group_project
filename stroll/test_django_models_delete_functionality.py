@@ -10,6 +10,7 @@ from stroll.models import Walk, UserProfile, Question, QuestionComment, WalkComm
 from django.contrib.auth.models import User
 
 class TestUserProfileModelDeletion(TestCase):
+    print('Standard tests for model deletion are running, this may take upto 10 seconds...')
     def setUp(self):
         self.user = User(username='Test user', email='Test email')
         self.user.set_password('123')

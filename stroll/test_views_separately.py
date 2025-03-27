@@ -12,6 +12,7 @@ from django.contrib.auth.models import User
 from datetime import datetime
 
 class TestViewsProvideResponse(TestCase):
+    print('Separate tests for views running, this may take upto 10 seconds...')
     def setUp(self):
         self.user = User(username='Test user', email='Test email')
         self.user.set_password('123')
@@ -139,6 +140,7 @@ class TestViewsProvideResponse(TestCase):
     # currently "coverage report -m" shows a coverage of around 50%
 
 class TestViewsAdditionalTests(TestCase):
+    print('Additional separate tests for views are running, this may take upto 10 seconds...')
     def setUp(self):
         self.user = User(username='Test user', email='Testemail@gmail.com')
         self.user.set_password('123')

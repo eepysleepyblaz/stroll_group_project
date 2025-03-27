@@ -19,6 +19,7 @@ from stroll.models import UserProfile, Walk, Question
 STANDARD_FAILURE = '\n\n============\nTEST FAILED\n============\n'
 
 class ProjectFileStructureTests(TestCase):
+    print('Standard tests for views and templates are running, this may take upto 10 seconds...')
     # Tests for the basic file structure of the project
 
     def setUp(self):

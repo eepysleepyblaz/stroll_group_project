@@ -15,6 +15,7 @@ from django.conf import settings
 STANDARD_FAILURE = '\n\n============\nTEST FAILED\n============\n'
 
 class MediaAndStaticDirectoryTests(TestCase):
+    print('Standard tests for media and static directories are running, this may take upto 10 seconds...')
     # Tests for the basic file structure of the project
 
     def setUp(self):
