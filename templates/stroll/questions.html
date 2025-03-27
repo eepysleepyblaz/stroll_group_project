@@ -55,15 +55,21 @@
             
             <div class="col-lg-10 col-12">
                 <div class="row">
-                    <form class="content_seperator" id="question_form" method="post" action="{% url 'stroll:questions' %}" >
-                        {% csrf_token %}
-                        <div class="col-lg-11 col-12">
-                            <input class="form-control" type="text" name="question" placeholder="Post Question" aria-label="Post">
+                    {% if user.is_authenticated %}
+                        <form class="content_seperator" id="question_form" method="post" action="{% url 'stroll:questions' %}" >
+                            {% csrf_token %}
+                            <div class="col-lg-11 col-12">
+                                <input class="form-control" type="text" name="question" placeholder="Post Question" aria-label="Post">
+                            </div>
+                            <div class="col-lg-11 col-12">
+                                <input class="form-control submit_button" type="submit" name="submit" value="Post" />
+                            </div>
+                        </form>
+                    {% else %}
+                        <div class="row section_text">
+                            <a href="{% url 'stroll:login' %}"><p>Log in to be able to post comments</p></a>
                         </div>
-                        <div class="col-lg-11 col-12">
-                            <input class="form-control submit_button" type="submit" name="submit" value="Post" />
-                        </div>
-                    </form>
+                    {% endif %}
                 </div>
                 <div class="row" id="sortable">
                     {% for question in questions %}
