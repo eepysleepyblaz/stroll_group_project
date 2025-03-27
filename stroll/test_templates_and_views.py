@@ -9,7 +9,7 @@ import importlib
 
 from django.core.files import File
 from django.urls import reverse, resolve
-from django.test import TestCase
+from django.test import TestCase, Client
 from django.conf import settings
 from django.contrib.auth.models import User
 from stroll.models import UserProfile, Walk, Question
@@ -54,6 +54,7 @@ class ProjectHasCorrectTemplates(TestCase):
     # Tests for the correct template file names
 
     def setUp(self):
+        self.client = Client()
         self.project_base_dir = os.getcwd()
         self.stroll_app_dir = os.path.join(self.project_base_dir, 'stroll')
         self.templates_dir = os.path.join(self.project_base_dir, 'templates')
@@ -115,8 +116,7 @@ class ProjectHasCorrectTemplates(TestCase):
         ProjectHasCorrectTemplates.template_test(self, "my_walks")
 
     def test_base_starts_with_doctype(self):
-        url = reverse('stroll:signup')
-        response = self.client.get(url)
+        response = self.client.get(reverse('stroll:signup'))
         self.assertTrue(response.content.decode().startswith('<!DOCTYPE html>'), f"{STANDARD_FAILURE} The base.html template does not start with '<!DOCTYPE html>'")
 
 

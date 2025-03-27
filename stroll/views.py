@@ -153,10 +153,18 @@ def edit_profile(request):
 
 def my_walks(request):
     context_dict = {}
-    context_dict["walks"] = Walk.objects.filter(user=request.user)
+    user = request.user
+    if not user.is_authenticated:
+        return redirect(reverse('stroll:login'))
+    
+    context_dict["walks"] = Walk.objects.filter(user=user)
     return render(request, 'stroll/my_walks.html', context=context_dict)
 
 def my_questions(request):
+    user = request.user
+    if not user.is_authenticated:
+        return redirect(reverse('stroll:login'))
+
     return render(request, 'stroll/my_questions.html')
 
 def search_walks(request):
