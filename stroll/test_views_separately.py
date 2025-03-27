@@ -1,6 +1,8 @@
 '''
 Code based on chapter 18 Automated Testing from Tango with Django 2 
-course textbook
+course textbook.
+
+Tests might take 20-30 seconds to complete.
 '''
 
 from django.test import TestCase
@@ -220,7 +222,6 @@ class TestViewsAdditionalTests(TestCase):
         self.assertIn(self.walk2, response.context['search_results'])
         self.assertNotIn(self.walk1, response.context['search_results'])
 
-
     def test_search_view_advanced_search(self):
         response = self.client.post(reverse('stroll:search_walks'), {
             'form-level': 'advanced',
@@ -236,6 +237,29 @@ class TestViewsAdditionalTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertNotIn(self.walk2, response.context['search_results'])
         self.assertNotIn(self.walk1, response.context['search_results'])
+
+    def test_more_my_walks_view_tests_simple_search(self):
+        response = self.client.post(reverse('stroll:my_walks'), {'form-level': 'simple', 'search': 'test walk2'})
+
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(self.walk2, response.context['walks'])
+        self.assertIn(self.walk1, response.context['walks'])
+
+    def test_more_my_walks_views_tests_advanced_search(self):
+        response = self.client.post(reverse('stroll:my_walks'), {
+            'form-level': 'advanced',
+            'title': 'test',
+            'area': '',
+            'description': '',
+            'tags': '',
+            'min_length': '',
+            'max_length': '',
+            'min_difficulty': '',
+            'max_difficulty': '',
+        })
+        self.assertEqual(response.status_code, 200)
+        self.assertNotIn(self.walk2, response.context['walks'])
+        self.assertNotIn(self.walk1, response.context['walks'])
 
     def test_more_edit_profile_form_view_tests(self):
         response = self.client.post(reverse('stroll:edit_profile'), {

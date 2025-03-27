@@ -1,6 +1,8 @@
 '''
 Code based on original tests from the tango with django github repository
 at: https://github.com/tangowithcode/tango_with_django_2_code.git
+
+Tests might take 20-30 seconds to complete.
 '''
 
 

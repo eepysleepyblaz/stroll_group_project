@@ -1,6 +1,8 @@
 '''
 Code based on chapter 18 Automated Testing from Tango with Django 2 
 course textbook
+
+Tests might take 20-30 seconds to complete.
 '''
 
 from django.test import TestCase
