@@ -77,9 +77,9 @@ def populate():
          'views':374,
          'comment_count':1},
          
-         {'question':'Where can I go for more nature walks?',
-         'likes':84,
-         'views':374,
+         {'question':'When is the best time of the day to go for a walk outside?',
+         'likes':95,
+         'views':248,
          'comment_count':0},
     ]
 
@@ -106,8 +106,8 @@ def populate():
         'email':'ellie@gmail.com',
         'date_of_birth':'2005-08-14',
         'profile_picture':'population_profile_pictures/ellie1.jpg',
-        'total_likes':walks[2]['likes'] + questions[1]['likes'],
-        'total_views':walks[2]['views'] + questions[1]['views'],
+        'total_likes':walks[2]['likes'] + questions[1]['likes'] + walks[3]['likes'] + questions[3]['likes'],
+        'total_views':walks[2]['views'] + questions[1]['views'] + walks[3]['views'] + questions[3]['views'],
         'is_moderator':False,
         'walks':[walks[2],walks[3]],
         'questions':[questions[1], questions[3]],
@@ -192,8 +192,11 @@ def populate():
                 print(f'- {user_profile}:\n     Walk: {walk}\n     Comment: {walk_comment} comment made by {walk_comment.user}\n')
 
         for question in Question.objects.filter(user=user_profile):
-            for question_comment in QuestionComment.objects.filter(question=question):
-                print(f'- {user_profile}:\n     Questoin: {question}\n     Comment: {question_comment} comment made by {question_comment.user}\n')
+            if question.comment_count == 0:
+                print(f'- {user_profile}:\n     Question: {question}\n')
+            else:
+                for question_comment in QuestionComment.objects.filter(question=question):
+                    print(f'- {user_profile}:\n     Question: {question}\n     Comment: {question_comment} comment made by {question_comment.user}\n')
 
 
 def add_question_comment_helper(user_profile, question, user_index, users):

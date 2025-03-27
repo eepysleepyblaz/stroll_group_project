@@ -4,7 +4,6 @@ course textbook
 
 Tests might take 20-30 seconds to complete.
 '''
-
 from django.test import TestCase
 from django.urls import reverse
 from stroll.models import Walk, UserProfile, Question, QuestionComment, WalkComment

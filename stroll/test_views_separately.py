@@ -51,8 +51,6 @@ class TestViewsProvideResponse(TestCase):
         else:
             self.assertEqual(response.status_code, 200)
 
-
-
     # Tests for show_walk and show_question views using the unique django models ids appended to the url
     def test_walk_url_uses_walk_id(self):
         response = self.client.get(reverse('stroll:show_walk', args=[str(self.walk.id)]))
