@@ -1,6 +1,6 @@
 from django.test import TestCase
 from django.urls import reverse
-from stroll.models import Walk, UserProfile, Question
+from stroll.models import Walk, UserProfile, Question, QuestionComment, WalkComment
 from django.contrib.auth.models import User
 
 class TestViewsProvideResponse(TestCase):
@@ -14,7 +14,7 @@ class TestViewsProvideResponse(TestCase):
         self.client.force_login(self.user)
 
 
-        self.walk = Walk(title='Test walk', user=self.user, tags='test,tags', thumbnail='population_thumbnails/govan.jpg')
+        self.walk = Walk(title='Test walk', user=self.user, tags='test,tags', thumbnail='population_thumbnails/test.jpg')
         self.walk.save()
 
         self.question = Question(user=self.user_profile)
@@ -142,20 +142,17 @@ class TestViewsAdditionalTests(TestCase):
 
         self.client.force_login(self.user)
 
-        self.walk1 = Walk(title='Test walk1', user=self.user, tags='test,tags', thumbnail='population_thumbnails/govan.jpg')
+        self.walk1 = Walk(title='Test walk1', user=self.user, tags='test,tags', thumbnail='population_thumbnails/test.jpg',
+                          area='govan')
         self.walk1.save()
-        self.walk2 = Walk(title='Test walk2', user=self.user, tags='test,tags', thumbnail='population_thumbnails/govan.jpg')
+        self.walk2 = Walk(title='Test walk2', user=self.user, tags='test,tags', thumbnail='population_thumbnails/test.jpg')
         self.walk2.save()
 
         self.question = Question(user=self.user_profile)
         self.question.save()
 
-    def generate_image_for_testing(self):
-        image = BytesIO()
-        img = Image.new('RGB', (100, 100), color='red')
-        img.save(image, format='JPG')
-        image.seek(0)
-        return image
+        self.question_comment = QuestionComment(question=self.question, user=self.user_profile)
+        self.walk_comment = WalkComment(walk=self.walk1, user=self.user_profile)
 
     def test_home_view_context_dictionary(self):
         response = self.client.get(reverse('stroll:home'))
@@ -202,11 +199,84 @@ class TestViewsAdditionalTests(TestCase):
         self.assertTrue(Walk.objects.filter(title='test walk').exists()) 
 
 
+    def test_search_view_simple_search_1(self):
+        response = self.client.post(reverse('stroll:search_walks'), {'form-level': 'simple', 'search': 'test'})
+
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(self.walk1, response.context['search_results'])
+        self.assertIn(self.walk2, response.context['search_results'])
+
+    def test_search_view_simple_search_2(self):
+        response = self.client.post(reverse('stroll:search_walks'), {'form-level': 'simple', 'search': 'test walk2'})
+
+        self.assertEqual(response.status_code, 200)
+        self.assertNotIn(self.walk1, response.context['search_results'])
+        self.assertIn(self.walk2, response.context['search_results'])
 
 
+    def test_search_view_advanced_search(self):
+        response = self.client.post(reverse('stroll:search_walks'), {
+            'form-level': 'advanced',
+            'title': 'test',
+            'area': '',
+            'description': '',
+            'tags': '',
+            'min_length': '',
+            'max_length': '',
+            'min_difficulty': '',
+            'max_difficulty': '',
+        })
+        self.assertEqual(response.status_code, 200)
+        self.assertNotIn(self.walk1, response.context['search_results'])
+        self.assertNotIn(self.walk2, response.context['search_results'])
+
+    def test_more_show_question_view_tests(self):
+        user_input_post_data = {
+            'comment': 'test comment',
+        }
+        response = self.client.post(reverse('stroll:show_question', args=[self.question.id]), data=user_input_post_data)
+        comment = QuestionComment.objects.get(comment='test comment')
+        self.assertEqual(comment.user, self.user_profile)
+        self.assertEqual(comment.question, self.question)
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('question', response.context)
+        self.assertIn('comments', response.context)
 
 
+    def test_like_walk_view(self):
+        response = self.client.get(reverse('stroll:like_walk') + f'?walk_id={self.walk1.id}')
+        self.walk1.refresh_from_db()
+        self.user_profile.refresh_from_db()
 
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(self.user_profile.total_likes, 1)
+        self.assertEqual(self.walk1.likes, 1)
 
+    def test_like_question_view(self):
+        response = self.client.get(reverse('stroll:like_question') + f'?question_id={self.question.id}')
+        self.question.refresh_from_db()
+        self.user_profile.refresh_from_db()
 
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(self.user_profile.total_likes, 1)
+        self.assertEqual(self.question.likes, 1)
 
+    def test_delete_walk_view(self):
+        response = self.client.get(reverse('stroll:delete_walk') + f'?walk_id={self.walk1.id}')
+        self.assertEqual(response.status_code, 200)
+        self.assertFalse(Walk.objects.filter(id=self.walk1.id).exists())
+
+    def test_delete_question_view(self):
+        response = self.client.get(reverse('stroll:delete_question') + f'?question_id={self.question.id}')
+        self.assertEqual(response.status_code, 200)
+        self.assertFalse(Question.objects.filter(id=self.question.id).exists())
+
+    def test_delete_question_comment_view(self):
+        response = self.client.get(reverse('stroll:delete_question_comment') + f'?question_comment_class={self.question_comment.id}')
+        self.assertEqual(response.status_code, 200)
+        self.assertFalse(QuestionComment.objects.filter(id=self.question_comment.id).exists())
+
+    def test_delete_walk_comment_view(self):
+        response = self.client.get(reverse('stroll:delete_walk_comment') + f'?walk_comment_class={self.walk_comment.id}')
+        self.assertEqual(response.status_code, 200)
+        self.assertFalse(WalkComment.objects.filter(id=self.walk_comment.id).exists())
