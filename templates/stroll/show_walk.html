@@ -45,7 +45,7 @@
                     <div id="walk_carousel" class="carousel slide">
                         <div class="carousel-inner">
                             <div class="carousel-item active">
-                                <img src="{{ MEDIA_URL }}{{ walk.thumbnail }}" class="d-block carousel_image image" alt="Thumbnail">
+                                <img src="{% if walk.thumbnail %}{{ walk.thumbnail.url }}{% else %}{% static 'images/default.jpg' %}{% endif %}" class="d-block carousel_image image" alt="Thumbnail">
                             </div>
                             {% for photo in photos %}
                                 <div class="carousel-item">
