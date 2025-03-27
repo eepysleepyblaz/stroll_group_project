@@ -19,5 +19,6 @@ class TestUserProfileModelDeletion(TestCase):
         self.client.force_login(self.user)
 
     def test_user_profile_model_deletion(self):
+        # Tests if the delete() function for UserProfile works, this test improves coverage greatly
         self.user_profile.delete()
         self.assertFalse(UserProfile.objects.filter(id=self.user_profile.id).exists())

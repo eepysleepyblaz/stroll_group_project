@@ -7,6 +7,7 @@ from django.test import TestCase
 from django.urls import reverse
 from stroll.models import Walk, UserProfile, Question, QuestionComment, WalkComment
 from django.contrib.auth.models import User
+from datetime import datetime
 
 class TestViewsProvideResponse(TestCase):
     def setUp(self):
@@ -139,10 +140,11 @@ class TestViewsProvideResponse(TestCase):
 
 class TestViewsAdditionalTests(TestCase):
     def setUp(self):
-        self.user = User(username='Test user', email='Test email')
+        self.user = User(username='Test user', email='Testemail@gmail.com')
         self.user.set_password('123')
         self.user.save()
-        self.user_profile = UserProfile(user=self.user)
+        self.user_profile = UserProfile(user=self.user, 
+                                        date_of_birth=datetime.strptime('2005-08-14', "%Y-%m-%d").date(),)
         self.user_profile.save()
 
         self.client.force_login(self.user)
@@ -215,8 +217,8 @@ class TestViewsAdditionalTests(TestCase):
         response = self.client.post(reverse('stroll:search_walks'), {'form-level': 'simple', 'search': 'test walk2'})
 
         self.assertEqual(response.status_code, 200)
-        self.assertNotIn(self.walk1, response.context['search_results'])
         self.assertIn(self.walk2, response.context['search_results'])
+        self.assertNotIn(self.walk1, response.context['search_results'])
 
 
     def test_search_view_advanced_search(self):
@@ -232,8 +234,21 @@ class TestViewsAdditionalTests(TestCase):
             'max_difficulty': '',
         })
         self.assertEqual(response.status_code, 200)
-        self.assertNotIn(self.walk1, response.context['search_results'])
         self.assertNotIn(self.walk2, response.context['search_results'])
+        self.assertNotIn(self.walk1, response.context['search_results'])
+
+    def test_more_edit_profile_form_view_tests(self):
+        response = self.client.post(reverse('stroll:edit_profile'), {
+            'username': 'username23',
+            'email': 'testemail2@gmail.com',
+            'date_of_birth': '1999-04-04',
+        })
+        self.user.refresh_from_db()
+        self.user_profile.refresh_from_db()
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(self.user.username, 'username23')
+        self.assertEqual(self.user.email, 'testemail2@gmail.com')
+        self.assertEqual(self.user_profile.date_of_birth, datetime.strptime('1999-04-04', "%Y-%m-%d").date())
 
     def test_more_show_question_view_tests(self):
         user_input_post_data = {
@@ -254,8 +269,8 @@ class TestViewsAdditionalTests(TestCase):
         self.user_profile.refresh_from_db()
 
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(self.user_profile.total_likes, 1)
         self.assertEqual(self.walk1.likes, 1)
+        self.assertEqual(self.user_profile.total_likes, 1)
 
     def test_like_question_view(self):
         response = self.client.get(reverse('stroll:like_question') + f'?question_id={self.question.id}')
