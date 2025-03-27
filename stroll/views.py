@@ -195,6 +195,7 @@ def my_walks(request):
             return string
 
     context_dict = {}
+    context_dict["walks"] = Walk.objects.filter(user=user)
 
     form = SearchWalkForm()
     if request.method == 'POST':
@@ -261,6 +262,7 @@ def search_walks(request):
             return string
 
     context_dict = {}
+    context_dict["search_results"] = Walk.objects.all()
 
     form = SearchWalkForm()
     if request.method == 'POST':

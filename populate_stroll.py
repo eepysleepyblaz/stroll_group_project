@@ -13,6 +13,7 @@ def populate():
     
     walks = [
         {'thumbnail':'population_thumbnails/govan.jpg',
+         'image1':'population_thumbnails/george_square.jpg',
         'title':'Govan walk',
         'description':'Walking around govan, took photos of the river',
         'area':'Govan',
@@ -24,6 +25,7 @@ def populate():
         'length':2611,},
 
         {'thumbnail':'population_thumbnails/milngavie.jpg',
+         'image1':'population_thumbnails/hospital.jpg',
         'title':'Milngavie walk',
         'description':'The neighbourhood seems nice',
         'area':'Milngavie',
@@ -35,6 +37,7 @@ def populate():
         'length':6676},
 
         {'thumbnail':'population_thumbnails/town.jpg',
+         'image1':'population_thumbnails/buchanan_street.jpg',
         'title':'City centre walk',
         'description':'There are many places to eat',
         'area':'Town',
@@ -46,6 +49,7 @@ def populate():
         'length':4299,},
 
         {'thumbnail':'population_thumbnails/partick.jpg',
+         'image1':'population_thumbnails/bridge.jpg',
         'title':'Partick walk to university',
         'description':'Lots of pubs and shops',
         'area':'Partick, University',
@@ -213,7 +217,7 @@ def add_walk_and_question(user_profile, user_index, users):
 def add_walk_helper(user, walks):
     for walk in walks:
         add_walk(user, walk['title'], walk['description'], walk['area'],
-                    walk['tags'], walk['difficulty'], walk['thumbnail'], walk['likes'], walk['views'], walk['map_coordinates'], walk['length'])
+                    walk['tags'], walk['difficulty'], walk['thumbnail'], walk['image1'], walk['likes'], walk['views'], walk['map_coordinates'], walk['length'])
         
 def add_question_helper(user_profile, questions):
     for question in questions:
@@ -245,7 +249,7 @@ def add_user(username, description, is_moderator, date_of_birth, profile_picture
     up.save()
     return (u, up)
 
-def add_walk(user, title, description, area, tags, difficulty, thumbnail, likes, views, map_coordinates, length):
+def add_walk(user, title, description, area, tags, difficulty, thumbnail, image1, likes, views, map_coordinates, length):
     w = Walk.objects.get_or_create(user=user, title=title, description=description)[0]
     w.area = area
     w.tags = tags
@@ -259,6 +263,11 @@ def add_walk(user, title, description, area, tags, difficulty, thumbnail, likes,
     if os.path.exists(image_path):
         with open(image_path, "rb") as img_file:
             w.thumbnail.save(os.path.basename(thumbnail), File(img_file))
+
+    image_path = os.path.join("media", image1)
+    if os.path.exists(image_path):
+        with open(image_path, "rb") as img_file:
+            w.gallery_image_1.save(os.path.basename(image1), File(img_file))
 
     w.save()
     return w
