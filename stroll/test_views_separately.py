@@ -1,3 +1,8 @@
+'''
+Code based on chapter 18 Automated Testing from Tango with Django 2 
+course textbook
+'''
+
 from django.test import TestCase
 from django.urls import reverse
 from stroll.models import Walk, UserProfile, Question, QuestionComment, WalkComment
