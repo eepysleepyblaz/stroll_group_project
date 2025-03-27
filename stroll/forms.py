@@ -40,7 +40,7 @@ class UserForm(forms.ModelForm):
 
 class UserProfileForm(forms.ModelForm):
     date_of_birth = forms.DateField(widget=forms.DateInput(), required=False)
-    profile_picture = forms.ImageField(widget=forms.FileInput(), help_text="Photo:", required=False)
+    profile_picture = forms.ImageField(widget=forms.FileInput(), help_text="", required=False)
 
     class Meta:
         model = UserProfile
