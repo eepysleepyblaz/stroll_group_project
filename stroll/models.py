@@ -41,7 +41,7 @@ class Walk(models.Model):
     length = models.IntegerField(default=0)
     thumbnail = models.ImageField(upload_to='walk_thumbnails/', default=None, null=True, blank=True)
     tags = models.CharField(max_length=255, null=True, blank=True)
-    gallery_image_1 = models.ImageField(upload_to='walk_gelleries/', null=True, blank=True)
+    gallery_image_1 = models.ImageField(upload_to='walk_galleries/', null=True, blank=True)
     gallery_image_2 = models.ImageField(upload_to='walk_galleries/', null=True, blank=True)
     gallery_image_3 = models.ImageField(upload_to='walk_galleries/', null=True, blank=True)
     gallery_image_4 = models.ImageField(upload_to='walk_galleries/', null=True, blank=True)

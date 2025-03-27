@@ -157,6 +157,7 @@ def edit_profile(request):
     
     if request.method == 'POST':
         username = request.POST.get('username')
+        password = request.POST.get('password')
         email = request.POST.get('email')
         date_of_birth = request.POST.get('date_of_birth')
         profile_picture = request.POST.get('profile_picture') 
@@ -249,9 +250,9 @@ def search_walks(request):
                     'description__icontains': description,
                     'tags__icontains': tags,}
             if min_length:
-                kwargdict['length__gte'] = min_length/1000
+                kwargdict['length__gte'] = min_length*1000
             if max_length:
-                kwargdict['length__lte'] = max_length/1000
+                kwargdict['length__lte'] = max_length*1000
             
             if min_difficulty:
                 kwargdict['difficulty__gte'] = min_difficulty
