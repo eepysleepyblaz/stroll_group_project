@@ -9,7 +9,7 @@ class CreateWalkForm(forms.ModelForm):
     length = forms.IntegerField(min_value=0)
     difficulty = forms.IntegerField(min_value=0, max_value=10, help_text="Difficulty:")
     tags = forms.CharField(max_length=255, help_text="Tags:")
-    thumbnail = forms.ImageField(widget=forms.FileInput(), help_text="Thumbnail")
+    thumbnail = forms.ImageField(widget=forms.FileInput(), help_text="Thumbnail", required=False)
     gallery_image_1 = forms.ImageField(widget=forms.FileInput(), help_text="Photo:", required=False)
     gallery_image_2 = forms.ImageField(widget=forms.FileInput(), help_text="Photo:", required=False)
     gallery_image_3 = forms.ImageField(widget=forms.FileInput(), help_text="Photo:", required=False)

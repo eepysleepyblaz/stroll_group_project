@@ -13,8 +13,10 @@ class TestViewsProvideResponse(TestCase):
 
         self.client.force_login(self.user)
 
+
         self.walk = Walk(title='Test walk', user=self.user, tags='test,tags', thumbnail='population_thumbnails/govan.jpg')
         self.walk.save()
+
         self.question = Question(user=self.user_profile)
         self.question.save()
 
@@ -117,9 +119,6 @@ class TestViewsProvideResponse(TestCase):
     def test_my_profile_if_not_logged_in(self):
         TestViewsProvideResponse.views_work_helper_except_show_walk_and_show_question_logged_out(self, 'my_profile')
 
-    # This test currently passes, which means that even if there is no one logged in, users will be 
-    # directed to the edit-profile page. However changes should probably be made so that users are redirected,
-    # to the login page.
     def test_edit_profile_if_not_logged_in(self):
         TestViewsProvideResponse.views_work_helper_except_show_walk_and_show_question_logged_out(self, 'edit_profile')
 
@@ -130,4 +129,84 @@ class TestViewsProvideResponse(TestCase):
         TestViewsProvideResponse.views_work_helper_except_show_walk_and_show_question_logged_out(self, 'my_walks')
 
     
+    # The following tests have the purpose of increasing the coverage of lines tested in views.py
+    # currently "coverage report -m" shows a coverage of around 50%
+
+class TestViewsAdditionalTests(TestCase):
+    def setUp(self):
+        self.user = User(username='Test user', email='Test email')
+        self.user.set_password('123')
+        self.user.save()
+        self.user_profile = UserProfile(user=self.user)
+        self.user_profile.save()
+
+        self.client.force_login(self.user)
+
+        self.walk1 = Walk(title='Test walk1', user=self.user, tags='test,tags', thumbnail='population_thumbnails/govan.jpg')
+        self.walk1.save()
+        self.walk2 = Walk(title='Test walk2', user=self.user, tags='test,tags', thumbnail='population_thumbnails/govan.jpg')
+        self.walk2.save()
+
+        self.question = Question(user=self.user_profile)
+        self.question.save()
+
+    def generate_image_for_testing(self):
+        image = BytesIO()
+        img = Image.new('RGB', (100, 100), color='red')
+        img.save(image, format='JPG')
+        image.seek(0)
+        return image
+
+    def test_home_view_context_dictionary(self):
+        response = self.client.get(reverse('stroll:home'))
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('popular_walks', response.context)
+        self.assertEqual(response.context['popular_walks'][0].title, "Test walk1")
+        self.assertEqual(response.context['popular_walks'][1].title, "Test walk2")
+
+    def test_about_view_context_dictionary(self):
+        response = self.client.get(reverse('stroll:about'))
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('popular_walks', response.context)
+        self.assertEqual(response.context['popular_walks'][0].title, "Test walk1")
+        self.assertEqual(response.context['popular_walks'][1].title, "Test walk2")
+
+    def test_more_signup_view_tests_form(self):
+
+        user_input_data = {'username':'test', 'email':'test@gmail.com', 'password':'123'}
+        user_profile_data = {'description':'this is a test'}
+
+        response = self.client.post(reverse('stroll:signup'), {**user_input_data, **user_profile_data})
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(User.objects.filter(username='test').exists())  
+        self.assertTrue(UserProfile.objects.filter(user__username='test').exists())
+        self.assertIn('user_form', response.context)
+        self.assertIn('profile_form', response.context)
+        self.assertIn('registered', response.context)
+
+    def test_more_create_walk_view_tests_form(self):
+        walk_user_input_data = {'user':self.user, 
+                                'title':'test walk', 
+                                'area':'govan',
+                                'description':'this is a test',
+                                'length':'50',
+                                'difficulty':'9',
+                                'tags':'test,tags',
+                                'map_coordinates':'30,-20'}
+        
+        url = reverse('stroll:create_walk')
+        response = self.client.post(url, walk_user_input_data)
+
+        self.assertEqual(response.status_code, 302)
+        self.assertTrue(Walk.objects.filter(title='test walk').exists()) 
+
+
+
+
+
+
+
+
+
 
