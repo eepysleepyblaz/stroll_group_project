@@ -33,13 +33,22 @@
                         <h5>Sort By:</h5>
                     </div>
                     <div class="col-lg-12 col-sm-3 col-6">
-                        <button class="btn sort_button" type="button" onclick="sortBy(questions, 'likes')">Likes</button> 
+                        <form id="create_walk_form" method="get" action="{% url 'stroll:questions' %}">
+                            <input id="ordering" type="hidden" name="ordering" value="likes" size="20" />
+                            <input class="btn sort_button" type="submit" name="submit" value="Likes" />
+                        </form>
                     </div>
                     <div class="col-lg-12 col-sm-3 col-6">
-                        <button class="btn sort_button" type="button">Views</button> 
+                        <form id="create_walk_form" method="get" action="{% url 'stroll:questions' %}">
+                            <input id="ordering" type="hidden" name="ordering" value="likes" size="20" />
+                            <input class="btn sort_button" type="submit" name="submit" value="Views" />
+                        </form>
                     </div>
                     <div class="col-lg-12 col-sm-3 col-12">
-                        <button class="btn sort_button" type="button">Newest</button> 
+                        <form id="create_walk_form" method="get" action="{% url 'stroll:questions' %}">
+                            <input id="ordering" type="hidden" name="ordering" value="date_published" size="20" />
+                            <input class="btn sort_button" type="submit" name="submit" value="Newest" />
+                        </form>
                     </div>    
                 </div>
             </div>

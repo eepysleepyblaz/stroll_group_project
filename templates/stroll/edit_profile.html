@@ -15,23 +15,30 @@
 </div>
 <div class="container-xxl content_box_thin main_body">
     <div>
-        <div class="row">
-            
-        </div>
-        <div class="row">
-            <div class="col">
-                <div class="row">
-                    <div class="col form_box">
-                        update profile form here
+        <form id="login_form" method="post" action="{% url 'stroll:edit_profile' %}">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col">
+                    <div class="row">
+                        <div class="col form_box">
+                                Username: <input class="form-control" type="text" name="username" placeholder="{{ user.username }}" size="50" />
+                                <br />
+                                Email: <input class="form-control" type="text" name="email" placeholder="{{ user.email }}" size="50" />
+                                <br />
+                                Date Of Birth: <input class="form-control" type="date" name="date_of_birth" />
+                                <br />
+                                Profile Picture: <input class="form-control" type="file" accept="image/*" name="profile_picture" />
+                                <br />
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col d-grid">
-                <button type="button" class="btn submit_button">Submit</button>
+            <div class="row">
+                <div class="col d-grid">
+                    <input type="submit" class="btn submit_button" value="Login" />
+                </div>
             </div>
-        </div>
+        </form>
     </div>
 </div>
 {% endblock %}

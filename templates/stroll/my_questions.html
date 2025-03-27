@@ -25,18 +25,22 @@
             </div>
             <div class="col-lg-2">
                 <div class="row sort_box">
-                    <div class="col-lg-12 col-3">
-                        <h5>Sort By:</h5>
-                    </div>
-                    <div class="col-lg-12 col-3">
-                        <button class="btn sort_button" type="submit">Likes</button> 
-                    </div>
-                    <div class="col-lg-12 col-3">
-                        <button class="btn sort_button" type="submit">Views</button> 
-                    </div>
-                    <div class="col-lg-12 col-3">
-                        <button class="btn sort_button" type="submit">Newest</button> 
-                    </div>    
+                    <form id="create_walk_form" method="get" action="{% url 'stroll:my_questions' %}">
+                        <input id="ordering" type="hidden" name="ordering" value="likes" size="20" />
+                        <input class="btn sort_button" type="submit" name="submit" value="Likes" />
+                    </form>
+                </div>
+                <div class="col-lg-12 col-sm-3 col-6">
+                    <form id="create_walk_form" method="get" action="{% url 'stroll:my_questions' %}">
+                        <input id="ordering" type="hidden" name="ordering" value="likes" size="20" />
+                        <input class="btn sort_button" type="submit" name="submit" value="Views" />
+                    </form>
+                </div>
+                <div class="col-lg-12 col-sm-3 col-12">
+                    <form id="create_walk_form" method="get" action="{% url 'stroll:my_questions' %}">
+                        <input id="ordering" type="hidden" name="ordering" value="date_published" size="20" />
+                        <input class="btn sort_button" type="submit" name="submit" value="Newest" />
+                    </form>  
                 </div>
             </div>
             

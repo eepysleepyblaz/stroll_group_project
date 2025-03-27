@@ -10,9 +10,6 @@ from stroll.forms import *
 from stroll.models import *
 
 def home(request):
-    # Variables needed for home template:
-    # Array of popular walks
-    # Current code just for test
     context_dict = {}
     context_dict["popular_walks"] = Walk.objects.order_by('-likes')[:3]
 
@@ -20,7 +17,6 @@ def home(request):
 
 def about(request):
     context_dict = {}
-    #Always give three popular walks just make them None type if not not enough
     context_dict["popular_walks"] = Walk.objects.order_by('-likes')[:3]
     return render(request, 'stroll/about.html', context=context_dict)
 
@@ -80,11 +76,11 @@ def create_walk(request):
     return render(request, 'stroll/create_walk.html', {'form':form})
 
 def user_login(request):
+    context_dict = {}
+
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
-        #not used currently
-        stay_logged_in = request.POST.get('stay_logged_in')
 
         user = authenticate(username=username, password=password)
 
@@ -96,9 +92,9 @@ def user_login(request):
                 return HttpResponse("Your Stroll account is disabled.")
         else:
             print(f"Invalid login details: {username}, {password}")
-            return HttpResponse("Invalid login details supplied.")
-    else:
-        return render(request, 'stroll/login.html')
+            context_dict['errors'] = f"Invalid login details: {username}, {password}"
+        
+    return render(request, 'stroll/login.html', context=context_dict)
 
 @login_required
 def user_logout(request):
@@ -114,7 +110,7 @@ def my_profile(request):
         context_dict = {}
         context_dict['username'] = user.username + ' (superuser)'
 
-    if user.is_superuser == False:
+    else:
 
         try:
             current_user_profile = UserProfile.objects.get(user=user)
@@ -149,7 +145,41 @@ def my_profile(request):
     return render(request, 'stroll/my_profile.html', context=context_dict)
 
 def edit_profile(request):
-    return render(request, 'stroll/edit_profile.html')
+    context_dict = {}
+
+    try:
+        current_user_profile = UserProfile.objects.get(user=request.user)
+        context_dict['user_profile'] = current_user_profile
+
+    except (UserProfile.DoesNotExist, TypeError):
+        return HttpResponse("Access Denied")
+    
+    
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        email = request.POST.get('email')
+        date_of_birth = request.POST.get('date_of_birth')
+        profile_picture = request.POST.get('profile_picture') 
+
+        if username:
+            current_user_profile.user.username = username
+
+        if email:
+            current_user_profile.user.email = email
+
+        if date_of_birth:
+            current_user_profile.date_of_birth = date_of_birth
+
+        if profile_picture:
+            current_user_profile.profile_picture = request.FILES['profile_picture']
+
+        current_user_profile.user.save()
+        current_user_profile.save()
+
+        return redirect(reverse('stroll:my_profile'))
+
+
+    return render(request, 'stroll/edit_profile.html', context=context_dict)
 
 def my_walks(request):
     context_dict = {}
@@ -164,8 +194,20 @@ def my_questions(request):
     user = request.user
     if not user.is_authenticated:
         return redirect(reverse('stroll:login'))
+    
+    ordering = 'likes'
 
-    return render(request, 'stroll/my_questions.html')
+    if request.method == 'GET':
+        ordering = request.GET.get('ordering')
+
+        if ordering not in ['likes', 'views', 'date_published']:
+            ordering = 'likes'
+
+    context_dict = {}
+    user_profile = UserProfile.objects.get(user=request.user)
+
+    context_dict['questions'] = Question.objects.filter(user=user_profile).order_by('-'+ordering)
+    return render(request, 'stroll/my_questions.html', context=context_dict)
 
 def search_walks(request):
 
@@ -247,6 +289,13 @@ def show_walk(request, id):
     context_dict['map_coordinates'] = walk.map_coordinates
     context_dict['comments'] = comments
     context_dict['form'] = form
+    
+    walk_user_profile = UserProfile.objects.get(user=walk.user)
+    walk_user_profile.total_views += 1
+    walk.views += 1
+    
+    walk.save()
+    walk_user_profile.save()
    
     response = render(request, 'stroll/show_walk.html', context=context_dict)
     walk_vist_cookie_handeler(request, response, id)
@@ -254,6 +303,8 @@ def show_walk(request, id):
     return response
 
 def questions(request):
+    ordering = 'likes'
+
     form = QuestionForm()
     if request.method == 'POST':
         form = QuestionForm(request.POST, request.FILES)
@@ -267,9 +318,15 @@ def questions(request):
 
         else:
             print(form.errors)
+    
+    elif request.method == 'GET':
+        ordering = request.GET.get('ordering')
+
+        if ordering not in ['likes', 'views', 'date_published']:
+            ordering = 'likes'
             
     context_dict = {}
-    questions = Question.objects.all()[::-1]
+    questions = Question.objects.all().order_by('-'+ordering)
     context_dict['questions'] = questions
     context_dict['form'] = form
     return render(request, 'stroll/questions.html', context=context_dict)
@@ -293,6 +350,11 @@ def show_question(request, id):
     context_dict = {}
     context_dict['question'] = Question.objects.get(id=id)
     context_dict['comments'] = QuestionComment.objects.filter(question_id=id)[::-1]
+
+    question = Question.objects.get(id=id)
+
+    question.views += 1
+    question.save()
 
     return render(request, 'stroll/show_question.html', context=context_dict)
 

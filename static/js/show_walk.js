@@ -25,7 +25,7 @@ function initMap() {
     });
     poly = new google.maps.Polyline({
         path: coords,
-        strokeColor: "#000000",
+        strokeColor: "#B00000",
         strokeOpacity: 1.0,
         strokeWeight: 3,
         editable: false,
