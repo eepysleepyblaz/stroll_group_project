@@ -27,10 +27,23 @@
                 <div class="row">
                     <div class="col">
                         <h4>Advanced Search</h4>
-                        search form goes here
-                        maybe make it hideable when the screen is zoomed in
-                        user the form responce to update the seach_results field
-                        use ajax
+                        <form class="content_seperator" id="advanced_search_form" method="post" action="{% url 'stroll:my_walks' %}" >
+                            {% csrf_token %}
+
+                            <input class="form-control" type="text" name="title" value="" placeholder="Title" size="30" />
+                            <input class="form-control" type="text" name="area" value="" placeholder="Area" size="30" />
+                            <input class="form-control" type="text" name="description" value="" placeholder="Description" size="30" />
+                            <input class="form-control" type="text" name="tags" value="" placeholder="Tags" size="30" />
+
+                            <input class="form-control" type="number" name="min_length" value="" placeholder="Minimum Length (km)" min="0"/>
+                            <input class="form-control" type="number" name="max_length" value="" placeholder="Maximum Length (km)" min="0"/>
+                            <input class="form-control" type="number" name="min_difficulty" value="" placeholder="Minimum difficulty" min="1" max="10" />
+                            <input class="form-control" type="number" name="max_difficulty" value="" placeholder="Maximum difficulty" min="1" max="10" />
+                            
+                            <input type="hidden" name="form-level" value="advanced" />
+
+                            <input class="form-control submit_button" type="submit" name="submit" value="Search Walk" />
+                        </form>
                     </div>    
                 </div>
             </div>

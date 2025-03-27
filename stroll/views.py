@@ -188,7 +188,49 @@ def my_walks(request):
     if not user.is_authenticated:
         return redirect(reverse('stroll:login'))
     
-    context_dict["walks"] = Walk.objects.filter(user=user)
+    def toInt(string):
+        if string != "":
+            return int(string)
+        else:
+            return string
+
+    context_dict = {}
+
+    form = SearchWalkForm()
+    if request.method == 'POST':
+        title = area = description = tags = min_length = max_length = min_difficulty = max_difficulty = search = ""
+        level = request.POST['form-level']
+
+        if level == 'advanced':
+            title = request.POST['title']
+            area = request.POST['area']
+            description = request.POST['description']
+            tags = request.POST['tags']
+
+            min_length = toInt(request.POST['min_length'])
+            max_length = toInt(request.POST['max_length'])
+            min_difficulty = toInt(request.POST['min_difficulty'])
+            max_difficulty = toInt(request.POST['max_difficulty'])
+
+            kwargdict = {'title__icontains': title,
+                    'area__icontains': area,
+                    'description__icontains': description,
+                    'tags__icontains': tags,}
+            if min_length:
+                kwargdict['length__gte'] = min_length*1000
+            if max_length:
+                kwargdict['length__lte'] = max_length*1000
+            
+            if min_difficulty:
+                kwargdict['difficulty__gte'] = min_difficulty
+
+            if max_difficulty:
+                kwargdict['difficulty__lte'] = max_difficulty
+
+            context_dict["walks"] = Walk.objects.filter(**kwargdict, user=user)
+
+
+    context_dict['form'] = form
     return render(request, 'stroll/my_walks.html', context=context_dict)
 
 def my_questions(request):
