@@ -47,7 +47,7 @@
             <div class="card text-center walk_card">
                 <div class="row">
                     <!-- This doesn't use the media url as this can't see that variable -->
-                    <img src="{% if walk.thumbnail %}{{ walk.thumbnail.url }}{% else %}{% static 'images/default.jpg' %}{% endif %}" class="img-fluid rounded walk_thumbnail" alt="{{ walk.title }}'s thumbnail"> 
+                    <img src="{% if walk.thumbnail %}{{ walk.thumbnail.url }}{% else %}{% static 'images/default.jpg' %}{% endif %}" class="img-fluid rounded walk_thumbnail walk_thumbnail_small" alt="{{ walk.title }}'s thumbnail"> 
                     <div>
                         <div class="card-body">
                             <h8 class="card-title">{{ walk.title }}</h8>
