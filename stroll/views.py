@@ -57,8 +57,8 @@ def create_walk(request):
     form = CreateWalkForm()
     if request.method == 'POST':
         form = CreateWalkForm(request.POST, request.FILES)
-        print(request.POST.get('map_coordinates'))
-        print(request.POST.get('length'))
+        request.POST.get('map_coordinates')
+        request.POST.get('length')
         
         if form.is_valid():
             new_walk = form.save(commit=False)

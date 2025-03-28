@@ -5,11 +5,16 @@ course textbook.
 Tests might take 20-30 seconds to complete.
 '''
 
-from django.test import TestCase
+from django.test import TestCase, RequestFactory
 from django.urls import reverse
 from stroll.models import Walk, UserProfile, Question, QuestionComment, WalkComment
+from stroll.admin import WalkAdmin, UserProfileAdmin
 from django.contrib.auth.models import User
 from datetime import datetime
+from django.http import HttpResponse
+from stroll.views import walk_vist_cookie_handeler
+from django.contrib.admin import site
+from stroll.templatetags.stroll_template_tags import get_walks_from_cookie
 
 class TestViewsProvideResponse(TestCase):
     print('Separate tests for views running, this may take upto 10 seconds...')
@@ -162,6 +167,8 @@ class TestViewsAdditionalTests(TestCase):
 
         self.question_comment = QuestionComment(question=self.question, user=self.user_profile)
         self.walk_comment = WalkComment(walk=self.walk1, user=self.user_profile)
+
+        self.factory = RequestFactory()
 
     def test_home_view_context_dictionary(self):
         response = self.client.get(reverse('stroll:home'))
@@ -324,3 +331,31 @@ class TestViewsAdditionalTests(TestCase):
         response = self.client.get(reverse('stroll:delete_walk_comment') + f'?walk_comment_class={self.walk_comment.id}')
         self.assertEqual(response.status_code, 200)
         self.assertFalse(WalkComment.objects.filter(id=self.walk_comment.id).exists())
+
+    def test_walk_visit_cookie_handeler_view(self):
+        request = self.factory.get(f'/stroll/walk/{self.walk2.id}')
+        request.COOKIES['recently_viewed_walks'] = '1'
+        response = HttpResponse()
+        walk_vist_cookie_handeler(request, response, "2")
+        self.assertEqual(response.cookies['recently_viewed_walks'].value[-1], "2")
+
+    def test_admin_view_delete_query_set_function_walk_admin(self):
+        walk_admin = WalkAdmin(Walk, site)
+        self.assertEqual(Walk.objects.count(), 2)
+        walk_admin.delete_queryset(None, Walk.objects.filter(id__in=[self.walk1.id]))
+        self.assertEqual(Walk.objects.count(), 1)
+
+    def test_admin_view_delete_query_set_function_user_profile_admin(self):
+        walk_admin = UserProfileAdmin(UserProfile, site)
+        self.assertEqual(UserProfile.objects.count(), 1)
+        walk_admin.delete_queryset(None, UserProfile.objects.filter(id__in=[self.user_profile.id]))
+        self.assertEqual(UserProfile.objects.count(), 0)
+
+    def test_get_walk_from_cookie(self):
+        cookie = str(self.walk1.id)
+        walks = get_walks_from_cookie(cookie)
+        self.assertIn(self.walk1, walks)
+
+        cookie = str(self.walk2.id)
+        walks = get_walks_from_cookie(cookie)
+        self.assertIn(self.walk2, walks)
